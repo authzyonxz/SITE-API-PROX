@@ -1,4 +1,9 @@
 import "dotenv/config";
+import crypto from "node:crypto";
+if (!globalThis.crypto) {
+  // @ts-ignore
+  globalThis.crypto = crypto;
+}
 import express from "express";
 import { createServer } from "http";
 import net from "net";
