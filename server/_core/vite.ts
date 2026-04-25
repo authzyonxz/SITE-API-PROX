@@ -1,7 +1,8 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import { type Server } from "http";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
+const nanoid = () => Math.random().toString(36).substring(2, 15);
 import path from "path";
 import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
