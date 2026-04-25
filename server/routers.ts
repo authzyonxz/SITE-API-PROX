@@ -115,13 +115,42 @@ export const appRouter = router({
     login: publicProcedure
       .input(z.object({ username: z.string().min(1), password: z.string().min(1) }))
       .mutation(async ({ input, ctx }) => {
-        const user = await getLocalUserByUsername(input.username);
-        if (!user) throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
+        console.log(`[Login] Tentativa de login para usuário: ${input.username}`);
+        let user;
+        try {
+          user = await getLocalUserByUsername(input.username);
+        } catch (e) {
+          console.error("[Login] Erro ao buscar usuário no banco:", e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro de banco de dados" });
+        }
 
-        const valid = await bcrypt.compare(input.password, user.passwordHash);
-        if (!valid) throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
+        if (!user) {
+          console.warn(`[Login] Usuário não encontrado: ${input.username}`);
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
+        }
 
-        const token = await signLocalToken(user.id, user.role);
+        console.log("[Login] Usuário encontrado, comparando senha...");
+        let valid = false;
+        try {
+          valid = await bcrypt.compare(input.password, user.passwordHash);
+        } catch (e) {
+          console.error("[Login] Erro ao comparar senha com bcrypt:", e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro na verificação de senha" });
+        }
+
+        if (!valid) {
+          console.warn(`[Login] Senha inválida para usuário: ${input.username}`);
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
+        }
+
+        console.log("[Login] Senha válida, gerando token...");
+        let token;
+        try {
+          token = await signLocalToken(user.id, user.role);
+        } catch (e) {
+          console.error("[Login] Erro ao gerar token JWT:", e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
+        }
 
         const isSecure = ctx.req.protocol === "https" ||
           (ctx.req.headers["x-forwarded-proto"] as string) === "https";
