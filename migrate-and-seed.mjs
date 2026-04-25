@@ -58,7 +58,7 @@ async function seedAdmin(databaseUrl) {
       const hash = await bcrypt.default.hash("Ruan00", 10);
 
       await connection.execute(
-        "INSERT INTO local_users (username, password_hash, role, credits) VALUES (?, ?, ?, ?)",
+        "INSERT INTO local_users (username, passwordHash, role, credits) VALUES (?, ?, ?, ?)",
         ["Ruan", hash, "admin", 1000]
       );
       console.log("✅ Admin 'Ruan' criado com sucesso!");
