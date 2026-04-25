@@ -59,7 +59,7 @@ export default function Login() {
             AUTH PROXY
           </h1>
           <p className="text-sm tracking-widest uppercase" style={{ color: "var(--neon-purple)", fontFamily: "'Rajdhani', sans-serif" }}>
-            Sistema de Gerenciamento de Keys
+            Desenvolvedores: @gzinwq & @ruanwq
           </p>
         </div>
 
