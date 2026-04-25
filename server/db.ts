@@ -91,6 +91,12 @@ export async function listLocalUsers() {
   }).from(localUsers).orderBy(desc(localUsers.createdAt));
 }
 
+export async function deleteLocalUser(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(localUsers).where(eq(localUsers.id, userId));
+}
+
 export async function deductCredits(userId: number, amount: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

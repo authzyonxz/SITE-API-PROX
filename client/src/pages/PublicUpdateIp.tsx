@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, ExternalLink } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, ExternalLink, MessageCircle } from "lucide-react";
 
 export default function PublicUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
@@ -41,9 +41,7 @@ export default function PublicUpdateIp() {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" },
-        { label: "Usuário", value: "RUAN" },
-        { label: "Senha", value: "RUAN" }
+        { label: "Porta", value: "1119" }
       ]
     }
   ];
@@ -277,7 +275,7 @@ export default function PublicUpdateIp() {
                 </p>
               </div>
               
-              <div className="pt-4">
+              <div className="pt-4 space-y-3">
                 <a 
                   href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
                   target="_blank"
@@ -286,6 +284,15 @@ export default function PublicUpdateIp() {
                 >
                   <Download className="w-6 h-6" />
                   DOWNLOAD CERTIFICADO
+                </a>
+                <a 
+                  href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <MessageCircle className="w-6 h-6" />
+                  GRUPO WHATSAPP
                 </a>
               </div>
             </div>

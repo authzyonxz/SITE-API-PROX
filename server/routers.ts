@@ -11,6 +11,7 @@ import {
   getLocalUserById,
   createLocalUser,
   listLocalUsers,
+  deleteLocalUser,
   deductCredits,
   addCredits,
   updateUserCredits,
@@ -341,6 +342,26 @@ export const appRouter = router({
       .input(z.object({ userId: z.number().int(), credits: z.number().int().min(0) }))
       .mutation(async ({ input }) => {
         await updateUserCredits(input.userId, input.credits);
+        return { success: true };
+      }),
+
+    removeCredits: adminProcedure
+      .input(z.object({ userId: z.number().int(), amount: z.number().int().min(1) }))
+      .mutation(async ({ input }) => {
+        const user = await getLocalUserById(input.userId);
+        if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
+        const newCredits = Math.max(0, user.credits - input.amount);
+        await updateUserCredits(input.userId, newCredits);
+        return { success: true, newCredits };
+      }),
+
+    delete: adminProcedure
+      .input(z.object({ userId: z.number().int() }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await getLocalUserById(input.userId);
+        if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
+        if (user.role === "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Não é possível excluir um administrador" });
+        await deleteLocalUser(input.userId);
         return { success: true };
       }),
   }),

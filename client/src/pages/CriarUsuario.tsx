@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins } from "lucide-react";
+import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins, Trash2, Minus } from "lucide-react";
 
 export default function CriarUsuario() {
   const utils = trpc.useUtils();
@@ -32,8 +32,27 @@ export default function CriarUsuario() {
     onSuccess: () => {
       toast.success("Créditos adicionados!");
       utils.users.list.invalidate();
+      utils.dashboard.stats.invalidate();
     },
     onError: (err) => toast.error(err.message),
+  });
+
+  const removeCreditsMutation = trpc.users.removeCredits.useMutation({
+    onSuccess: () => {
+      toast.success("Créditos removidos!");
+      utils.users.list.invalidate();
+      utils.dashboard.stats.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const deleteUserMutation = trpc.users.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Usuário excluído com sucesso!");
+      utils.users.list.invalidate();
+      utils.dashboard.stats.invalidate();
+    },
+    onError: (err) => toast.error(err.message || "Erro ao excluir usuário"),
   });
 
   const handleCreate = () => {
@@ -239,6 +258,29 @@ export default function CriarUsuario() {
                         style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", color: "var(--neon-green)" }}
                       >
                         <Coins className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const amount = parseInt(prompt(`Remover creditos de ${user.username}:`) || "0");
+                          if (amount > 0) removeCreditsMutation.mutate({ userId: user.id, amount });
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        title="Remover creditos"
+                        style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Tem certeza que deseja excluir ${user.username}?`)) {
+                            deleteUserMutation.mutate({ userId: user.id });
+                          }
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        title="Excluir usuario"
+                        style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
+                      >
+                        <Trash2 className="w-3 h-3" />
                       </button>
                     </div>
                   </div>
