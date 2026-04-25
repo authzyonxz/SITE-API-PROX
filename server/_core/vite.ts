@@ -7,8 +7,15 @@ import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import viteConfig from "../../vite.config";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Get __dirname in ESM
+let __dirname: string;
+try {
+  const __filename = fileURLToPath(import.meta.url);
+  __dirname = path.dirname(__filename);
+} catch (e) {
+  // Fallback for Railway/production environments
+  __dirname = process.cwd();
+}
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
@@ -29,14 +36,30 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
-      const clientTemplate = path.resolve(
-        __dirname,
-        "../..",
-        "client",
-        "index.html"
-      );
+      // Try multiple possible paths for index.html
+      const possiblePaths = [
+        path.join(__dirname, "../../client/index.html"),
+        path.join(process.cwd(), "client/index.html"),
+        path.join("/app", "client/index.html"),
+      ];
 
-      // always reload the index.html file from disk incase it changes
+      let clientTemplate = "";
+      for (const filePath of possiblePaths) {
+        try {
+          if (fs.existsSync(filePath)) {
+            clientTemplate = filePath;
+            break;
+          }
+        } catch (e) {
+          // Continue to next path
+        }
+      }
+
+      if (!clientTemplate) {
+        console.error("Could not find client template at any of:", possiblePaths);
+        return res.status(500).send("Client template not found");
+      }
+
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
       template = template.replace(
         `src="/src/main.tsx"`,
@@ -45,6 +68,7 @@ export async function setupVite(app: Express, server: Server) {
       const page = await vite.transformIndexHtml(url, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
+      console.error("Error in setupVite:", e);
       vite.ssrFixStacktrace(e as Error);
       next(e);
     }
@@ -52,20 +76,41 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath =
-    process.env.NODE_ENV === "development"
-      ? path.resolve(__dirname, "../..", "dist", "public")
-      : path.resolve(__dirname, "public");
-  if (!fs.existsSync(distPath)) {
-    console.error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
+  // Try multiple possible paths for dist
+  const possibleDistPaths = [
+    path.join(__dirname, "../../dist/public"),
+    path.join(process.cwd(), "dist/public"),
+    path.join("/app", "dist/public"),
+  ];
+
+  let distPath = "";
+  for (const filePath of possibleDistPaths) {
+    try {
+      if (fs.existsSync(filePath)) {
+        distPath = filePath;
+        break;
+      }
+    } catch (e) {
+      // Continue to next path
+    }
   }
+
+  if (!distPath) {
+    console.error("Could not find dist directory at any of:", possibleDistPaths);
+    distPath = possibleDistPaths[0]; // Use first as fallback
+  }
+
+  console.log(`Serving static files from: ${distPath}`);
 
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    const indexPath = path.resolve(distPath, "index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(404).send("index.html not found");
+    }
   });
 }
