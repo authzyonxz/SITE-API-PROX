@@ -7,8 +7,21 @@ import { runMigrations } from "./migrate-and-seed.mjs";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 
 // Importar routers e contexto
-import { appRouter } from "./server/routers.ts";
-import { createContext } from "./server/_core/context.ts";
+// Tenta usar arquivos compilados primeiro, depois TypeScript
+let appRouter, createContext;
+try {
+  const routers = await import("./dist/server/routers.js");
+  const context = await import("./dist/server/_core/context.js");
+  appRouter = routers.appRouter;
+  createContext = context.createContext;
+  console.log("✅ Usando routers compilados");
+} catch (e) {
+  console.log("⚠️  Routers compilados não encontrados, usando TypeScript...");
+  const routers = await import("./server/routers.ts");
+  const context = await import("./server/_core/context.ts");
+  appRouter = routers.appRouter;
+  createContext = context.createContext;
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

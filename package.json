@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
-    "build": "vite build",
-    "start": "NODE_ENV=production node server.mjs",
+    "build": "vite build && tsc server/routers.ts server/db.ts server/_core/context.ts server/_core/env.ts --outDir dist/server --module esnext --target es2020 --moduleResolution node --skipLibCheck true --esModuleInterop true --allowSyntheticDefaultImports true",
+    "start": "NODE_ENV=production node --loader tsx/esm server.mjs",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",
