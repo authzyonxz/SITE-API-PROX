@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/server",
+    "module": "esnext",
+    "target": "es2020",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["./shared/*"]
+    }
+  },
+  "include": [
+    "server/routers.ts",
+    "server/db.ts",
+    "server/_core/context.ts",
+    "server/_core/env.ts",
+    "shared/**/*"
+  ],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}
