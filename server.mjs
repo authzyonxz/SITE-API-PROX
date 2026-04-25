@@ -4,12 +4,19 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import { runMigrations } from "./migrate-and-seed.mjs";
+import { createExpressMiddleware } from "@trpc/server/adapters/express";
+
+// Importar routers e contexto
+import { appRouter } from "./server/routers.ts";
+import { createContext } from "./server/_core/context.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Rodar migrações antes de iniciar o servidor
+console.log("🔄 Iniciando migrações...");
 await runMigrations();
+console.log("✅ Migrações concluídas!");
 
 const app = express();
 const server = createServer(app);
@@ -17,14 +24,24 @@ const server = createServer(app);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
+// tRPC API routes
+console.log("📡 Configurando rotas tRPC...");
+app.use(
+  "/api/trpc",
+  createExpressMiddleware({
+    router: appRouter,
+    createContext,
+  })
+);
+
 // Serve static files from dist/public
 const distPath = path.join(__dirname, "dist", "public");
-console.log(`Serving static files from: ${distPath}`);
+console.log(`📁 Servindo arquivos estáticos de: ${distPath}`);
 
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
 } else {
-  console.warn(`Warning: dist/public not found at ${distPath}`);
+  console.warn(`⚠️  Aviso: dist/public não encontrado em ${distPath}`);
 }
 
 // Fallback to index.html for SPA
@@ -39,5 +56,6 @@ app.get("*", (req, res) => {
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}/`);
+  console.log(`🚀 Servidor rodando em http://localhost:${port}/`);
+  console.log(`📡 API tRPC disponível em http://localhost:${port}/api/trpc`);
 });
