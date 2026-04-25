@@ -3,9 +3,13 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import { runMigrations } from "./migrate-and-seed.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Rodar migrações antes de iniciar o servidor
+await runMigrations();
 
 const app = express();
 const server = createServer(app);
