@@ -292,6 +292,15 @@ export const appRouter = router({
     myKeys: localAuthProcedure.query(async ({ ctx }) => {
       return getKeysByUser(ctx.localUser.id);
     }),
+
+    publicUpdateIp: publicProcedure
+      .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))
+      .mutation(async ({ input }) => {
+        const result = await callProxyApi(
+          `/update?key=${MASTER_KEY}&generated_key=${encodeURIComponent(input.generatedKey)}&new_ip=${encodeURIComponent(input.newIp)}`
+        );
+        return { ok: result.ok, data: result.data, raw: result.raw };
+      }),
   }),
 
   // ─── Users (admin only) ────────────────────────────────────────────────────

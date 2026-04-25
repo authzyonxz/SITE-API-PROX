@@ -14,11 +14,13 @@ import ChecarKey from "./pages/ChecarKey";
 import AtualizarIP from "./pages/AtualizarIP";
 import DeletarKey from "./pages/DeletarKey";
 import CriarUsuario from "./pages/CriarUsuario";
+import PublicUpdateIp from "./pages/PublicUpdateIp";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Login} />
+      <Route path="/update-ip" component={PublicUpdateIp} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
