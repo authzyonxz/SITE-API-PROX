@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
+import { useIdleLogout } from "@/hooks/useIdleLogout";
 import { toast } from "sonner";
 import {
   LayoutDashboard,
@@ -39,10 +40,31 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const { user, isAdmin } = useLocalAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const logoutMutation = trpc.localAuth.logout.useMutation({
-    onSuccess: () => {
-      toast.success("Sessão encerrada");
+    onSuccess: (data, variables, context) => {
+      // Se o contexto indicar que foi logout automático, mostrar mensagem específica
+      if (context === "auto") {
+        toast.info("Sessão encerrada por inatividade", {
+          description: "Por segurança, você foi desconectado.",
+        });
+      } else {
+        toast.success("Sessão encerrada");
+      }
       window.location.href = "/";
     },
+  });
+
+  // Logout automático após 15 minutos de inatividade
+  useIdleLogout({
+    timeout: 15 * 60 * 1000,
+    onLogout: () => {
+      if (user) {
+        logoutMutation.mutate(undefined, { 
+          // @ts-ignore - passando um contexto personalizado para identificar logout automático
+          context: "auto" 
+        });
+      }
+    },
+    enabled: !!user,
   });
 
   const visibleItems = navItems.filter(item => !item.adminOnly || isAdmin);
