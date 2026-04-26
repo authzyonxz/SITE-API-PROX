@@ -20,6 +20,10 @@ import {
   getKeyStats,
   getResellerCount,
   getKeysByUser,
+  createAccessLog,
+  listAccessLogs,
+  deleteKeysByUserId,
+  getKeysByUserId,
 } from "./db";
 
 const API_BASE = "http://212.227.7.153:9945";
@@ -164,6 +168,18 @@ export const appRouter = router({
           path: "/",
         });
 
+        // Registrar log de acesso
+        try {
+          const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
+          await createAccessLog({
+            userId: user.id,
+            username: user.username,
+            ipAddress: ip,
+          });
+        } catch (e) {
+          console.error("[Login] Erro ao registrar log de acesso:", e);
+        }
+
         return {
           id: user.id,
           username: user.username,
@@ -304,6 +320,13 @@ export const appRouter = router({
       }),
   }),
 
+  // ─── Logs (admin only) ─────────────────────────────────────────────────────
+  logs: router({
+    list: adminProcedure.query(async () => {
+      return listAccessLogs();
+    }),
+  }),
+
   // ─── Users (admin only) ────────────────────────────────────────────────────
   users: router({
     create: adminProcedure
@@ -363,6 +386,29 @@ export const appRouter = router({
         if (user.role === "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Não é possível excluir um administrador" });
         await deleteLocalUser(input.userId);
         return { success: true };
+      }),
+
+    deleteAllKeys: adminProcedure
+      .input(z.object({ userId: z.number().int() }))
+      .mutation(async ({ input }) => {
+        const user = await getLocalUserById(input.userId);
+        if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
+        
+        // Buscar as keys do usuário para deletar na API externa também
+        const userKeys = await getKeysByUserId(input.userId);
+        const activeKeys = userKeys.filter(k => k.status === "active");
+        
+        console.log(`[Admin] Deletando ${activeKeys.length} keys do usuário ${user.username}`);
+        
+        // Deletar na API externa
+        for (const key of activeKeys) {
+          await callProxyApi(`/delete?key=${MASTER_KEY}&generated_key=${encodeURIComponent(key.keyValue)}`);
+        }
+        
+        // Marcar como deletado no banco local
+        await deleteKeysByUserId(input.userId);
+        
+        return { success: true, count: activeKeys.length };
       }),
   }),
 });

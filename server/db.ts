@@ -1,6 +1,6 @@
 import { eq, desc, count, and, lt, gte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey } from "../drizzle/schema";
+import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -176,4 +176,34 @@ export async function getKeysByUser(userId: number) {
     .where(eq(generatedKeys.createdById, userId))
     .orderBy(desc(generatedKeys.createdAt))
     .limit(50);
+}
+
+// ─── Access Logs ──────────────────────────────────────────────────────────────
+
+export async function createAccessLog(data: InsertAccessLog) {
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(accessLogs).values(data);
+}
+
+export async function listAccessLogs() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(accessLogs).orderBy(desc(accessLogs.createdAt)).limit(100);
+}
+
+// ─── Key Management ───────────────────────────────────────────────────────────
+
+export async function getKeysByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(generatedKeys).where(eq(generatedKeys.createdById, userId));
+}
+
+export async function deleteKeysByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(generatedKeys)
+    .set({ status: "deleted" })
+    .where(eq(generatedKeys.createdById, userId));
 }

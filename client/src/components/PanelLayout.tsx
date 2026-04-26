@@ -32,7 +32,8 @@ const navItems: NavItem[] = [
   { path: "/checar-key", label: "Checar Key", icon: <Search className="w-4 h-4" /> },
   { path: "/atualizar-ip", label: "Atualizar IP", icon: <Globe className="w-4 h-4" /> },
   { path: "/deletar-key", label: "Deletar Key", icon: <Trash2 className="w-4 h-4" /> },
-  { path: "/criar-usuario", label: "Criar Usuário", icon: <UserPlus className="w-4 h-4" />, adminOnly: true },
+  { path: "/criar-usuario", label: "Usuários", icon: <UserPlus className="w-4 h-4" />, adminOnly: true },
+  { path: "/logs", label: "Logs de Acesso", icon: <Shield className="w-4 h-4" />, adminOnly: true },
 ];
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {

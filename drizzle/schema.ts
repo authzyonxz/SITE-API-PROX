@@ -50,3 +50,17 @@ export const generatedKeys = mysqlTable("generated_keys", {
 
 export type GeneratedKey = typeof generatedKeys.$inferSelect;
 export type InsertGeneratedKey = typeof generatedKeys.$inferInsert;
+
+/**
+ * Logs of user login activity.
+ */
+export const accessLogs = mysqlTable("access_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  username: varchar("username", { length: 64 }).notNull(),
+  ipAddress: varchar("ipAddress", { length: 64 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AccessLog = typeof accessLogs.$inferSelect;
+export type InsertAccessLog = typeof accessLogs.$inferInsert;

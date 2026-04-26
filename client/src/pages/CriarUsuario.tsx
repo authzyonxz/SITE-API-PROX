@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins, Trash2, Minus } from "lucide-react";
+import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins, Trash2, Minus, KeyRound } from "lucide-react";
 
 export default function CriarUsuario() {
   const utils = trpc.useUtils();
@@ -53,6 +53,14 @@ export default function CriarUsuario() {
       utils.dashboard.stats.invalidate();
     },
     onError: (err) => toast.error(err.message || "Erro ao excluir usuário"),
+  });
+
+  const deleteAllKeysMutation = trpc.users.deleteAllKeys.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.count} keys foram excluídas com sucesso!`);
+      utils.dashboard.stats.invalidate();
+    },
+    onError: (err) => toast.error(err.message || "Erro ao excluir keys"),
   });
 
   const handleCreate = () => {
@@ -269,6 +277,19 @@ export default function CriarUsuario() {
                         style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
                       >
                         <Minus className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`AVISO: Isso excluirá TODAS as keys ativas criadas por ${user.username}. Deseja continuar?`)) {
+                            deleteAllKeysMutation.mutate({ userId: user.id });
+                          }
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        disabled={deleteAllKeysMutation.isPending}
+                        title="Excluir todas as keys deste usuário"
+                        style={{ background: "rgba(255,165,0,0.05)", border: "1px solid rgba(255,165,0,0.2)", color: "#ffa500" }}
+                      >
+                        <KeyRound className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => {

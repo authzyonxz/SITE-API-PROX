@@ -14,6 +14,7 @@ import ChecarKey from "./pages/ChecarKey";
 import AtualizarIP from "./pages/AtualizarIP";
 import DeletarKey from "./pages/DeletarKey";
 import CriarUsuario from "./pages/CriarUsuario";
+import Logs from "./pages/Logs";
 import PublicUpdateIp from "./pages/PublicUpdateIp";
 
 function Router() {
@@ -49,6 +50,11 @@ function Router() {
       <Route path="/criar-usuario">
         <ProtectedRoute adminOnly>
           <PanelLayout><CriarUsuario /></PanelLayout>
+        </ProtectedRoute>
+      </Route>
+      <Route path="/logs">
+        <ProtectedRoute adminOnly>
+          <PanelLayout><Logs /></PanelLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/404" component={NotFound} />
