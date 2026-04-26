@@ -5,7 +5,7 @@
 - [x] Schema: tabela `generated_keys` para histórico local de keys geradas
 - [x] Migration SQL aplicada via script
 - [x] Auth local: login com username/password (bcrypt), JWT session
-- [x] Seed: criar admin padrão (Ruan/Ruan00) no banco
+- [x] Seed: criar admin padrão (@ruanwq/@ruanwq) no banco
 - [x] Router: auth.localLogin, auth.localLogout, auth.me
 - [x] Router: keys.generate (chama API externa, desconta créditos do revendedor)
 - [x] Router: keys.check (chama API externa)

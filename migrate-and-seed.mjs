@@ -46,7 +46,7 @@ async function seedAdmin(databaseUrl) {
     // Verificar se admin já existe
     const [rows] = await connection.execute(
       "SELECT * FROM local_users WHERE username = ?",
-      ["Ruan"]
+      ["@ruanwq"]
     );
 
     if (rows.length === 0) {
@@ -55,15 +55,15 @@ async function seedAdmin(databaseUrl) {
 
       // Importar bcrypt
       const bcrypt = await import("bcryptjs");
-      const hash = await bcrypt.default.hash("Ruan00", 10);
+      const hash = await bcrypt.default.hash("@ruanwq", 10);
 
       await connection.execute(
         "INSERT INTO local_users (username, passwordHash, role, credits) VALUES (?, ?, ?, ?)",
-        ["Ruan", hash, "admin", 1000]
+        ["@ruanwq", hash, "admin", 1000]
       );
-      console.log("✅ Admin 'Ruan' criado com sucesso!");
+      console.log("✅ Admin '@ruanwq' criado com sucesso!");
     } else {
-      console.log("ℹ️  Admin 'Ruan' já existe no banco.");
+      console.log("ℹ️  Admin '@ruanwq' já existe no banco.");
     }
 
     await connection.end();
