@@ -272,50 +272,54 @@ export default function CriarUsuario() {
             ) : (
               <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.03)" }}>
                 {userList.filter(u => u.role === "reseller").map((user) => (
-                  <div key={user.id} className="px-5 py-3 flex items-center gap-3 transition-colors"
+                  <div key={user.id} className="px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4 transition-colors"
                     onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(157,78,221,0.05)")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                   >
-                    <div className="w-8 h-8 rounded flex items-center justify-center text-sm font-bold flex-shrink-0"
-                      style={{ background: "rgba(157,78,221,0.2)", color: "var(--neon-purple)" }}>
-                      {user.username[0]?.toUpperCase()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate" style={{ color: "var(--foreground)", fontFamily: "'Rajdhani', sans-serif" }}>
-                        {user.username}
-                      </p>
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Share Tech Mono', monospace" }}>
-                        REVENDEDOR
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1">
-                        <Zap className="w-3 h-3" style={{ color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }} />
-                        <span className="text-sm font-bold" style={{ fontFamily: "'Orbitron', sans-serif", color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }}>
-                          {user.credits}
-                        </span>
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="w-10 h-10 rounded flex items-center justify-center text-base font-bold flex-shrink-0"
+                        style={{ background: "rgba(157,78,221,0.2)", color: "var(--neon-purple)", border: "1px solid rgba(157,78,221,0.3)" }}>
+                        {user.username[0]?.toUpperCase()}
                       </div>
+                      <div className="min-w-0">
+                        <p className="text-base font-bold truncate" style={{ color: "var(--foreground)", fontFamily: "'Rajdhani', sans-serif" }}>
+                          {user.username}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(157,78,221,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                            REVENDEDOR
+                          </p>
+                          <div className="flex items-center gap-1 bg-black/20 px-1.5 py-0.5 rounded border border-white/5">
+                            <Zap className="w-2.5 h-2.5" style={{ color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }} />
+                            <span className="text-[10px] font-bold" style={{ fontFamily: "'Orbitron', sans-serif", color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }}>
+                              {user.credits}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5 sm:justify-end">
                       <button
                         onClick={() => {
                           const amount = parseInt(prompt(`Adicionar créditos para ${user.username}:`) || "0");
                           if (amount > 0) addCreditsMutation.mutate({ userId: user.id, amount });
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Adicionar créditos"
-                        style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", color: "var(--neon-green)" }}
+                        style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "var(--neon-green)" }}
                       >
-                        <Coins className="w-3 h-3" />
+                        <Coins className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
                           const amount = parseInt(prompt(`Remover creditos de ${user.username}:`) || "0");
                           if (amount > 0) removeCreditsMutation.mutate({ userId: user.id, amount });
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Remover creditos"
-                        style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
+                        style={{ background: "rgba(255,0,110,0.1)", border: "1px solid rgba(255,0,110,0.3)", color: "#ff006e" }}
                       >
-                        <Minus className="w-3 h-3" />
+                        <Minus className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
@@ -326,11 +330,11 @@ export default function CriarUsuario() {
                             toast.error("A senha deve ter pelo menos 4 caracteres");
                           }
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Mudar senha"
-                        style={{ background: "rgba(0,212,255,0.05)", border: "1px solid rgba(0,212,255,0.15)", color: "var(--neon-blue)" }}
+                        style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)", color: "var(--neon-blue)" }}
                       >
-                        <Lock className="w-3 h-3" />
+                        <Lock className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
@@ -339,11 +343,11 @@ export default function CriarUsuario() {
                             updateMaxIpsMutation.mutate({ userId: user.id, maxIps: limit });
                           }
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Limite de IPs"
-                        style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", color: "var(--neon-green)" }}
+                        style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "var(--neon-green)" }}
                       >
-                        <Monitor className="w-3 h-3" />
+                        <Monitor className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
@@ -351,11 +355,11 @@ export default function CriarUsuario() {
                             resetSessionMutation.mutate({ userId: user.id });
                           }
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Encerrar sessões"
-                        style={{ background: "rgba(157,78,221,0.05)", border: "1px solid rgba(157,78,221,0.15)", color: "var(--neon-purple)" }}
+                        style={{ background: "rgba(157,78,221,0.1)", border: "1px solid rgba(157,78,221,0.3)", color: "var(--neon-purple)" }}
                       >
-                        <LogOut className="w-3 h-3" />
+                        <LogOut className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
@@ -363,12 +367,12 @@ export default function CriarUsuario() {
                             deleteAllKeysMutation.mutate({ userId: user.id });
                           }
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         disabled={deleteAllKeysMutation.isPending}
                         title="Excluir todas as keys deste usuário"
-                        style={{ background: "rgba(255,165,0,0.05)", border: "1px solid rgba(255,165,0,0.2)", color: "#ffa500" }}
+                        style={{ background: "rgba(255,165,0,0.1)", border: "1px solid rgba(255,165,0,0.3)", color: "#ffa500" }}
                       >
-                        <KeyRound className="w-3 h-3" />
+                        <KeyRound className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {
@@ -376,11 +380,11 @@ export default function CriarUsuario() {
                             deleteUserMutation.mutate({ userId: user.id });
                           }
                         }}
-                        className="p-1.5 rounded transition-all"
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
                         title="Excluir usuario"
-                        style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
+                        style={{ background: "rgba(255,0,110,0.1)", border: "1px solid rgba(255,0,110,0.3)", color: "#ff006e" }}
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
