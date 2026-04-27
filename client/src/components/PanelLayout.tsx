@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
@@ -55,16 +55,18 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   });
 
   // Logout automático após 15 minutos de inatividade
+  const handleAutoLogout = useCallback(() => {
+    if (user) {
+      logoutMutation.mutate(undefined, { 
+        // @ts-ignore - passando um contexto personalizado para identificar logout automático
+        context: "auto" 
+      });
+    }
+  }, [user, logoutMutation]);
+
   useIdleLogout({
     timeout: 15 * 60 * 1000,
-    onLogout: () => {
-      if (user) {
-        logoutMutation.mutate(undefined, { 
-          // @ts-ignore - passando um contexto personalizado para identificar logout automático
-          context: "auto" 
-        });
-      }
-    },
+    onLogout: handleAutoLogout,
     enabled: !!user,
   });
 

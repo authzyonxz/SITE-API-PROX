@@ -18,11 +18,13 @@ export function useIdleLogout({
       clearTimeout(timerRef.current);
     }
     if (enabled) {
+      // Usar uma referência estável para onLogout para evitar loops
       timerRef.current = setTimeout(() => {
+        console.log("[IdleLogout] Inatividade detectada, executando logout...");
         onLogout();
       }, timeout);
     }
-  }, [enabled, onLogout, timeout]);
+  }, [enabled, timeout, onLogout]);
 
   useEffect(() => {
     if (!enabled) {
