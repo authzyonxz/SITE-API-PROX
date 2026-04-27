@@ -20,6 +20,10 @@ async function runMigrations() {
     console.log("📝 Executando drizzle-kit migrate...");
     execSync("pnpm drizzle-kit migrate", { stdio: "inherit" });
 
+    // Criar tabela de logs se não existir (garantia extra)
+    console.log("📝 Verificando tabela de logs...");
+    await ensureAccessLogsTable(databaseUrl);
+
     // Seed do admin padrão
     console.log("👤 Criando admin padrão...");
     await seedAdmin(databaseUrl);
@@ -70,6 +74,34 @@ async function seedAdmin(databaseUrl) {
   } catch (error) {
     console.error("❌ Erro ao fazer seed do admin:", error);
     // Não falha se houver erro aqui, pois o admin pode já existir
+  }
+}
+
+async function ensureAccessLogsTable(databaseUrl) {
+  try {
+    const url = new URL(databaseUrl);
+    const connection = await mysql.createConnection({
+      host: url.hostname,
+      user: url.username,
+      password: url.password,
+      database: url.pathname.slice(1),
+      port: url.port || 3306,
+    });
+
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS access_logs (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        userId INT NOT NULL,
+        username VARCHAR(64) NOT NULL,
+        ipAddress VARCHAR(255) NOT NULL,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    console.log("✅ Tabela 'access_logs' verificada/criada.");
+    await connection.end();
+  } catch (error) {
+    console.error("❌ Erro ao verificar tabela de logs:", error);
   }
 }
 
