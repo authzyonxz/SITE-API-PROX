@@ -86,9 +86,7 @@ async function ensureAccessLogsTable(databaseUrl) {
       password: url.password,
       database: url.pathname.slice(1),
       port: url.port || 3306,
-    });
-
-    await connection.execute(`
+    });    await connection.execute(`
       CREATE TABLE IF NOT EXISTS access_logs (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userId INT NOT NULL,
@@ -98,7 +96,15 @@ async function ensureAccessLogsTable(databaseUrl) {
       )
     `);
     
-    console.log("✅ Tabela 'access_logs' verificada/criada.");
+    // Adicionar campos novos se não existirem (para Railway)
+    try {
+      await connection.execute("ALTER TABLE local_users ADD COLUMN maxIps INT NOT NULL DEFAULT 1");
+    } catch (e) {}
+    try {
+      await connection.execute("ALTER TABLE local_users ADD COLUMN sessionSecret VARCHAR(36) NOT NULL DEFAULT 'default-secret'");
+    } catch (e) {}
+
+    console.log("✅ Tabela 'access_logs' e campos de controle verificados.");
     await connection.end();
   } catch (error) {
     console.error("❌ Erro ao verificar tabela de logs:", error);

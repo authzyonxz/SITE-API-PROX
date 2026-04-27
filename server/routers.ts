@@ -24,6 +24,11 @@ import {
   listAccessLogs,
   deleteKeysByUserId,
   getKeysByUserId,
+  updateUserPassword,
+  updateUserMaxIps,
+  resetUserSession,
+  resetAllSessions,
+  getActiveIpsCount,
 } from "./db";
 
 const API_BASE = "http://212.227.7.153:9945";
@@ -37,9 +42,9 @@ async function getJwtSecret() {
   return new TextEncoder().encode(secret);
 }
 
-async function signLocalToken(userId: number, role: string) {
+async function signLocalToken(userId: number, role: string, sessionSecret: string) {
   const secret = await getJwtSecret();
-  return new jose.SignJWT({ userId, role })
+  return new jose.SignJWT({ userId, role, ss: sessionSecret })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("7d")
     .sign(secret);
@@ -49,7 +54,7 @@ async function verifyLocalToken(token: string) {
   try {
     const secret = await getJwtSecret();
     const { payload } = await jose.jwtVerify(token, secret);
-    return payload as { userId: number; role: string };
+    return payload as { userId: number; role: string; ss: string };
   } catch {
     return null;
   }
@@ -67,7 +72,14 @@ async function getLocalUserFromReq(req: any) {
   if (!token) return null;
   const payload = await verifyLocalToken(token);
   if (!payload) return null;
-  return getLocalUserById(payload.userId);
+  
+  const user = await getLocalUserById(payload.userId);
+  if (!user) return null;
+  
+  // Validar se o segredo da sessão ainda é o mesmo (derrubar sessões)
+  if (user.sessionSecret !== payload.ss) return null;
+  
+  return user;
 }
 
 // ─── API Call Helper ──────────────────────────────────────────────────────────
@@ -148,10 +160,33 @@ export const appRouter = router({
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
         }
 
+        // Verificar limite de IPs (exceto para admin)
+        if (user.role !== "admin") {
+          const currentIp = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
+          const activeIpsCount = await getActiveIpsCount(user.id);
+          
+          // Se o IP atual já estiver nos logs recentes, permitimos (é o mesmo usuário re-logando)
+          // Caso contrário, verificamos se excedeu o limite
+          const db = await getDb();
+          const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+          const sameIpLog = await db!.select().from(accessLogs).where(and(
+            eq(accessLogs.userId, user.id),
+            eq(accessLogs.ipAddress, currentIp),
+            gte(accessLogs.createdAt, fifteenMinutesAgo)
+          )).limit(1);
+
+          if (sameIpLog.length === 0 && activeIpsCount >= user.maxIps) {
+            throw new TRPCError({ 
+              code: "FORBIDDEN", 
+              message: `Limite de IPs atingido (${user.maxIps}). Deslogue de outros dispositivos.` 
+            });
+          }
+        }
+
         console.log("[Login] Senha válida, gerando token...");
         let token;
         try {
-          token = await signLocalToken(user.id, user.role);
+          token = await signLocalToken(user.id, user.role, user.sessionSecret);
         } catch (e) {
           console.error("[Login] Erro ao gerar token JWT:", e);
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
@@ -410,6 +445,35 @@ export const appRouter = router({
         
         return { success: true, count: activeKeys.length };
       }),
+
+    changePassword: adminProcedure
+      .input(z.object({ userId: z.number().int(), newPassword: z.string().min(4) }))
+      .mutation(async ({ input }) => {
+        const passwordHash = await bcrypt.hash(input.newPassword, 12);
+        await updateUserPassword(input.userId, passwordHash);
+        // Ao mudar a senha, também resetamos a sessão por segurança
+        await resetUserSession(input.userId);
+        return { success: true };
+      }),
+
+    updateMaxIps: adminProcedure
+      .input(z.object({ userId: z.number().int(), maxIps: z.number().int().min(1).max(50) }))
+      .mutation(async ({ input }) => {
+        await updateUserMaxIps(input.userId, input.maxIps);
+        return { success: true };
+      }),
+
+    resetSession: adminProcedure
+      .input(z.object({ userId: z.number().int() }))
+      .mutation(async ({ input }) => {
+        await resetUserSession(input.userId);
+        return { success: true };
+      }),
+
+    resetAllSessions: adminProcedure.mutation(async () => {
+      await resetAllSessions();
+      return { success: true };
+    }),
   }),
 });
 

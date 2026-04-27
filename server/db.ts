@@ -124,6 +124,44 @@ export async function updateUserCredits(userId: number, credits: number) {
   await db.update(localUsers).set({ credits }).where(eq(localUsers.id, userId));
 }
 
+export async function updateUserPassword(userId: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(localUsers).set({ passwordHash }).where(eq(localUsers.id, userId));
+}
+
+export async function updateUserMaxIps(userId: number, maxIps: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(localUsers).set({ maxIps }).where(eq(localUsers.id, userId));
+}
+
+export async function resetUserSession(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const newSecret = crypto.randomUUID();
+  await db.update(localUsers).set({ sessionSecret: newSecret }).where(eq(localUsers.id, userId));
+}
+
+export async function resetAllSessions() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const newSecret = crypto.randomUUID();
+  await db.update(localUsers).set({ sessionSecret: newSecret });
+}
+
+export async function getActiveIpsCount(userId: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  // Consideramos IPs ativos nos últimos 15 minutos (tempo de logout automático)
+  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+  const result = await db.select({ ip: accessLogs.ipAddress })
+    .from(accessLogs)
+    .where(and(eq(accessLogs.userId, userId), gte(accessLogs.createdAt, fifteenMinutesAgo)))
+    .groupBy(accessLogs.ipAddress);
+  return result.length;
+}
+
 // ─── Generated keys ───────────────────────────────────────────────────────────
 
 export async function saveGeneratedKey(data: InsertGeneratedKey) {

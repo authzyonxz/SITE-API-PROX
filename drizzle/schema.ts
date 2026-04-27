@@ -28,6 +28,8 @@ export const localUsers = mysqlTable("local_users", {
   passwordHash: varchar("passwordHash", { length: 255 }).notNull(),
   role: mysqlEnum("role", ["admin", "reseller"]).default("reseller").notNull(),
   credits: int("credits").default(0).notNull(),
+  maxIps: int("maxIps").default(1).notNull(),
+  sessionSecret: varchar("sessionSecret", { length: 36 }).notNull().default("default-secret"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

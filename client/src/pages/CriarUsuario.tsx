@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins, Trash2, Minus, KeyRound } from "lucide-react";
+import { UserPlus, Loader2, Users, Zap, Eye, EyeOff, CheckCircle, Coins, Trash2, Minus, KeyRound, Lock, Monitor, LogOut, RefreshCcw } from "lucide-react";
 
 export default function CriarUsuario() {
   const utils = trpc.useUtils();
@@ -63,6 +63,29 @@ export default function CriarUsuario() {
     onError: (err) => toast.error(err.message || "Erro ao excluir keys"),
   });
 
+  const changePasswordMutation = trpc.users.changePassword.useMutation({
+    onSuccess: () => toast.success("Senha alterada com sucesso!"),
+    onError: (err) => toast.error(err.message),
+  });
+
+  const updateMaxIpsMutation = trpc.users.updateMaxIps.useMutation({
+    onSuccess: () => {
+      toast.success("Limite de IPs atualizado!");
+      utils.users.list.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const resetSessionMutation = trpc.users.resetSession.useMutation({
+    onSuccess: () => toast.success("Sessão do usuário encerrada!"),
+    onError: (err) => toast.error(err.message),
+  });
+
+  const resetAllSessionsMutation = trpc.users.resetAllSessions.useMutation({
+    onSuccess: () => toast.success("TODAS as sessões foram encerradas!"),
+    onError: (err) => toast.error(err.message),
+  });
+
   const handleCreate = () => {
     if (!username.trim()) { toast.error("Digite o nome de usuário"); return; }
     if (!password.trim()) { toast.error("Digite a senha"); return; }
@@ -80,6 +103,22 @@ export default function CriarUsuario() {
         <p className="text-sm mt-1 tracking-wide" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
           Cadastre novos revendedores no sistema
         </p>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          onClick={() => {
+            if (confirm("Deseja realmente desconectar TODOS os usuários do sistema? Eles precisarão logar novamente.")) {
+              resetAllSessionsMutation.mutate();
+            }
+          }}
+          disabled={resetAllSessionsMutation.isPending}
+          className="flex items-center gap-2 px-4 py-2 rounded text-xs font-bold tracking-widest uppercase transition-all"
+          style={{ background: "rgba(255,0,110,0.1)", border: "1px solid #ff006e", color: "#ff006e", fontFamily: "'Orbitron', sans-serif" }}
+        >
+          {resetAllSessionsMutation.isPending ? <RefreshCcw className="w-3 h-3 animate-spin" /> : <LogOut className="w-3 h-3" />}
+          Limpar Todas as Sessões
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -277,6 +316,46 @@ export default function CriarUsuario() {
                         style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.15)", color: "#ff006e" }}
                       >
                         <Minus className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const newPass = prompt(`Nova senha para ${user.username}:`);
+                          if (newPass && newPass.length >= 4) {
+                            changePasswordMutation.mutate({ userId: user.id, newPassword: newPass });
+                          } else if (newPass) {
+                            toast.error("A senha deve ter pelo menos 4 caracteres");
+                          }
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        title="Mudar senha"
+                        style={{ background: "rgba(0,212,255,0.05)", border: "1px solid rgba(0,212,255,0.15)", color: "var(--neon-blue)" }}
+                      >
+                        <Lock className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const limit = parseInt(prompt(`Limite de IPs para ${user.username}:`, (user as any).maxIps?.toString() || "1") || "0");
+                          if (limit > 0) {
+                            updateMaxIpsMutation.mutate({ userId: user.id, maxIps: limit });
+                          }
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        title="Limite de IPs"
+                        style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", color: "var(--neon-green)" }}
+                      >
+                        <Monitor className="w-3 h-3" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Desconectar ${user.username} de todos os dispositivos?`)) {
+                            resetSessionMutation.mutate({ userId: user.id });
+                          }
+                        }}
+                        className="p-1.5 rounded transition-all"
+                        title="Encerrar sessões"
+                        style={{ background: "rgba(157,78,221,0.05)", border: "1px solid rgba(157,78,221,0.15)", color: "var(--neon-purple)" }}
+                      >
+                        <LogOut className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => {
