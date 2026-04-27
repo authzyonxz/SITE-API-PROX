@@ -2,6 +2,8 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
 import { TRPCError } from "@trpc/server";
+import { eq, and, gte } from "drizzle-orm";
+import { accessLogs } from "../drizzle/schema";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { systemRouter } from "./_core/systemRouter";
 import { COOKIE_NAME } from "@shared/const";
@@ -29,6 +31,7 @@ import {
   resetUserSession,
   resetAllSessions,
   getActiveIpsCount,
+  getDb,
 } from "./db";
 
 const API_BASE = "http://212.227.7.153:9945";

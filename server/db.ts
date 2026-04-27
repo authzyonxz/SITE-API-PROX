@@ -1,5 +1,6 @@
 import { eq, desc, count, and, lt, gte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import crypto from "node:crypto";
 import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
