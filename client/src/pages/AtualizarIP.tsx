@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Radio, Wifi, WifiOff } from "lucide-react";
 
 export default function AtualizarIP() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
+  const { data: proxies, isLoading: loadingProxies } = trpc.proxy.list.useQuery();
 
   const updateMutation = trpc.keys.updateIp.useMutation({
     onSuccess: (data) => {
@@ -38,6 +39,44 @@ export default function AtualizarIP() {
         <p className="text-sm mt-1 tracking-wide" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
           Vincule um novo IP a uma key existente
         </p>
+      </div>
+
+      {/* Proxy Status Display */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {loadingProxies ? (
+          [...Array(2)].map((_, i) => (
+            <div key={i} className="h-20 rounded animate-pulse bg-white/5" />
+          ))
+        ) : (
+          proxies?.map((proxy) => (
+            <div key={proxy.id} className="cyber-card p-4 relative overflow-hidden" 
+              style={{ border: `1px solid ${proxy.status === "online" ? "rgba(0,255,136,0.15)" : "rgba(255,0,110,0.15)"}` }}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded flex items-center justify-center" 
+                    style={{ background: proxy.status === "online" ? "rgba(0,255,136,0.1)" : "rgba(255,0,110,0.1)" }}>
+                    {proxy.status === "online" ? (
+                      <Wifi className="w-5 h-5" style={{ color: "var(--neon-green)" }} />
+                    ) : (
+                      <WifiOff className="w-5 h-5" style={{ color: "#ff006e" }} />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold" style={{ fontFamily: "'Rajdhani', sans-serif" }}>{proxy.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <div className={`w-1.5 h-1.5 rounded-full ${proxy.status === "online" ? "neon-pulse" : ""}`} 
+                        style={{ background: proxy.status === "online" ? "var(--neon-green)" : "#ff006e" }} />
+                      <p className="text-[10px] uppercase tracking-widest font-bold" 
+                        style={{ color: proxy.status === "online" ? "var(--neon-green)" : "#ff006e", fontFamily: "'Share Tech Mono', monospace" }}>
+                        Status: {proxy.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       <div className="cyber-card p-5 space-y-4" style={{ border: "1px solid rgba(0,212,255,0.15)" }}>

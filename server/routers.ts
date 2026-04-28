@@ -32,6 +32,8 @@ import {
   resetAllSessions,
   getActiveIpsCount,
   getDb,
+  listProxyStatus,
+  updateProxyStatus,
 } from "./db";
 
 const API_BASE = "http://212.227.7.153:9945";
@@ -477,6 +479,18 @@ export const appRouter = router({
       await resetAllSessions();
       return { success: true };
     }),
+  }),
+
+  proxy: router({
+    list: publicProcedure.query(async () => {
+      return listProxyStatus();
+    }),
+    updateStatus: adminProcedure
+      .input(z.object({ id: z.number().int(), status: z.enum(["online", "offline"]) }))
+      .mutation(async ({ input }) => {
+        await updateProxyStatus(input.id, input.status);
+        return { success: true };
+      }),
   }),
 });
 

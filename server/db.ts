@@ -1,7 +1,7 @@
 import { eq, desc, count, and, lt, gte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "node:crypto";
-import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog } from "../drizzle/schema";
+import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -245,4 +245,18 @@ export async function deleteKeysByUserId(userId: number) {
   await db.update(generatedKeys)
     .set({ status: "deleted" })
     .where(eq(generatedKeys.createdById, userId));
+}
+
+// ─── Proxy Status ─────────────────────────────────────────────────────────────
+
+export async function listProxyStatus() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(proxyStatus);
+}
+
+export async function updateProxyStatus(id: number, status: "online" | "offline") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(proxyStatus).set({ status }).where(eq(proxyStatus.id, id));
 }

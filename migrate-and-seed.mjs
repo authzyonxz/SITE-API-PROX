@@ -28,6 +28,10 @@ async function runMigrations() {
     console.log("👤 Criando admin padrão...");
     await seedAdmin(databaseUrl);
 
+    // Seed dos status de proxy
+    console.log("📡 Criando status iniciais de proxy...");
+    await seedProxyStatus(databaseUrl);
+
     console.log("✅ Migrações e seed concluídas com sucesso!");
   } catch (error) {
     console.error("❌ Erro durante migrações:", error);
@@ -105,9 +109,46 @@ async function ensureAccessLogsTable(databaseUrl) {
     } catch (e) {}
 
     console.log("✅ Tabela 'access_logs' e campos de controle verificados.");
+    
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS proxy_status (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(64) NOT NULL UNIQUE,
+        status ENUM('online', 'offline') NOT NULL DEFAULT 'offline',
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("✅ Tabela 'proxy_status' verificada/criada.");
+
     await connection.end();
   } catch (error) {
-    console.error("❌ Erro ao verificar tabela de logs:", error);
+    console.error("❌ Erro ao verificar tabelas:", error);
+  }
+}
+
+async function seedProxyStatus(databaseUrl) {
+  try {
+    const url = new URL(databaseUrl);
+    const connection = await mysql.createConnection({
+      host: url.hostname,
+      user: url.username,
+      password: url.password,
+      database: url.pathname.slice(1),
+      port: url.port || 3306,
+    });
+
+    const proxies = ["HS Pescoço com Antena", "HS Pescoço"];
+    for (const name of proxies) {
+      const [rows] = await connection.execute("SELECT id FROM proxy_status WHERE name = ?", [name]);
+      if (rows.length === 0) {
+        await connection.execute("INSERT INTO proxy_status (name, status) VALUES (?, ?)", [name, "offline"]);
+        console.log(`✅ Status inicial criado para: ${name}`);
+      }
+    }
+
+    await connection.end();
+  } catch (error) {
+    console.error("❌ Erro ao fazer seed dos status de proxy:", error);
   }
 }
 

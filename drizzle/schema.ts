@@ -66,3 +66,13 @@ export const accessLogs = mysqlTable("access_logs", {
 
 export type AccessLog = typeof accessLogs.$inferSelect;
 export type InsertAccessLog = typeof accessLogs.$inferInsert;
+
+export const proxyStatus = mysqlTable("proxy_status", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 64 }).notNull().unique(),
+  status: mysqlEnum("status", ["online", "offline"]).default("offline").notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ProxyStatus = typeof proxyStatus.$inferSelect;
+export type InsertProxyStatus = typeof proxyStatus.$inferInsert;

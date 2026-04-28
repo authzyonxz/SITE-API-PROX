@@ -1,6 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
-import { KeyRound, ShieldOff, Users, Zap, TrendingUp, Activity, Cpu } from "lucide-react";
+import { KeyRound, ShieldOff, Users, Zap, TrendingUp, Activity, Cpu, Radio, Wifi, WifiOff } from "lucide-react";
+import { toast } from "sonner";
 
 function StatCard({ label, value, icon, color, glow }: {
   label: string;
@@ -33,8 +34,19 @@ function StatCard({ label, value, icon, color, glow }: {
 
 export default function Dashboard() {
   const { user, isAdmin } = useLocalAuth();
+  const utils = trpc.useUtils();
   const { data: stats, isLoading } = trpc.dashboard.stats.useQuery(undefined, {
     refetchInterval: 30000,
+  });
+
+  const { data: proxies, isLoading: loadingProxies } = trpc.proxy.list.useQuery();
+
+  const updateProxyMutation = trpc.proxy.updateStatus.useMutation({
+    onSuccess: () => {
+      toast.success("Status do proxy atualizado!");
+      utils.proxy.list.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
   });
 
   return (
@@ -58,6 +70,65 @@ export default function Dashboard() {
           </span>
         </div>
       </div>
+
+      {/* Proxy Status Controls (Admin Only) */}
+      {isAdmin && (
+        <div className="cyber-card p-5" style={{ border: "1px solid rgba(0,212,255,0.2)" }}>
+          <div className="flex items-center gap-2 mb-4">
+            <Radio className="w-4 h-4" style={{ color: "var(--neon-blue)" }} />
+            <h3 className="text-xs font-bold tracking-widest uppercase" style={{ color: "var(--neon-blue)", fontFamily: "'Orbitron', sans-serif" }}>
+              Controle de Status dos Proxies
+            </h3>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {loadingProxies ? (
+              [...Array(2)].map((_, i) => (
+                <div key={i} className="h-16 rounded animate-pulse bg-white/5" />
+              ))
+            ) : (
+              proxies?.map((proxy) => (
+                <div key={proxy.id} className="flex items-center justify-between p-4 rounded bg-black/20 border border-white/5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded flex items-center justify-center" 
+                      style={{ background: proxy.status === "online" ? "rgba(0,255,136,0.1)" : "rgba(255,0,110,0.1)" }}>
+                      {proxy.status === "online" ? (
+                        <Wifi className="w-5 h-5" style={{ color: "var(--neon-green)" }} />
+                      ) : (
+                        <WifiOff className="w-5 h-5" style={{ color: "#ff006e" }} />
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold" style={{ fontFamily: "'Rajdhani', sans-serif" }}>{proxy.name}</p>
+                      <p className="text-[10px] uppercase tracking-widest" 
+                        style={{ color: proxy.status === "online" ? "var(--neon-green)" : "#ff006e", fontFamily: "'Share Tech Mono', monospace" }}>
+                        {proxy.status}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <button
+                    onClick={() => updateProxyMutation.mutate({ 
+                      id: proxy.id, 
+                      status: proxy.status === "online" ? "offline" : "online" 
+                    })}
+                    disabled={updateProxyMutation.isPending}
+                    className="px-3 py-1.5 rounded text-[10px] font-bold tracking-widest uppercase transition-all"
+                    style={{ 
+                      background: proxy.status === "online" ? "rgba(255,0,110,0.1)" : "rgba(0,255,136,0.1)",
+                      border: `1px solid ${proxy.status === "online" ? "#ff006e" : "var(--neon-green)"}`,
+                      color: proxy.status === "online" ? "#ff006e" : "var(--neon-green)",
+                      fontFamily: "'Orbitron', sans-serif"
+                    }}
+                  >
+                    {proxy.status === "online" ? "Desativar" : "Ativar"}
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Stats Grid */}
       {isLoading ? (
