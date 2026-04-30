@@ -324,60 +324,47 @@ export default function FreeFireUpdateIp() {
               </div>
             </section>
 
-            {/* Tutorial Section */}
+            {/* Download Section */}
             <section className="space-y-6">
               <div className="flex items-center gap-3">
-                <Info className="w-6 h-6 text-orange-500" />
+                <Download className="w-6 h-6 text-orange-500" />
                 <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  GUIA DE INSTALAÇÃO
+                  CERTIFICADO DE SEGURANÇA
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    step: "1",
-                    title: "Baixar Certificado",
-                    desc: "Clique no botão no topo da página para baixar o arquivo de segurança necessário.",
-                  },
-                  {
-                    step: "2",
-                    title: "Instalar Perfil",
-                    desc: "Abra o arquivo e instale como um perfil de configuração confiável no seu dispositivo.",
-                  },
-                  {
-                    step: "3",
-                    title: "Confiança Total",
-                    desc: "Habilite a confiança total para o certificado nas configurações do seu aparelho.",
-                  },
-                  {
-                    step: "4",
-                    title: "Configurar Proxy",
-                    desc: "Use os dados de IP e Porta fornecidos ao lado nas configurações de rede.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="rounded-xl p-5 border space-y-3"
-                    style={{
-                      background: "rgba(249,115,22,0.02)",
-                      borderColor: "rgba(249,115,22,0.15)",
-                    }}
-                  >
-                    <div
-                      className="w-8 h-8 rounded flex items-center justify-center font-bold text-sm"
-                      style={{ background: "rgba(249,115,22,0.2)", color: "#ffffff" }}
-                    >
-                      {item.step}
-                    </div>
-                    <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
+              <div 
+                className="rounded-xl p-8 border text-center space-y-6"
+                style={{
+                  background: "rgba(249,115,22,0.05)",
+                  borderColor: "rgba(249,115,22,0.2)",
+                }}
+              >
+                <p className="text-sm text-muted-foreground font-rajdhani leading-relaxed max-w-md mx-auto">
+                  Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
+                </p>
+                
+                <a
+                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm mx-auto"
+                  style={{
+                    background: "#f97316",
+                    boxShadow: "0 0 20px rgba(249,115,22,0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(249,115,22,0.5)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(249,115,22,0.3)";
+                  }}
+                >
+                  <Download className="w-5 h-5" />
+                  BAIXAR CERTIFICADO
+                </a>
               </div>
             </section>
           </div>
