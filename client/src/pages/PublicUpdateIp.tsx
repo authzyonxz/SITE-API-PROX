@@ -70,7 +70,7 @@ export default function PublicUpdateIp() {
                 className="flex items-center gap-2 px-4 py-2 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 transition-all font-orbitron text-xs tracking-widest uppercase"
               >
                 <Download className="w-4 h-4" />
-                Download Natsu Cert
+                Download Certificado
               </a>
             </div>
 
@@ -96,7 +96,7 @@ export default function PublicUpdateIp() {
               className="flex items-center justify-center gap-2 w-full py-3 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-orbitron text-xs tracking-widest uppercase"
             >
               <Download className="w-4 h-4" />
-              Download Natsu Cert
+              Download Certificado
             </a>
           </div>
         )}
@@ -203,7 +203,7 @@ export default function PublicUpdateIp() {
                   <div className="w-8 h-8 rounded bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold">1</div>
                   <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Baixar Certificado</h3>
                   <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                    Clique no botão no topo da página para baixar o arquivo <b>Natsu Cert.pem</b>. Este certificado é necessário para que o proxy funcione em conexões seguras.
+                    Clique no botão no topo da página para baixar o arquivo <b>Certificado.pem</b>. Este certificado é necessário para que o proxy funcione em conexões seguras.
                   </p>
                 </div>
                 <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
@@ -283,7 +283,7 @@ export default function PublicUpdateIp() {
                   className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(0,212,255,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
                 >
                   <Download className="w-6 h-6" />
-                  DOWNLOAD NATSU CERT
+                  DOWNLOAD CERTIFICADO
                 </a>
                 <a 
                   href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
