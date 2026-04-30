@@ -17,6 +17,7 @@ import CriarUsuario from "./pages/CriarUsuario";
 import Logs from "./pages/Logs";
 import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
+import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/" component={Login} />
       <Route path="/update-ip" component={PublicUpdateIp} />
       <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
+      <Route path="/granjeiro-update-ip" component={GranjeiroUpdateIp} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
