@@ -106,7 +106,7 @@ export default function NatsuUpdateIp() {
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
-                href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                href="https://files.manuscdn.com/user_upload_by_module/session_file/310519663616040179/ZFgWKNBPQLpYfSHi.pem"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
@@ -150,7 +150,7 @@ export default function NatsuUpdateIp() {
             }}
           >
             <a
-              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+              href="https://files.manuscdn.com/user_upload_by_module/session_file/310519663616040179/ZFgWKNBPQLpYfSHi.pem"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
@@ -552,7 +552,7 @@ export default function NatsuUpdateIp() {
 
               <div className="pt-4 space-y-3">
                 <a
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                  href="https://files.manuscdn.com/user_upload_by_module/session_file/310519663616040179/ZFgWKNBPQLpYfSHi.pem"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
