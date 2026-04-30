@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import { runMigrations } from "./migrate-and-seed.mjs";
+import { cleanupRuan } from "./scripts/cleanup-ruan.mjs";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 
 // Importar routers e contexto
@@ -35,6 +36,9 @@ const __dirname = path.dirname(__filename);
 console.log("🔄 Iniciando migrações...");
 await runMigrations();
 console.log("✅ Migrações concluídas!");
+
+// Executar limpeza do usuário Ruan
+await cleanupRuan();
 
 const app = express();
 const server = createServer(app);
