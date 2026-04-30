@@ -285,15 +285,7 @@ export default function PublicUpdateIp() {
                   <Download className="w-6 h-6" />
                   DOWNLOAD NATSU CERT
                 </a>
-                <a 
-                  href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
-                >
-                  <MessageCircle className="w-6 h-6" />
-                  GRUPO WHATSAPP
-                </a>
+
               </div>
             </div>
           </div>
