@@ -19,6 +19,7 @@ import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
 import ProxyIosUpdateIp from "@/pages/ProxyIosUpdateIp";
+import AllHackUpdateIp from "@/pages/AllHackUpdateIp";
 
 function Router() {
   return (
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
       <Route path="/granjeiro-update-ip" component={GranjeiroUpdateIp} />
       <Route path="/proxy-ios-update-ip" component={ProxyIosUpdateIp} />
+      <Route path="/all-hack-update-ip" component={AllHackUpdateIp} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
