@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, ExternalLink, MessageCircle } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, ExternalLink, MessageCircle, Search } from "lucide-react";
 
 export default function PublicUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [detectedIp, setDetectedIp] = useState<string | null>(null);
+  const [isFetchingIp, setIsFetchingIp] = useState(false);
 
   const updateMutation = trpc.keys.publicUpdateIp.useMutation({
     onSuccess: (data) => {
@@ -27,6 +29,22 @@ export default function PublicUpdateIp() {
     if (!keyInput.trim()) { toast.error("Digite a key"); return; }
     if (!newIp.trim()) { toast.error("Digite o novo IP"); return; }
     updateMutation.mutate({ generatedKey: keyInput.trim(), newIp: newIp.trim() });
+  };
+
+  const handleFetchIp = async () => {
+    setIsFetchingIp(true);
+    setDetectedIp(null);
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      setDetectedIp(data.ip);
+      setNewIp(data.ip);
+      toast.success("IP detectado e preenchido automaticamente!");
+    } catch {
+      toast.error("Não foi possível detectar seu IP. Tente novamente.");
+    } finally {
+      setIsFetchingIp(false);
+    }
   };
 
   const proxyInfos = [
@@ -142,9 +160,32 @@ export default function PublicUpdateIp() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold tracking-widest uppercase mb-2 text-cyan-500/70 font-mono">
-                      Novo Endereço de IP
-                    </label>
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block text-xs font-bold tracking-widest uppercase text-cyan-500/70 font-mono">
+                        Novo Endereço de IP
+                      </label>
+                      <button
+                        onClick={handleFetchIp}
+                        disabled={isFetchingIp}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-cyan-500/20 transition-all disabled:opacity-50"
+                      >
+                        {isFetchingIp ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : (
+                          <Search className="w-3 h-3" />
+                        )}
+                        {isFetchingIp ? "Buscando..." : "Buscar IP"}
+                      </button>
+                    </div>
+
+                    {detectedIp && (
+                      <div className="mb-2 px-3 py-2 rounded-md bg-cyan-500/5 border border-cyan-500/20 text-[10px] font-mono text-cyan-400 animate-in fade-in slide-in-from-top-1 duration-300">
+                        <span className="opacity-70 text-white">IP detectado: </span>
+                        <span className="font-bold">{detectedIp}</span>
+                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
+                      </div>
+                    )}
+
                     <div className="relative group">
                       <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-500/40 group-focus-within:text-cyan-400 transition-colors" />
                       <input
