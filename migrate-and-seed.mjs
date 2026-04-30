@@ -58,7 +58,7 @@ async function seedAdmin(databaseUrl) {
     );
 
     if (rows.length === 0) {
-      // Hash da senha "Ruan00" com bcrypt
+      // Hash da senha padrão com bcrypt
       const passwordHash = "$2b$10$YourHashedPasswordHere"; // Será gerado dinamicamente
 
       // Importar bcrypt
