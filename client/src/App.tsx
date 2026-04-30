@@ -15,13 +15,15 @@ import AtualizarIP from "./pages/AtualizarIP";
 import DeletarKey from "./pages/DeletarKey";
 import CriarUsuario from "./pages/CriarUsuario";
 import Logs from "./pages/Logs";
-import PublicUpdateIp from "./pages/PublicUpdateIp";
+import PublicUpdateIp from "@/pages/PublicUpdateIp";
+import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Login} />
       <Route path="/update-ip" component={PublicUpdateIp} />
+      <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
