@@ -37,7 +37,7 @@ import {
   banUser,
 } from "./db";
 
-const API_BASE = "http://212.227.7.153:9945";
+const API_BASE = "https://ruan.arifi.site";
 const MASTER_KEY = "RUANKEY367382F6";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
 const BANNED_IPS = ["24.152.71.107", "157.52.85.28"];
