@@ -260,3 +260,9 @@ export async function updateProxyStatus(id: number, status: "online" | "offline"
   if (!db) throw new Error("Database not available");
   await db.update(proxyStatus).set({ status }).where(eq(proxyStatus.id, id));
 }
+
+export async function banUser(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(localUsers).set({ isBanned: 1 }).where(eq(localUsers.id, userId));
+}

@@ -34,11 +34,13 @@ import {
   getDb,
   listProxyStatus,
   updateProxyStatus,
+  banUser,
 } from "./db";
 
 const API_BASE = "http://212.227.7.153:9945";
 const MASTER_KEY = "RUANKEY367382F6";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
+const BANNED_IPS = ["24.152.71.107", "157.52.85.28"];
 
 // ─── Local Auth Helpers ───────────────────────────────────────────────────────
 
@@ -80,6 +82,9 @@ async function getLocalUserFromReq(req: any) {
   
   const user = await getLocalUserById(payload.userId);
   if (!user) return null;
+
+  // Verificar se o usuário está banido
+  if (user.isBanned === 1) return null;
   
   // Validar se o segredo da sessão ainda é o mesmo (derrubar sessões)
   if (user.sessionSecret !== payload.ss) return null;
@@ -103,10 +108,28 @@ async function callProxyApi(path: string) {
 // ─── Local Auth Procedure ─────────────────────────────────────────────────────
 
 const localAuthProcedure = publicProcedure.use(async ({ ctx, next }) => {
+  const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
   const localUser = await getLocalUserFromReq(ctx.req);
+
+  // Se o IP estiver na lista negra, banir o usuário logado e deslogar
+  if (BANNED_IPS.includes(ip)) {
+    if (localUser) {
+      await banUser(localUser.id);
+      await resetUserSession(localUser.id);
+    }
+    ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { path: "/" });
+    throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP foi banido permanentemente." });
+  }
+
   if (!localUser) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Faça login para continuar" });
   }
+
+  if (localUser.isBanned === 1) {
+    ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { path: "/" });
+    throw new TRPCError({ code: "FORBIDDEN", message: "SUA CONTA FOI BANIDA PERMANENTEMENTE." });
+  }
+
   return next({ ctx: { ...ctx, localUser } });
 });
 
@@ -137,6 +160,13 @@ export const appRouter = router({
     login: publicProcedure
       .input(z.object({ username: z.string().min(1), password: z.string().min(1) }))
       .mutation(async ({ input, ctx }) => {
+        const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
+        
+        // Bloqueio imediato por IP no login
+        if (BANNED_IPS.includes(ip)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP foi banido permanentemente." });
+        }
+
         console.log(`[Login] Tentativa de login para usuário: ${input.username}`);
         let user;
         try {
@@ -163,6 +193,11 @@ export const appRouter = router({
         if (!valid) {
           console.warn(`[Login] Senha inválida para usuário: ${input.username}`);
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
+        }
+
+        // Verificar se o usuário está banido
+        if (user.isBanned === 1) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "SUA CONTA FOI BANIDA PERMANENTEMENTE." });
         }
 
         // Verificar limite de IPs (exceto para admin)
