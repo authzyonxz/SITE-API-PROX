@@ -317,22 +317,21 @@ export const appRouter = router({
         const totalCost = days * quantity;
         const user = ctx.localUser;
 
-        if (user.role !== "admin") {
-          if (user.credits < totalCost) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: `Créditos insuficientes. Necessário: ${totalCost}, disponível: ${user.credits}`,
-            });
-          }
+        // Verificação de créditos para revendedores
+        if (user.role !== "admin" && user.credits < totalCost) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `Créditos insuficientes. Necessário: ${totalCost}, disponível: ${user.credits}`,
+          });
+        }
 
-          // Restrição: Máximo 20 keys a cada 10 minutos para revendedores
-          const recentKeys = await countKeysGeneratedRecently(user.id, 10);
-          if (recentKeys + quantity > 20) {
-            throw new TRPCError({
-              code: "FORBIDDEN",
-              message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 10 minutos. O limite é 20 keys a cada 10 minutos.`,
-            });
-          }
+        // Restrição Global: Máximo 20 keys a cada 10 minutos (evita sobrecarga no servidor)
+        const recentKeys = await countKeysGeneratedRecently(user.id, 10);
+        if (recentKeys + quantity > 20) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 10 minutos. O limite é 20 keys a cada 10 minutos.`,
+          });
         }
 
         const results: string[] = [];
