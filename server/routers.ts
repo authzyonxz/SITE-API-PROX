@@ -35,9 +35,10 @@ import {
   listProxyStatus,
   updateProxyStatus,
   banUser,
+  countKeysGeneratedRecently,
 } from "./db";
 
-const API_BASE = "http://212.227.7.153:9945/";
+const API_BASE = "https://ruan.arifi.site";
 const MASTER_KEY = "RUANKEY367382F6";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
 const BANNED_IPS = ["24.152.71.107", "157.52.85.28"];
@@ -316,11 +317,22 @@ export const appRouter = router({
         const totalCost = days * quantity;
         const user = ctx.localUser;
 
-        if (user.role !== "admin" && user.credits < totalCost) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: `Créditos insuficientes. Necessário: ${totalCost}, disponível: ${user.credits}`,
-          });
+        if (user.role !== "admin") {
+          if (user.credits < totalCost) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: `Créditos insuficientes. Necessário: ${totalCost}, disponível: ${user.credits}`,
+            });
+          }
+
+          // Restrição: Máximo 20 keys a cada 10 minutos para revendedores
+          const recentKeys = await countKeysGeneratedRecently(user.id, 10);
+          if (recentKeys + quantity > 20) {
+            throw new TRPCError({
+              code: "FORBIDDEN",
+              message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 10 minutos. O limite é 20 keys a cada 10 minutos.`,
+            });
+          }
         }
 
         const results: string[] = [];

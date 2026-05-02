@@ -266,3 +266,17 @@ export async function banUser(userId: number) {
   if (!db) throw new Error("Database not available");
   await db.update(localUsers).set({ isBanned: 1 }).where(eq(localUsers.id, userId));
 }
+
+export async function countKeysGeneratedRecently(userId: number, minutes: number) {
+  const db = await getDb();
+  if (!db) return 0;
+  const since = new Date(Date.now() - minutes * 60 * 1000);
+  const [result] = await db.select({ value: count() })
+    .from(generatedKeys)
+    .where(and(
+      eq(generatedKeys.createdById, userId),
+      gte(generatedKeys.createdAt, since),
+      eq(generatedKeys.status, "active")
+    ));
+  return result?.value ?? 0;
+}

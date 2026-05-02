@@ -33,7 +33,7 @@ OAUTH_SERVER_URL=https://api.manus.im
 VITE_OAUTH_PORTAL_URL=https://manus.im
 
 # Para API externa de proxy
-PROXY_API_URL=http://212.227.7.153:9945/
+PROXY_API_URL=https://ruan.arifi.site
 PROXY_MASTER_KEY=RUANKEY367382F6
 ```
 
