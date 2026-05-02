@@ -35,9 +35,7 @@ function StatCard({ label, value, icon, color, glow }: {
 export default function Dashboard() {
   const { user, isAdmin } = useLocalAuth();
   const utils = trpc.useUtils();
-  const { data: stats, isLoading } = trpc.dashboard.stats.useQuery(undefined, {
-    refetchInterval: 30000,
-  });
+  const { data: stats, isLoading } = trpc.dashboard.stats.useQuery();
 
   const { data: proxies, isLoading: loadingProxies } = trpc.proxy.list.useQuery();
 

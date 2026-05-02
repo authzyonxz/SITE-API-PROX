@@ -6,6 +6,7 @@ import { eq, and, gte } from "drizzle-orm";
 import { accessLogs } from "../drizzle/schema";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { systemRouter } from "./_core/systemRouter";
+import { webhookRouter } from "./webhookRouter";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import {
@@ -145,6 +146,7 @@ const adminProcedure = localAuthProcedure.use(async ({ ctx, next }) => {
 
 export const appRouter = router({
   system: systemRouter,
+  webhook: webhookRouter,
 
   // Manus OAuth (required by template, kept for compatibility)
   auth: router({
