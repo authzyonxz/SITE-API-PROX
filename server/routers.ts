@@ -37,6 +37,7 @@ import {
   updateProxyStatus,
   banUser,
   countKeysGeneratedRecently,
+  findKeyCreator,
 } from "./db";
 
 const API_BASE = "https://ruan.arifi.site";
@@ -397,6 +398,16 @@ export const appRouter = router({
     myKeys: localAuthProcedure.query(async ({ ctx }) => {
       return getKeysByUser(ctx.localUser.id);
     }),
+
+    findCreator: adminProcedure
+      .input(z.object({ keyValue: z.string().min(1) }))
+      .query(async ({ input }) => {
+        const result = await findKeyCreator(input.keyValue);
+        if (!result) {
+          throw new TRPCError({ code: "NOT_FOUND", message: "Chave não encontrada no banco de dados local" });
+        }
+        return result;
+      }),
 
     publicUpdateIp: publicProcedure
       .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))

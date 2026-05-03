@@ -239,6 +239,25 @@ export async function getKeysByUserId(userId: number) {
   return db.select().from(generatedKeys).where(eq(generatedKeys.createdById, userId));
 }
 
+export async function findKeyCreator(keyValue: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select({
+    key: generatedKeys,
+    creator: {
+      username: localUsers.username,
+      role: localUsers.role
+    }
+  })
+  .from(generatedKeys)
+  .innerJoin(localUsers, eq(generatedKeys.createdById, localUsers.id))
+  .where(eq(generatedKeys.keyValue, keyValue))
+  .limit(1);
+  
+  return result.length > 0 ? result[0] : null;
+}
+
 export async function deleteKeysByUserId(userId: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

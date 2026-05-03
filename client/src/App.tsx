@@ -15,6 +15,7 @@ import AtualizarIP from "./pages/AtualizarIP";
 import DeletarKey from "./pages/DeletarKey";
 import CriarUsuario from "./pages/CriarUsuario";
 import Logs from "./pages/Logs";
+import BuscarKey from "./pages/BuscarKey";
 import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
@@ -67,6 +68,11 @@ function Router() {
       <Route path="/logs">
         <ProtectedRoute adminOnly>
           <PanelLayout><Logs /></PanelLayout>
+        </ProtectedRoute>
+      </Route>
+      <Route path="/buscar-key">
+        <ProtectedRoute adminOnly>
+          <PanelLayout><BuscarKey /></PanelLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/404" component={NotFound} />
