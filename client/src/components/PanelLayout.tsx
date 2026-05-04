@@ -13,6 +13,7 @@ import {
   UserPlus,
   LogOut,
   Shield,
+  ShieldAlert,
   Menu,
   X,
   ChevronRight,
