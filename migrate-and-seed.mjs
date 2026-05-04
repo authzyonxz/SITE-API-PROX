@@ -121,6 +121,16 @@ async function ensureAccessLogsTable(databaseUrl) {
     `);
     console.log("✅ Tabela 'proxy_status' verificada/criada.");
 
+    await connection.execute(`
+      CREATE TABLE IF NOT EXISTS ip_blacklist (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        ipAddress VARCHAR(255) NOT NULL UNIQUE,
+        reason TEXT,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("✅ Tabela 'ip_blacklist' verificada/criada.");
+
     await connection.end();
   } catch (error) {
     console.error("❌ Erro ao verificar tabelas:", error);

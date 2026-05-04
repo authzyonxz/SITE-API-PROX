@@ -38,6 +38,10 @@ import {
   banUser,
   countKeysGeneratedRecently,
   findKeyCreator,
+  addToBlacklist,
+  removeFromBlacklist,
+  listBlacklist,
+  isIpBlacklisted,
 } from "./db";
 
 const API_BASE = "https://ruan.arifi.site";
@@ -377,6 +381,11 @@ export const appRouter = router({
     updateIp: localAuthProcedure
       .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))
       .mutation(async ({ input }) => {
+        // Verificar se o IP está na blacklist
+        if (await isIpBlacklisted(input.newIp)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Este IP está na lista negra e não pode ser utilizado." });
+        }
+
         const result = await callProxyApi(
           `/update?key=${MASTER_KEY}&generated_key=${encodeURIComponent(input.generatedKey)}&new_ip=${encodeURIComponent(input.newIp)}`
         );
@@ -428,6 +437,11 @@ export const appRouter = router({
     publicUpdateIp: publicProcedure
       .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))
       .mutation(async ({ input }) => {
+        // Verificar se o IP está na blacklist
+        if (await isIpBlacklisted(input.newIp)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Este IP está na lista negra e não pode ser utilizado." });
+        }
+
         const result = await callProxyApi(
           `/update?key=${MASTER_KEY}&generated_key=${encodeURIComponent(input.generatedKey)}&new_ip=${encodeURIComponent(input.newIp)}`
         );
@@ -564,6 +578,24 @@ export const appRouter = router({
       .input(z.object({ id: z.number().int(), status: z.enum(["online", "offline"]) }))
       .mutation(async ({ input }) => {
         await updateProxyStatus(input.id, input.status);
+        return { success: true };
+      }),
+  }),
+
+  blacklist: router({
+    list: adminProcedure.query(async () => {
+      return listBlacklist();
+    }),
+    add: adminProcedure
+      .input(z.object({ ipAddress: z.string().min(1), reason: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        await addToBlacklist(input);
+        return { success: true };
+      }),
+    remove: adminProcedure
+      .input(z.object({ ipAddress: z.string().min(1) }))
+      .mutation(async ({ input }) => {
+        await removeFromBlacklist(input.ipAddress);
         return { success: true };
       }),
   }),

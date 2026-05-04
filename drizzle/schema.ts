@@ -77,3 +77,13 @@ export const proxyStatus = mysqlTable("proxy_status", {
 
 export type ProxyStatus = typeof proxyStatus.$inferSelect;
 export type InsertProxyStatus = typeof proxyStatus.$inferInsert;
+
+export const ipBlacklist = mysqlTable("ip_blacklist", {
+  id: int("id").autoincrement().primaryKey(),
+  ipAddress: varchar("ipAddress", { length: 255 }).notNull().unique(),
+  reason: text("reason"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type IpBlacklist = typeof ipBlacklist.$inferSelect;
+export type InsertIpBlacklist = typeof ipBlacklist.$inferInsert;

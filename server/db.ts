@@ -1,7 +1,7 @@
 import { eq, desc, count, and, lt, gte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "node:crypto";
-import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus } from "../drizzle/schema";
+import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus, ipBlacklist, InsertIpBlacklist } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -284,6 +284,33 @@ export async function banUser(userId: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   await db.update(localUsers).set({ isBanned: 1 }).where(eq(localUsers.id, userId));
+}
+
+// ─── IP Blacklist ─────────────────────────────────────────────────────────────
+
+export async function addToBlacklist(data: InsertIpBlacklist) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(ipBlacklist).values(data).onDuplicateKeyUpdate({ set: { reason: data.reason } });
+}
+
+export async function removeFromBlacklist(ipAddress: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(ipBlacklist).where(eq(ipBlacklist.ipAddress, ipAddress));
+}
+
+export async function listBlacklist() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ipBlacklist).orderBy(desc(ipBlacklist.createdAt));
+}
+
+export async function isIpBlacklisted(ipAddress: string) {
+  const db = await getDb();
+  if (!db) return false;
+  const result = await db.select().from(ipBlacklist).where(eq(ipBlacklist.ipAddress, ipAddress)).limit(1);
+  return result.length > 0;
 }
 
 export async function countKeysGeneratedRecently(userId: number, minutes: number) {
