@@ -395,6 +395,22 @@ export const appRouter = router({
         return { ok: result.ok, data: result.data, raw: result.raw };
       }),
 
+    deleteBulk: localAuthProcedure
+      .input(z.object({ keys: z.array(z.string().min(1)) }))
+      .mutation(async ({ input }) => {
+        const results = [];
+        for (const key of input.keys) {
+          const result = await callProxyApi(
+            `/delete?key=${MASTER_KEY}&generated_key=${encodeURIComponent(key)}`
+          );
+          if (result.ok) {
+            await markKeyDeleted(key);
+          }
+          results.push({ key, ok: result.ok });
+        }
+        return { results };
+      }),
+
     myKeys: localAuthProcedure.query(async ({ ctx }) => {
       return getKeysByUser(ctx.localUser.id);
     }),
