@@ -51,28 +51,29 @@ async function seedAdmin(databaseUrl) {
       port: url.port || 3306,
     });
 
-    // Verificar se admin já existe
+    // Verificar se admin novo já existe
     const [rows] = await connection.execute(
       "SELECT * FROM local_users WHERE username = ?",
-      ["@ruanwq"]
+      ["ADMIN"]
     );
 
+    const bcrypt = await import("bcryptjs");
+
     if (rows.length === 0) {
-      // Hash da senha padrão com bcrypt
-      const passwordHash = "$2b$10$YourHashedPasswordHere"; // Será gerado dinamicamente
-
-      // Importar bcrypt
-      const bcrypt = await import("bcryptjs");
-      const hash = await bcrypt.default.hash("@ruanwq", 10);
-
+      const hash = await bcrypt.default.hash("ADMIN123", 10);
       await connection.execute(
         "INSERT INTO local_users (username, passwordHash, role, credits) VALUES (?, ?, ?, ?)",
-        ["@ruanwq", hash, "admin", 1000]
+        ["ADMIN", hash, "admin", 1000]
       );
-      console.log("✅ Admin '@ruanwq' criado com sucesso!");
-    } else {
-      console.log("ℹ️  Admin '@ruanwq' já existe no banco.");
+      console.log("✅ Admin 'ADMIN' criado com sucesso!");
     }
+
+    // Remover admin antigo se existir
+    await connection.execute(
+      "DELETE FROM local_users WHERE username = ?",
+      ["@ruanwq"]
+    );
+    console.log("🧹 Admin antigo '@ruanwq' removido.");
 
     await connection.end();
   } catch (error) {

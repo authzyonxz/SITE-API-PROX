@@ -18,15 +18,15 @@ async function cleanupRuan() {
       port: url.port || 3306,
     });
 
-    const [result] = await connection.execute(
-      "DELETE FROM local_users WHERE username = ?",
-      ["Ruan"]
-    );
+    // Remover 'Ruan'
+    const [res1] = await connection.execute("DELETE FROM local_users WHERE username = ?", ["Ruan"]);
+    // Remover '@ruanwq'
+    const [res2] = await connection.execute("DELETE FROM local_users WHERE username = ?", ["@ruanwq"]);
 
-    if (result.affectedRows > 0) {
-      console.log("✅ Usuário 'Ruan' removido com sucesso do banco de dados!");
+    if (res1.affectedRows > 0 || res2.affectedRows > 0) {
+      console.log("✅ Usuários antigos removidos com sucesso!");
     } else {
-      console.log("ℹ️ Usuário 'Ruan' não encontrado ou já removido.");
+      console.log("ℹ️ Nenhum usuário antigo encontrado.");
     }
 
     await connection.end();

@@ -76,13 +76,13 @@ DATABASE_URL="postgresql://..." pnpm drizzle-kit migrate
 ## 🔐 Credenciais Padrão
 
 Após deploy, acesse com:
-- **Usuário**: `@ruanwq`
-- **Senha**: `@ruanwq`
+- **Usuário**: `ADMIN`
+- **Senha**: `ADMIN123`
 
 ## 📝 Notas
 
 - O banco de dados será criado automaticamente na primeira execução
-- O admin padrão (@ruanwq/@ruanwq) é criado via seed automático
+- O admin padrão (ADMIN/ADMIN123) é criado via seed automático
 - Railway fornece 5GB de armazenamento gratuito para PostgreSQL
 - Certifique-se de que `JWT_SECRET` é uma string forte e única
 
