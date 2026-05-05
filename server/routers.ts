@@ -240,12 +240,16 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
         }
 
+        // Melhor detecção de HTTPS para compatibilidade com Android/Chrome
         const isSecure = ctx.req.protocol === "https" ||
-          (ctx.req.headers["x-forwarded-proto"] as string) === "https";
+          (ctx.req.headers["x-forwarded-proto"] as string) === "https" ||
+          ctx.req.secure;
 
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
           httpOnly: true,
           secure: isSecure,
+          // Android Chrome exige SameSite: "none" para cookies cross-site em HTTPS
+          // Se não for HTTPS, usamos "lax" que é o padrão moderno
           sameSite: isSecure ? "none" : "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000,
           path: "/",
