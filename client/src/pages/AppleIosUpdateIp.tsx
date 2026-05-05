@@ -3,7 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, MessageCircle, Menu, X, Shield, Info, Search, Download } from "lucide-react";
 
-export default function SpartanUpdateIp() {
+export default function AppleIosUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
@@ -47,6 +47,23 @@ export default function SpartanUpdateIp() {
     }
   };
 
+  const proxyInfos = [
+    {
+      title: "🎯 PROXY HS PESCOÇO",
+      items: [
+        { label: "Servidor", value: "144.172.100.226" },
+        { label: "Porta", value: "1110" }
+      ]
+    },
+    {
+      title: "🔥 PROXY HS PESCOÇO + ANTENA",
+      items: [
+        { label: "Servidor", value: "144.172.100.226" },
+        { label: "Porta", value: "1119" }
+      ]
+    }
+  ];
+
   return (
     <div
       className="min-h-screen text-foreground font-sans selection:bg-red-600/40"
@@ -82,7 +99,7 @@ export default function SpartanUpdateIp() {
                 className="text-xl font-black tracking-tighter font-orbitron"
                 style={{ color: "#ff0000", textShadow: "0 0 10px rgba(255,0,0,0.5)" }}
               >
-                SPARTAN PROXY
+                APPLE IOS PROXY
               </span>
             </div>
 
@@ -344,6 +361,32 @@ export default function SpartanUpdateIp() {
                 </div>
               </div>
             )}
+
+            {/* Proxy Info Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {proxyInfos.map((proxy, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-xl p-5 border space-y-4 transition-all hover:scale-[1.02]"
+                  style={{
+                    background: "rgba(255,0,0,0.02)",
+                    borderColor: "rgba(255,0,0,0.2)",
+                  }}
+                >
+                  <h3 className="font-black font-orbitron text-xs tracking-widest" style={{ color: "#ff0000" }}>
+                    {proxy.title}
+                  </h3>
+                  <div className="space-y-2">
+                    {proxy.items.map((item, i) => (
+                      <div key={i} className="flex items-center justify-between p-2 rounded bg-black/40 border border-white/5">
+                        <span className="text-[10px] font-bold uppercase opacity-50">{item.label}</span>
+                        <span className="text-xs font-mono font-bold text-white/90">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </section>
           </div>
 
           {/* Right Column: Info & Help */}
@@ -373,7 +416,7 @@ export default function SpartanUpdateIp() {
                   <div>
                     <p className="font-bold text-sm mb-1">Baixe o Certificado</p>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      Clique no botão de download no topo da página para baixar o certificado necessário para o SPARTAN PROXY.
+                      Clique no botão de download no topo da página para baixar o certificado necessário para o APPLE IOS PROXY.
                     </p>
                   </div>
                 </div>
@@ -462,7 +505,7 @@ export default function SpartanUpdateIp() {
           <div className="flex items-center justify-center gap-2 mb-4">
             <Shield className="w-4 h-4" style={{ color: "rgba(255,0,0,0.5)" }} />
             <span className="text-xs font-bold tracking-[0.3em] uppercase font-orbitron" style={{ color: "rgba(255,0,0,0.5)" }}>
-              SPARTAN PROXY SYSTEM
+              APPLE IOS PROXY SYSTEM
             </span>
           </div>
           <p className="text-[10px] text-muted-foreground tracking-widest uppercase font-mono">
