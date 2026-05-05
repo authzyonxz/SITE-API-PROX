@@ -20,6 +20,7 @@ import Blacklist from "./pages/Blacklist";
 import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
+import SpartanUpdateIp from "@/pages/SpartanUpdateIp";
 import ProxyIosUpdateIp from "@/pages/ProxyIosUpdateIp";
 import AllHackUpdateIp from "@/pages/AllHackUpdateIp";
 import FreeFireUpdateIp from "@/pages/FreeFireUpdateIp";
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/update-ip" component={PublicUpdateIp} />
       <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
       <Route path="/granjeiro-update-ip" component={GranjeiroUpdateIp} />
+      <Route path="/spartan-update-ip" component={SpartanUpdateIp} />
       <Route path="/proxy-ios-update-ip" component={ProxyIosUpdateIp} />
       <Route path="/all-hack-update-ip" component={AllHackUpdateIp} />
       <Route path="/free-fire-update-ip" component={FreeFireUpdateIp} />

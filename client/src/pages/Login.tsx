@@ -153,6 +153,23 @@ export default function Login() {
           </form>
         </div>
 
+        <div className="mt-8 grid grid-cols-2 gap-3">
+          <a href="/spartan-update-ip" className="col-span-2 py-3 rounded border text-center font-bold tracking-widest uppercase transition-all text-xs"
+            style={{ background: "rgba(255,0,0,0.1)", borderColor: "rgba(255,0,0,0.3)", color: "#ff3333", fontFamily: "'Orbitron', sans-serif" }}
+            onMouseEnter={(e) => { (e.target as HTMLElement).style.background = "rgba(255,0,0,0.2)"; (e.target as HTMLElement).style.boxShadow = "0 0 15px rgba(255,0,0,0.3)"; }}
+            onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "rgba(255,0,0,0.1)"; (e.target as HTMLElement).style.boxShadow = "none"; }}>
+            SPARTAN PROXY
+          </a>
+          <a href="/granjeiro-update-ip" className="py-2 rounded border text-center font-bold tracking-widest uppercase transition-all text-[10px]"
+            style={{ background: "rgba(255,0,0,0.05)", borderColor: "rgba(255,0,0,0.2)", color: "rgba(255,51,51,0.7)", fontFamily: "'Orbitron', sans-serif" }}>
+            Granjeiro
+          </a>
+          <a href="/natsu-update-ip" className="py-2 rounded border text-center font-bold tracking-widest uppercase transition-all text-[10px]"
+            style={{ background: "rgba(255,0,0,0.05)", borderColor: "rgba(255,0,0,0.2)", color: "rgba(255,51,51,0.7)", fontFamily: "'Orbitron', sans-serif" }}>
+            Natsu
+          </a>
+        </div>
+
         <p className="text-center text-xs mt-6 tracking-widest" style={{ color: "rgba(0,212,255,0.3)", fontFamily: "'Share Tech Mono', monospace" }}>
           AUTH PROXY v1.0 // SISTEMA SEGURO
         </p>
