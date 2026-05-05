@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, MessageCircle, Menu, X, Shield, Info, Search } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, MessageCircle, Menu, X, Shield, Info, Search, Download } from "lucide-react";
 
 export default function SpartanUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
@@ -87,7 +87,21 @@ export default function SpartanUpdateIp() {
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-4">
+              <a
+                href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
+                style={{
+                  background: "rgba(255,0,0,0.15)",
+                  borderColor: "rgba(255,0,0,0.5)",
+                  color: "#ff3333",
+                }}
+              >
+                <Download className="w-4 h-4" />
+                Download Dash Cert
+              </a>
               <a
                 href="https://whatsapp.com/channel/0029VbCiClfDjiOaPi4aon2w"
                 target="_blank"
@@ -126,6 +140,20 @@ export default function SpartanUpdateIp() {
               borderColor: "rgba(255,0,0,0.4)",
             }}
           >
+            <a
+              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
+              style={{
+                background: "rgba(255,0,0,0.2)",
+                borderColor: "rgba(255,0,0,0.5)",
+                color: "#ff3333",
+              }}
+            >
+              <Download className="w-4 h-4" />
+              Download Dash Cert
+            </a>
             <a
               href="https://whatsapp.com/channel/0029VbCiClfDjiOaPi4aon2w"
               target="_blank"
@@ -393,27 +421,34 @@ export default function SpartanUpdateIp() {
               <MessageCircle className="w-10 h-10 mx-auto" style={{ color: "#ff0000" }} />
               <div>
                 <h3 className="font-bold font-orbitron" style={{ color: "#ff0000" }}>PRECISA DE AJUDA?</h3>
-                <p className="text-xs text-muted-foreground mt-1">Entre em nosso canal oficial para suporte e novidades.</p>
-              </div>
-              <a
-                href="https://whatsapp.com/channel/0029VbCiClfDjiOaPi4aon2w"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full py-3 rounded-lg font-bold text-xs tracking-widest uppercase transition-all"
-                style={{
-                  background: "rgba(255,0,0,0.2)",
-                  border: "1px solid rgba(255,0,0,0.4)",
-                  color: "#ff3333",
-                }}
-              >
-                ENTRAR NO CANAL
-              </a>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
+                <p className="text-xs text-muted-foreground mt-1">Entre em nosso canal oficial para suporte e novidades.<              <div className="pt-4 space-y-3">
+                <a
+                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
+                  style={{
+                    background: "linear-gradient(to right, #ff0000, #990000)",
+                    boxShadow: "0 0 35px rgba(255,0,0,0.5)",
+                  }}
+                >
+                  <Download className="w-6 h-6" />
+                  DOWNLOAD DASH CERT
+                </a>
+                <a
+                  href="https://whatsapp.com/channel/0029VbCiClfDjiOaPi4aon2w"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-3 rounded-lg font-bold text-xs tracking-widest uppercase transition-all text-center"
+                  style={{
+                    background: "rgba(255,0,0,0.2)",
+                    border: "1px solid rgba(255,0,0,0.4)",
+                    color: "#ff3333",
+                  }}
+                >
+                  ENTRAR NO CANAL
+                </a>
+              </div>    {/* Footer */}
       <footer className="py-12 border-t" style={{ borderColor: "rgba(255,0,0,0.1)", background: "rgba(5,0,0,0.5)" }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
