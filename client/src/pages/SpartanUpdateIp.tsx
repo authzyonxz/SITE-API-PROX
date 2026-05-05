@@ -421,7 +421,9 @@ export default function SpartanUpdateIp() {
               <MessageCircle className="w-10 h-10 mx-auto" style={{ color: "#ff0000" }} />
               <div>
                 <h3 className="font-bold font-orbitron" style={{ color: "#ff0000" }}>PRECISA DE AJUDA?</h3>
-                <p className="text-xs text-muted-foreground mt-1">Entre em nosso canal oficial para suporte e novidades.<              <div className="pt-4 space-y-3">
+                <p className="text-xs text-muted-foreground mt-1">Entre em nosso canal oficial para suporte e novidades.</p>
+              </div>
+              <div className="pt-4 space-y-3">
                 <a
                   href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
                   target="_blank"
@@ -448,7 +450,13 @@ export default function SpartanUpdateIp() {
                 >
                   ENTRAR NO CANAL
                 </a>
-              </div>    {/* Footer */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
       <footer className="py-12 border-t" style={{ borderColor: "rgba(255,0,0,0.1)", background: "rgba(5,0,0,0.5)" }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
