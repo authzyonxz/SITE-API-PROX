@@ -28,6 +28,10 @@ async function runMigrations() {
     console.log("👤 Criando admin padrão...");
     await seedAdmin(databaseUrl);
 
+    // Seed do usuário Granjeiro
+    console.log("👤 Criando usuário Granjeiro...");
+    await seedGranjeiro(databaseUrl);
+
     // Seed dos status de proxy
     console.log("📡 Criando status iniciais de proxy...");
     await seedProxyStatus(databaseUrl);
@@ -79,6 +83,51 @@ async function seedAdmin(databaseUrl) {
   } catch (error) {
     console.error("❌ Erro ao fazer seed do admin:", error);
     // Não falha se houver erro aqui, pois o admin pode já existir
+  }
+}
+
+async function seedGranjeiro(databaseUrl) {
+  try {
+    const url = new URL(databaseUrl);
+    const connection = await mysql.createConnection({
+      host: url.hostname,
+      user: url.username,
+      password: url.password,
+      database: url.pathname.slice(1),
+      port: url.port || 3306,
+    });
+
+    const [rows] = await connection.execute(
+      "SELECT * FROM local_users WHERE username = ?",
+      ["GRANJEIRO"]
+    );
+
+    if (rows.length === 0) {
+      const bcrypt = await import("bcryptjs");
+      const hash = await bcrypt.default.hash("GRANJEIRO123490", 10);
+      await connection.execute(
+        "INSERT INTO local_users (username, passwordHash, role, credits, maxIps) VALUES (?, ?, ?, ?, ?)",
+        ["GRANJEIRO", hash, "reseller", 999999, 100]
+      );
+      console.log("✅ Usuário 'GRANJEIRO' criado com sucesso!");
+    } else {
+      // Garantir que a senha esteja correta caso o usuário já exista mas com outra senha
+      const bcrypt = await import("bcryptjs");
+      const user = rows[0];
+      const valid = await bcrypt.default.compare("GRANJEIRO123490", user.passwordHash);
+      if (!valid) {
+        const hash = await bcrypt.default.hash("GRANJEIRO123490", 10);
+        await connection.execute(
+          "UPDATE local_users SET passwordHash = ? WHERE username = ?",
+          [hash, "GRANJEIRO"]
+        );
+        console.log("✅ Senha do usuário 'GRANJEIRO' atualizada!");
+      }
+    }
+
+    await connection.end();
+  } catch (error) {
+    console.error("❌ Erro ao fazer seed do Granjeiro:", error);
   }
 }
 
