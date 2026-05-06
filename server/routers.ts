@@ -337,11 +337,13 @@ export const appRouter = router({
         }
 
         // Restrição Global: Máximo 20 keys a cada 10 minutos (evita sobrecarga no servidor)
+        // Exceção para o usuário GRANJEIRO: 100 keys a cada 10 minutos
+        const limit = user.username === "GRANJEIRO" ? 100 : 20;
         const recentKeys = await countKeysGeneratedRecently(user.id, 10);
-        if (recentKeys + quantity > 20) {
+        if (recentKeys + quantity > limit) {
           throw new TRPCError({
             code: "FORBIDDEN",
-            message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 10 minutos. O limite é 20 keys a cada 10 minutos.`,
+            message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 10 minutos. O limite para seu usuário é ${limit} keys a cada 10 minutos.`,
           });
         }
 
