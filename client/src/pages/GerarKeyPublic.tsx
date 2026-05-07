@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Shield, Lock, User } from "lucide-react";
 
 const DURATION_OPTIONS = [
@@ -11,7 +12,7 @@ const DURATION_OPTIONS = [
 ];
 
 export default function GerarKeyPublic() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, isAuthenticated, refetch } = useLocalAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
@@ -19,6 +20,23 @@ export default function GerarKeyPublic() {
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+
+  const loginMutation = trpc.localAuth.login.useMutation({
+    onSuccess: () => {
+      toast.success("Acesso liberado!");
+      refetch();
+    },
+    onError: (err) => {
+      toast.error(err.message || "Usuário ou senha incorretos");
+    },
+  });
+
+  const logoutMutation = trpc.localAuth.logout.useMutation({
+    onSuccess: () => {
+      refetch();
+      toast.info("Sessão encerrada");
+    }
+  });
 
   const generateMutation = trpc.keys.generate.useMutation({
     onSuccess: (data) => {
@@ -29,19 +47,19 @@ export default function GerarKeyPublic() {
       if (data.errors.length > 0) {
         toast.error(`${data.errors.length} erro(s) ao gerar keys`);
       }
+      refetch();
     },
     onError: (err) => {
-      toast.error(err.message || "Erro ao gerar keys. Verifique se você tem permissão.");
+      toast.error(err.message || "Erro ao gerar keys. Verifique seus créditos.");
     },
   });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === "79998630914" && password === "79998630914") {
-      setIsLoggedIn(true);
-      toast.success("Acesso liberado!");
+      loginMutation.mutate({ username, password });
     } else {
-      toast.error("Usuário ou senha incorretos");
+      toast.error("Este acesso é restrito apenas para o usuário autorizado.");
     }
   };
 
@@ -59,7 +77,14 @@ export default function GerarKeyPublic() {
 
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
-  if (!isLoggedIn) {
+  // Se estiver logado mas não for o usuário correto, desloga
+  useEffect(() => {
+    if (isAuthenticated && user && user.username !== "79998630914") {
+      logoutMutation.mutate();
+    }
+  }, [isAuthenticated, user]);
+
+  if (!isAuthenticated || (user && user.username !== "79998630914")) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" 
         style={{ background: "#0a0000", backgroundImage: "radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, transparent 70%)" }}>
@@ -85,6 +110,7 @@ export default function GerarKeyPublic() {
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-red-900/30 text-white outline-none focus:border-red-600 transition-all"
                   placeholder="Digite seu usuário"
+                  disabled={loginMutation.isPending}
                 />
               </div>
             </div>
@@ -98,14 +124,20 @@ export default function GerarKeyPublic() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-red-900/30 text-white outline-none focus:border-red-600 transition-all"
                   placeholder="Digite sua senha"
+                  disabled={loginMutation.isPending}
                 />
               </div>
             </div>
             <button 
               type="submit"
-              className="w-full py-4 rounded-lg bg-red-600/20 border border-red-600 text-red-500 font-black tracking-widest uppercase hover:bg-red-600 hover:text-white transition-all font-orbitron mt-4"
+              disabled={loginMutation.isPending}
+              className="w-full py-4 rounded-lg bg-red-600/20 border border-red-600 text-red-500 font-black tracking-widest uppercase hover:bg-red-600 hover:text-white transition-all font-orbitron mt-4 flex items-center justify-center gap-2"
             >
-              ENTRAR
+              {loginMutation.isPending ? (
+                <><Loader2 className="w-5 h-5 animate-spin" /> ENTRANDO...</>
+              ) : (
+                "ENTRAR"
+              )}
             </button>
           </form>
         </div>
@@ -125,12 +157,18 @@ export default function GerarKeyPublic() {
               Painel de geração rápida de keys de acesso
             </p>
           </div>
-          <button 
-            onClick={() => setIsLoggedIn(false)}
-            className="px-4 py-2 rounded border border-red-900/30 text-red-900 text-xs font-bold uppercase hover:bg-red-900/10 transition-all"
-          >
-            Sair
-          </button>
+          <div className="flex items-center gap-4">
+            <div className="text-right hidden sm:block">
+              <p className="text-[10px] uppercase tracking-widest text-red-500/40 font-mono">Créditos</p>
+              <p className="text-lg font-bold text-red-500 font-orbitron">{user?.credits ?? 0}</p>
+            </div>
+            <button 
+              onClick={() => logoutMutation.mutate()}
+              className="px-4 py-2 rounded border border-red-900/30 text-red-900 text-xs font-bold uppercase hover:bg-red-900/10 transition-all"
+            >
+              Sair
+            </button>
+          </div>
         </div>
 
         {/* Duration selector */}
