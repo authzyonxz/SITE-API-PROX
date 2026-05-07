@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, Search } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Menu, X, Shield, Search } from "lucide-react";
 
 export default function GranjeiroUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
@@ -103,32 +103,6 @@ export default function GranjeiroUpdateIp() {
               </span>
             </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <a
-                href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
-                style={{
-                  background: "rgba(255,0,0,0.15)",
-                  borderColor: "rgba(255,0,0,0.5)",
-                  color: "#ff3333",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,0,0,0.3)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 15px rgba(255,0,0,0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,0,0,0.15)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-                }}
-              >
-                <Download className="w-4 h-4" />
-                Download Granjeiro Cert
-              </a>
-            </div>
-
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
@@ -141,32 +115,6 @@ export default function GranjeiroUpdateIp() {
             </div>
           </div>
         </div>
-
-        {/* Mobile Sidebar Overlay */}
-        {isMenuOpen && (
-          <div
-            className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
-            style={{
-              background: "rgba(10,0,0,0.98)",
-              borderColor: "rgba(255,0,0,0.4)",
-            }}
-          >
-            <a
-              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
-              style={{
-                background: "rgba(255,0,0,0.2)",
-                borderColor: "rgba(255,0,0,0.5)",
-                color: "#ff3333",
-              }}
-            >
-              <Download className="w-4 h-4" />
-              Download Granjeiro Cert
-            </a>
-          </div>
-        )}
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -182,9 +130,6 @@ export default function GranjeiroUpdateIp() {
                 >
                   ATUALIZAR IP
                 </h1>
-                <p className="text-muted-foreground font-rajdhani text-lg">
-                  Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.
-                </p>
               </div>
 
               <div
@@ -257,7 +202,6 @@ export default function GranjeiroUpdateIp() {
                       >
                         Novo Endereço de IP
                       </label>
-                      {/* Buscar IP Button */}
                       <button
                         onClick={handleFetchIp}
                         disabled={isFetchingIp}
@@ -401,15 +345,6 @@ export default function GranjeiroUpdateIp() {
           {/* Right Column: Proxy Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6" style={{ color: "#ff3333" }} />
-                <h2
-                  className="text-xl font-bold tracking-widest uppercase font-orbitron"
-                  style={{ color: "#ff3333" }}
-                >
-                  DADOS DO PROXY
-                </h2>
-              </div>
 
               {proxyInfos.map((proxy, idx) => (
                 <div
@@ -457,52 +392,6 @@ export default function GranjeiroUpdateIp() {
                 </div>
               ))}
 
-              <div
-                className="p-6 rounded-xl border space-y-3"
-                style={{
-                  borderColor: "rgba(251,191,36,0.3)",
-                  background: "rgba(251,191,36,0.08)",
-                }}
-              >
-                <div className="flex items-center gap-2" style={{ color: "#fbbf24" }}>
-                  <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
-                    Aviso Importante
-                  </span>
-                </div>
-                <p
-                  className="text-xs font-rajdhani leading-relaxed"
-                  style={{ color: "rgba(253,230,138,0.8)" }}
-                >
-                  Sempre que seu IP de internet mudar (ao reiniciar o modem ou trocar de rede),
-                  você precisará voltar nesta página e atualizar o IP da sua key para continuar
-                  usando o serviço.
-                </p>
-              </div>
-
-              <div className="pt-4 space-y-3">
-                <a
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "linear-gradient(to right, #ff0000, #990000)",
-                    boxShadow: "0 0 35px rgba(255,0,0,0.5)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 45px rgba(255,0,0,0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(255,0,0,0.5)";
-                  }}
-                >
-                  <Download className="w-6 h-6" />
-                  DOWNLOAD GRANJEIRO CERT
-                </a>
-              </div>
             </div>
           </div>
         </div>
