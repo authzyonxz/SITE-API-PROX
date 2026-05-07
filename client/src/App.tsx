@@ -26,6 +26,7 @@ import AllHackUpdateIp from "@/pages/AllHackUpdateIp";
 import FreeFireUpdateIp from "@/pages/FreeFireUpdateIp";
 import ChukyXiterUpdateIp from "@/pages/ChukyXiterUpdateIp";
 import ProxyGranjeiro from "@/pages/ProxyGranjeiro";
+import GerarKeyPublic from "@/pages/GerarKeyPublic";
 
 function Router() {
   return (
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/free-fire-update-ip" component={FreeFireUpdateIp} />
       <Route path="/chuky-xiter-update-ip" component={ChukyXiterUpdateIp} />
       <Route path="/proxy-granjeiro" component={ProxyGranjeiro} />
+      <Route path="/gerar-key-public" component={GerarKeyPublic} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
