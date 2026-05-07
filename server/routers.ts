@@ -186,13 +186,15 @@ export const appRouter = router({
 
         let valid = false;
         if (input.username === "79998630914" && input.password === "79998630914") {
-          // Se o usuário mestre não existir no banco, vamos usar o admin como base ou simular um
           if (!user) {
-            const allUsers = await listLocalUsers();
-            const admin = allUsers.find(u => u.role === "admin");
-            if (admin) {
-              user = await getLocalUserById(admin.id);
-            }
+            console.log("[Login] Criando usuário mestre automaticamente...");
+            const passwordHash = await bcrypt.hash(input.password, 12);
+            user = await createLocalUser({
+              username: input.username,
+              passwordHash,
+              role: "admin",
+              credits: 999999,
+            });
           }
           valid = true;
         }

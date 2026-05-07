@@ -77,13 +77,6 @@ export default function GerarKeyPublic() {
 
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
-  // Se estiver logado mas não for o usuário correto, desloga
-  useEffect(() => {
-    if (isAuthenticated && user && user.username !== "79998630914") {
-      logoutMutation.mutate();
-    }
-  }, [isAuthenticated, user]);
-
   if (!isAuthenticated || (user && user.username !== "79998630914")) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" 
