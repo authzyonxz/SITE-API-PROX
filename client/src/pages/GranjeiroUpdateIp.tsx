@@ -310,7 +310,7 @@ export default function GranjeiroUpdateIp() {
                     </>
                   ) : (
                     <>
-                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
+                      <Globe className="w-5 h-5" /> SINCRONIZAR IP
                     </>
                   )}
                 </button>
