@@ -64,13 +64,13 @@ Após o primeiro deploy, você precisa rodar as migrations:
 ```bash
 # No painel do Railway, abra o Shell do serviço
 cd /app
-pnpm drizzle-kit migrate
+npx drizzle-kit migrate
 ```
 
 ### Opção 2: Via Script Local
 ```bash
 # Localmente, com DATABASE_URL do Railway
-DATABASE_URL="postgresql://..." pnpm drizzle-kit migrate
+DATABASE_URL="postgresql://..." npx drizzle-kit migrate
 ```
 
 ## 🔐 Credenciais Padrão

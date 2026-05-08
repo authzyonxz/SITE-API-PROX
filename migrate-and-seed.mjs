@@ -18,7 +18,7 @@ async function runMigrations() {
 
     // Executar drizzle migrations
     console.log("📝 Executando drizzle-kit migrate...");
-    execSync("pnpm drizzle-kit migrate", { stdio: "inherit" });
+    execSync("npx drizzle-kit migrate", { stdio: "inherit" });
 
     // Criar tabela de logs se não existir (garantia extra)
     console.log("📝 Verificando tabela de logs...");
