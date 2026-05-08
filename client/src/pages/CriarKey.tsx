@@ -2,7 +2,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { toast } from "sonner";
-import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus } from "lucide-react";
+import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download } from "lucide-react";
 
 const DURATION_OPTIONS = [
   { days: 1, label: "1 Dia", credits: 1, color: "#00d4ff" },
@@ -18,6 +18,7 @@ export default function CriarKey() {
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const generateMutation = trpc.keys.generate.useMutation({
     onSuccess: (data) => {
@@ -51,10 +52,17 @@ export default function CriarKey() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleCopySingle = async (key: string, index: number) => {
+    await navigator.clipboard.writeText(key);
+    setCopiedIndex(index);
+    toast.success("Key copiada!");
+    setTimeout(() => setCopiedIndex(null), 1500);
+  };
+
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
   return (
-    <div className="space-y-8 max-w-3xl">
+    <div className="space-y-8 max-w-4xl">
       {/* Header */}
       <div>
         <h2 className="text-3xl font-black tracking-wider text-white"
@@ -183,49 +191,80 @@ export default function CriarKey() {
 
       {/* Generated keys result */}
       {generatedKeys.length > 0 && (
-        <div className="backdrop-blur-xl bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/30 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-green-500/20 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <KeyRound className="w-5 h-5 text-green-400" />
-              <span className="text-sm font-semibold tracking-widest uppercase text-green-400"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                {generatedKeys.length} Key{generatedKeys.length > 1 ? "s" : ""} Gerada{generatedKeys.length > 1 ? "s" : ""}
-              </span>
-              <span className="text-xs px-3 py-1 rounded-lg tracking-wider text-green-400 bg-green-500/20 border border-green-500/30"
-                style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                {selectedOption.label}
-              </span>
-            </div>
-            <button
-              onClick={handleCopyAll}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium tracking-wider transition-all bg-green-500/20 border border-green-500/30 text-green-400 hover:bg-green-500/30"
-              style={{ fontFamily: "'Rajdhani', sans-serif" }}
-            >
-              {copied ? <CheckCheck className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              {copied ? "Copiado!" : "Copiar Todas"}
-            </button>
-          </div>
-          <div className="p-4 space-y-2 max-h-80 overflow-y-auto">
-            {generatedKeys.map((key, i) => (
-              <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-lg group bg-white/5 border border-white/10 hover:border-green-500/30 transition-all"
-              >
-                <span className="text-xs w-6 text-right flex-shrink-0 text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                  {i + 1}
-                </span>
-                <span className="flex-1 text-sm font-mono break-all text-slate-300" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                  {key}
-                </span>
-                <button
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(key);
-                    toast.success("Key copiada!");
-                  }}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 text-green-400 hover:text-green-300"
-                >
-                  <Copy className="w-4 h-4" />
-                </button>
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          {/* Header com info das keys */}
+          <div className="backdrop-blur-xl bg-gradient-to-r from-green-500/20 to-emerald-500/10 border border-green-500/40 rounded-xl p-6 shadow-lg shadow-green-500/10">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/50">
+                  <KeyRound className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold tracking-widest uppercase text-green-400"
+                    style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                    {generatedKeys.length} Key{generatedKeys.length > 1 ? "s" : ""} Gerada{generatedKeys.length > 1 ? "s" : ""}
+                  </p>
+                  <p className="text-xs text-green-300/70 mt-1" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+                    Duração: {selectedOption.label}
+                  </p>
+                </div>
               </div>
-            ))}
+              <button
+                onClick={handleCopyAll}
+                className="flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-bold tracking-widest uppercase transition-all bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white shadow-lg shadow-green-500/30 hover:shadow-green-500/50"
+                style={{ fontFamily: "'Orbitron', sans-serif" }}
+              >
+                {copied ? (
+                  <><CheckCheck className="w-5 h-5" /> Copiado!</>
+                ) : (
+                  <><Download className="w-5 h-5" /> Copiar Todas</>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Keys list */}
+          <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl overflow-hidden">
+            <div className="max-h-96 overflow-y-auto">
+              <div className="p-4 space-y-3">
+                {generatedKeys.map((key, i) => (
+                  <div 
+                    key={i} 
+                    className="flex items-center gap-3 px-5 py-4 rounded-lg group bg-gradient-to-r from-white/8 to-white/3 border border-white/15 hover:border-green-500/50 hover:from-green-500/10 hover:to-green-500/5 transition-all duration-300 animate-in fade-in slide-in-from-left-2"
+                    style={{ animationDelay: `${i * 50}ms` }}
+                  >
+                    <span className="text-xs w-8 text-right flex-shrink-0 text-slate-500 font-bold" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+                      #{i + 1}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-mono break-all text-slate-200 group-hover:text-slate-100 transition-colors" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+                        {key}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => handleCopySingle(key, i)}
+                      className="opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 p-2 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 hover:text-green-300 hover:bg-green-500/30"
+                    >
+                      {copiedIndex === i ? (
+                        <CheckCheck className="w-5 h-5" />
+                      ) : (
+                        <Copy className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer info */}
+          <div className="flex items-center justify-between px-6 py-4 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10">
+            <p className="text-xs text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+              Clique em uma key para copiar individualmente ou use o botão acima para copiar todas
+            </p>
+            <span className="text-xs px-3 py-1 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 font-semibold" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+              {generatedKeys.length} total
+            </span>
           </div>
         </div>
       )}
