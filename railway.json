@@ -1,4 +1,7 @@
 {
+  "build": {
+    "buildCommand": "npm install --legacy-peer-deps && npm run build"
+  },
   "deploy": {
     "startCommand": "npm start",
     "restartPolicyType": "on_failure",
