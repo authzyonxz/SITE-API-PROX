@@ -2,7 +2,8 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { toast } from "sonner";
-import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download } from "lucide-react";
+import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download, QrCode } from "lucide-react";
+import QRCode from "qrcode.react";
 
 const DURATION_OPTIONS = [
   { days: 1, label: "1 Dia", credits: 1, color: "#00d4ff" },
@@ -19,6 +20,7 @@ export default function CriarKey() {
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [selectedKeyForQR, setSelectedKeyForQR] = useState<number | null>(null);
 
   const generateMutation = trpc.keys.generate.useMutation({
     onSuccess: (data) => {
@@ -59,10 +61,24 @@ export default function CriarKey() {
     setTimeout(() => setCopiedIndex(null), 1500);
   };
 
+  const downloadQRCode = (index: number) => {
+    const qrElement = document.getElementById(`qr-code-${index}`);
+    if (qrElement) {
+      const canvas = qrElement.querySelector("canvas");
+      if (canvas) {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = `key-${index + 1}-qrcode.png`;
+        link.click();
+        toast.success("QR Code baixado!");
+      }
+    }
+  };
+
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
   return (
-    <div className="space-y-8 max-w-4xl">
+    <div className="space-y-8 max-w-5xl">
       {/* Header */}
       <div>
         <h2 className="text-3xl font-black tracking-wider text-white"
@@ -223,44 +239,70 @@ export default function CriarKey() {
             </div>
           </div>
 
-          {/* Keys list */}
-          <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl overflow-hidden">
-            <div className="max-h-96 overflow-y-auto">
-              <div className="p-4 space-y-3">
-                {generatedKeys.map((key, i) => (
-                  <div 
-                    key={i} 
-                    className="flex items-center gap-3 px-5 py-4 rounded-lg group bg-gradient-to-r from-white/8 to-white/3 border border-white/15 hover:border-green-500/50 hover:from-green-500/10 hover:to-green-500/5 transition-all duration-300 animate-in fade-in slide-in-from-left-2"
-                    style={{ animationDelay: `${i * 50}ms` }}
+          {/* Keys grid with QR codes */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {generatedKeys.map((key, i) => (
+              <div 
+                key={i}
+                className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-5 space-y-4 animate-in fade-in slide-in-from-left-2 hover:border-green-500/50 transition-all"
+                style={{ animationDelay: `${i * 50}ms` }}
+              >
+                {/* Key number and copy button */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+                    #{i + 1}
+                  </span>
+                  <button
+                    onClick={() => handleCopySingle(key, i)}
+                    className="p-2 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 hover:text-green-300 hover:bg-green-500/30 transition-all"
                   >
-                    <span className="text-xs w-8 text-right flex-shrink-0 text-slate-500 font-bold" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                      #{i + 1}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <span className="text-sm font-mono break-all text-slate-200 group-hover:text-slate-100 transition-colors" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                        {key}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => handleCopySingle(key, i)}
-                      className="opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 p-2 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 hover:text-green-300 hover:bg-green-500/30"
-                    >
-                      {copiedIndex === i ? (
-                        <CheckCheck className="w-5 h-5" />
-                      ) : (
-                        <Copy className="w-5 h-5" />
-                      )}
-                    </button>
+                    {copiedIndex === i ? (
+                      <CheckCheck className="w-4 h-4" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+
+                {/* QR Code */}
+                <div className="flex justify-center p-4 bg-white rounded-lg">
+                  <div id={`qr-code-${i}`}>
+                    <QRCode 
+                      value={key} 
+                      size={180}
+                      level="H"
+                      includeMargin={true}
+                    />
                   </div>
-                ))}
+                </div>
+
+                {/* Key text */}
+                <div className="space-y-2">
+                  <p className="text-xs text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+                    Chave:
+                  </p>
+                  <span className="text-xs font-mono break-all text-slate-200 bg-white/5 p-3 rounded-lg block border border-white/10" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+                    {key}
+                  </span>
+                </div>
+
+                {/* Download QR button */}
+                <button
+                  onClick={() => downloadQRCode(i)}
+                  className="w-full py-2 rounded-lg text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/30"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  <QrCode className="w-4 h-4" />
+                  Baixar QR Code
+                </button>
               </div>
-            </div>
+            ))}
           </div>
 
           {/* Footer info */}
           <div className="flex items-center justify-between px-6 py-4 rounded-xl backdrop-blur-xl bg-white/5 border border-white/10">
             <p className="text-xs text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-              Clique em uma key para copiar individualmente ou use o botão acima para copiar todas
+              Escaneie o QR Code com seu celular ou clique para copiar a chave
             </p>
             <span className="text-xs px-3 py-1 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 font-semibold" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
               {generatedKeys.length} total
