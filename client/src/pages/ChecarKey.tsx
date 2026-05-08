@@ -42,35 +42,35 @@ export default function ChecarKey() {
     const raw = result.raw;
 
     return (
-      <div className="cyber-card overflow-hidden mt-4"
-        style={{ border: `1px solid ${result.ok ? "rgba(0,255,136,0.2)" : "rgba(255,0,110,0.2)"}`, boxShadow: `0 0 20px ${result.ok ? "rgba(0,255,136,0.05)" : "rgba(255,0,110,0.05)"}` }}>
-        <div className="px-5 py-4 border-b flex items-center gap-2"
-          style={{ borderColor: result.ok ? "rgba(0,255,136,0.1)" : "rgba(255,0,110,0.1)" }}>
+      <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border rounded-xl overflow-hidden mt-6"
+        style={{ borderColor: result.ok ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)" }}>
+        <div className="px-6 py-4 border-b flex items-center gap-3"
+          style={{ borderColor: result.ok ? "rgba(16, 185, 129, 0.2)" : "rgba(239, 68, 68, 0.2)" }}>
           {result.ok
-            ? <CheckCircle className="w-4 h-4" style={{ color: "var(--neon-green)" }} />
-            : <XCircle className="w-4 h-4" style={{ color: "#ff006e" }} />}
-          <span className="text-xs font-semibold tracking-widest uppercase"
-            style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "var(--neon-green)" : "#ff006e", fontSize: "0.7rem" }}>
+            ? <CheckCircle className="w-5 h-5 text-green-400" />
+            : <XCircle className="w-5 h-5 text-red-400" />}
+          <span className="text-sm font-semibold tracking-widest uppercase"
+            style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "#10b981" : "#ef4444" }}>
             {result.ok ? "Key Válida" : "Key Inválida"}
           </span>
         </div>
-        <div className="p-5 space-y-3">
+        <div className="p-6 space-y-3">
           {data && typeof data === "object" ? (
             Object.entries(data).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-3 py-2 px-3 rounded"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-                <span className="text-xs tracking-wider uppercase flex-shrink-0 mt-0.5 w-28"
-                  style={{ color: "rgba(0,212,255,0.5)", fontFamily: "'Share Tech Mono', monospace" }}>
+              <div key={key} className="flex items-start gap-4 py-3 px-4 rounded-lg bg-white/5 border border-white/10"
+              >
+                <span className="text-xs tracking-widest uppercase flex-shrink-0 mt-0.5 w-32 text-slate-400"
+                  style={{ fontFamily: "'Share Tech Mono', monospace" }}>
                   {key}
                 </span>
-                <span className="text-sm font-mono break-all" style={{ color: "rgba(255,255,255,0.8)" }}>
+                <span className="text-sm font-mono break-all text-slate-200" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
                   {String(value)}
                 </span>
               </div>
             ))
           ) : (
-            <div className="py-2 px-3 rounded" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <span className="text-sm font-mono" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "'Share Tech Mono', monospace" }}>
+            <div className="py-3 px-4 rounded-lg bg-white/5 border border-white/10">
+              <span className="text-sm font-mono text-slate-200" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
                 {raw}
               </span>
             </div>
@@ -81,54 +81,39 @@ export default function ChecarKey() {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-8 max-w-2xl">
       <div>
-        <h2 className="text-2xl font-black tracking-wider"
-          style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--neon-blue)", textShadow: "0 0 15px rgba(0,212,255,0.5)" }}>
+        <h2 className="text-3xl font-black tracking-wider text-white"
+          style={{ fontFamily: "'Orbitron', sans-serif" }}>
           Checar Key
         </h2>
-        <p className="text-sm mt-1 tracking-wide" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
-          Verifique o status e informações de uma key
+        <p className="text-sm mt-2 tracking-wide text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+          Verifique o status, validade e informações de uma key
         </p>
       </div>
 
-      <div className="cyber-card p-5" style={{ border: "1px solid rgba(0,212,255,0.15)" }}>
-        <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-          Key para Verificar
+      <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6">
+        <p className="text-xs tracking-widest uppercase mb-6 text-slate-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+          Informe a Key
         </p>
         <div className="flex gap-3">
           <div className="relative flex-1">
-            <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(0,212,255,0.4)" }} />
+            <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50" />
             <input
               type="text"
               value={keyInput}
               onChange={(e) => setKeyInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCheck()}
               placeholder="Cole a key aqui..."
-              className="w-full pl-10 pr-4 py-3 rounded outline-none transition-all"
-              style={{
-                background: "rgba(0,212,255,0.05)",
-                border: "1px solid rgba(0,212,255,0.2)",
-                color: "var(--foreground)",
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "0.85rem",
-              }}
-              onFocus={(e) => { e.target.style.borderColor = "var(--neon-blue)"; e.target.style.boxShadow = "0 0 10px rgba(0,212,255,0.2)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "rgba(0,212,255,0.2)"; e.target.style.boxShadow = "none"; }}
+              className="w-full pl-12 pr-4 py-3 rounded-lg outline-none transition-all bg-white/5 border border-white/10 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 text-white placeholder-slate-500"
+              style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "0.9rem" }}
             />
           </div>
           <button
             onClick={handleCheck}
             disabled={loading}
-            className="px-5 py-3 rounded font-bold tracking-widest uppercase flex items-center gap-2 transition-all flex-shrink-0"
-            style={{
-              fontFamily: "'Orbitron', sans-serif",
-              fontSize: "0.75rem",
-              background: "rgba(0,212,255,0.1)",
-              border: "1px solid var(--neon-blue)",
-              color: "var(--neon-blue)",
-              boxShadow: "0 0 15px rgba(0,212,255,0.2)",
-            }}
+            className="px-6 py-3 rounded-lg font-bold tracking-widest uppercase flex items-center gap-2 transition-all flex-shrink-0 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/30"
+            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.85rem" }}
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
             Verificar

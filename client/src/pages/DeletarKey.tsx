@@ -65,68 +65,61 @@ export default function DeletarKey() {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-8 max-w-2xl">
       <div>
-        <h2 className="text-2xl font-black tracking-wider"
-          style={{ fontFamily: "'Orbitron', sans-serif", color: "#ff006e", textShadow: "0 0 15px rgba(255,0,110,0.5)" }}>
+        <h2 className="text-3xl font-black tracking-wider text-white"
+          style={{ fontFamily: "'Orbitron', sans-serif", color: "#ef4444" }}>
           Deletar Key
         </h2>
-        <p className="text-sm mt-1 tracking-wide" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
+        <p className="text-sm mt-2 tracking-wide text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
           Remova permanentemente keys do sistema
         </p>
       </div>
 
       {/* Mode Switcher */}
-      <div className="flex gap-2 p-1 rounded-lg bg-black/20 border border-white/5 w-fit">
+      <div className="flex gap-2 p-1 rounded-lg backdrop-blur-xl bg-white/5 border border-white/10 w-fit">
         <button
           onClick={() => { setMode("single"); setConfirmStep(false); setResult(null); setBulkResults(null); }}
-          className={`px-4 py-2 rounded-md text-xs font-bold tracking-widest uppercase transition-all flex items-center gap-2 ${mode === "single" ? "bg-[#ff006e]/20 text-[#ff006e] border border-[#ff006e]/30" : "text-white/40 hover:text-white/60"}`}
+          className={`px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-all flex items-center gap-2 ${mode === "single" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-slate-400 hover:text-slate-200"}`}
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          <Key className="w-3 h-3" />
+          <Key className="w-4 h-4" />
           Única
         </button>
         <button
           onClick={() => { setMode("bulk"); setConfirmStep(false); setResult(null); setBulkResults(null); }}
-          className={`px-4 py-2 rounded-md text-xs font-bold tracking-widest uppercase transition-all flex items-center gap-2 ${mode === "bulk" ? "bg-[#ff006e]/20 text-[#ff006e] border border-[#ff006e]/30" : "text-white/40 hover:text-white/60"}`}
+          className={`px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase transition-all flex items-center gap-2 ${mode === "bulk" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-slate-400 hover:text-slate-200"}`}
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          <ListFilter className="w-3 h-3" />
+          <ListFilter className="w-4 h-4" />
           Em Massa
         </button>
       </div>
 
       {/* Warning */}
-      <div className="flex items-start gap-3 px-4 py-3 rounded"
-        style={{ background: "rgba(255,0,110,0.05)", border: "1px solid rgba(255,0,110,0.2)" }}>
-        <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: "#ff006e" }} />
-        <p className="text-sm" style={{ color: "rgba(255,100,130,0.8)", fontFamily: "'Rajdhani', sans-serif" }}>
+      <div className="flex items-start gap-4 px-6 py-4 rounded-xl backdrop-blur-xl bg-red-500/10 border border-red-500/30">
+        <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-400" />
+        <p className="text-sm text-red-200" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
           Esta ação é <strong>irreversível</strong>. As keys serão permanentemente removidas e não poderão ser recuperadas.
         </p>
       </div>
 
       {/* Input */}
-      <div className="cyber-card p-5" style={{ border: "1px solid rgba(255,0,110,0.15)" }}>
-        <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "rgba(255,0,110,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+      <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6">
+        <p className="text-xs tracking-widest uppercase mb-6 text-slate-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
           {mode === "single" ? "Key para Deletar" : "Lista de Keys (uma por linha ou separadas por vírgula)"}
         </p>
         
         {mode === "single" ? (
           <div className="relative">
-            <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "rgba(255,0,110,0.4)" }} />
+            <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-400/50" />
             <input
               type="text"
               value={keyInput}
               onChange={(e) => { setKeyInput(e.target.value); setConfirmStep(false); setResult(null); }}
               placeholder="Cole a key aqui..."
-              className="w-full pl-10 pr-4 py-3 rounded outline-none transition-all"
-              style={{
-                background: "rgba(255,0,110,0.03)",
-                border: "1px solid rgba(255,0,110,0.2)",
-                color: "var(--foreground)",
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "0.85rem",
-              }}
+              className="w-full pl-12 pr-4 py-3 rounded-lg outline-none transition-all bg-white/5 border border-white/10 focus:border-red-400/50 focus:ring-2 focus:ring-red-400/20 text-white placeholder-slate-500"
+              style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "0.9rem" }}
               disabled={confirmStep}
             />
           </div>
@@ -136,14 +129,8 @@ export default function DeletarKey() {
             onChange={(e) => { setBulkInput(e.target.value); setConfirmStep(false); setBulkResults(null); }}
             placeholder="Cole várias keys aqui..."
             rows={6}
-            className="w-full p-4 rounded outline-none transition-all resize-none"
-            style={{
-              background: "rgba(255,0,110,0.03)",
-              border: "1px solid rgba(255,0,110,0.2)",
-              color: "var(--foreground)",
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: "0.85rem",
-            }}
+            className="w-full p-4 rounded-lg outline-none transition-all resize-none bg-white/5 border border-white/10 focus:border-red-400/50 focus:ring-2 focus:ring-red-400/20 text-white placeholder-slate-500"
+            style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "0.9rem" }}
             disabled={confirmStep}
           />
         )}
@@ -151,17 +138,10 @@ export default function DeletarKey() {
         {!confirmStep ? (
           <button
             onClick={handleRequestDelete}
-            className="w-full mt-4 py-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all"
-            style={{
-              fontFamily: "'Orbitron', sans-serif",
-              fontSize: "0.8rem",
-              background: "rgba(255,0,110,0.08)",
-              border: "1px solid rgba(255,0,110,0.4)",
-              color: "#ff006e",
-              boxShadow: "0 0 15px rgba(255,0,110,0.1)",
-            }}
+            className="w-full mt-6 py-3 rounded-lg font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 hover:border-red-500/50"
+            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.9rem" }}
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-5 h-5" />
             {mode === "single" ? "Solicitar Exclusão" : "Solicitar Exclusão em Massa"}
           </button>
         ) : null}
@@ -169,50 +149,35 @@ export default function DeletarKey() {
 
       {/* Confirmation step */}
       {confirmStep && (
-        <div className="cyber-card p-5 space-y-4"
-          style={{ border: "1px solid rgba(255,0,110,0.4)", boxShadow: "0 0 30px rgba(255,0,110,0.1)" }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(255,0,110,0.15)", border: "1px solid rgba(255,0,110,0.3)" }}>
-              <ShieldAlert className="w-5 h-5" style={{ color: "#ff006e" }} />
+        <div className="backdrop-blur-xl bg-gradient-to-br from-red-500/10 to-red-500/5 border border-red-500/30 rounded-xl p-6 space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-red-500/20 border border-red-500/30">
+              <ShieldAlert className="w-6 h-6 text-red-400" />
             </div>
             <div>
-              <p className="font-bold tracking-wider text-sm"
-                style={{ fontFamily: "'Orbitron', sans-serif", color: "#ff006e", fontSize: "0.8rem" }}>
+              <p className="font-bold tracking-wider text-sm text-red-400"
+                style={{ fontFamily: "'Orbitron', sans-serif" }}>
                 CONFIRMAÇÃO NECESSÁRIA
               </p>
-              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
+              <p className="text-xs mt-1 text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
                 {mode === "single" ? "Você está prestes a deletar esta key" : `Você está prestes a deletar ${bulkInput.split(/[\n, ]+/).filter(k => k.trim().length > 0).length} keys`}
               </p>
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-4">
             <button
               onClick={handleCancel}
-              className="flex-1 py-3 rounded font-bold tracking-widest uppercase transition-all"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                fontSize: "0.75rem",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.5)",
-              }}
+              className="flex-1 py-3 rounded-lg font-bold tracking-widest uppercase transition-all bg-white/5 border border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20"
+              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.85rem" }}
             >
               Cancelar
             </button>
             <button
               onClick={handleConfirmDelete}
               disabled={deleteMutation.isPending || deleteBulkMutation.isPending}
-              className="flex-1 py-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                fontSize: "0.75rem",
-                background: "rgba(255,0,110,0.15)",
-                border: "1px solid #ff006e",
-                color: "#ff006e",
-                boxShadow: "0 0 20px rgba(255,0,110,0.2)",
-              }}
+              className="flex-1 py-3 rounded-lg font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.85rem" }}
             >
               {(deleteMutation.isPending || deleteBulkMutation.isPending)
                 ? <><Loader2 className="w-4 h-4 animate-spin" /> Deletando...</>
@@ -224,19 +189,19 @@ export default function DeletarKey() {
 
       {/* Single Result */}
       {result && (
-        <div className="cyber-card p-5"
-          style={{ border: `1px solid ${result.ok ? "rgba(0,255,136,0.2)" : "rgba(255,0,110,0.2)"}` }}>
-          <div className="flex items-center gap-2 mb-3">
+        <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border rounded-xl p-6"
+          style={{ borderColor: result.ok ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)" }}>
+          <div className="flex items-center gap-3 mb-4">
             {result.ok
-              ? <CheckCircle className="w-4 h-4" style={{ color: "var(--neon-green)" }} />
-              : <XCircle className="w-4 h-4" style={{ color: "#ff006e" }} />}
-            <span className="text-xs font-semibold tracking-widest uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "var(--neon-green)" : "#ff006e", fontSize: "0.7rem" }}>
+              ? <CheckCircle className="w-5 h-5 text-green-400" />
+              : <XCircle className="w-5 h-5 text-red-400" />}
+            <span className="text-sm font-semibold tracking-widest uppercase"
+              style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "#10b981" : "#ef4444" }}>
               {result.ok ? "Key Deletada com Sucesso" : "Falha ao Deletar"}
             </span>
           </div>
-          <div className="px-3 py-2 rounded" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <span className="text-sm font-mono" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Share Tech Mono', monospace" }}>
+          <div className="px-4 py-3 rounded-lg bg-white/5 border border-white/10">
+            <span className="text-sm font-mono text-slate-200" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
               {result.raw}
             </span>
           </div>
@@ -245,18 +210,18 @@ export default function DeletarKey() {
 
       {/* Bulk Results */}
       {bulkResults && (
-        <div className="cyber-card p-5 space-y-3" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
-          <p className="text-xs font-bold tracking-widest uppercase" style={{ fontFamily: "'Orbitron', sans-serif", color: "rgba(255,255,255,0.4)" }}>
+        <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 space-y-4">
+          <p className="text-sm font-bold tracking-widest uppercase text-slate-300" style={{ fontFamily: "'Orbitron', sans-serif" }}>
             Resultado da Exclusão em Massa
           </p>
-          <div className="max-h-60 overflow-y-auto space-y-2 pr-2">
+          <div className="max-h-64 overflow-y-auto space-y-2 pr-2">
             {bulkResults.map((r, i) => (
-              <div key={i} className="flex items-center justify-between p-2 rounded bg-white/5 border border-white/5">
-                <span className="text-xs font-mono truncate max-w-[70%]" style={{ fontFamily: "'Share Tech Mono', monospace" }}>{r.key}</span>
+              <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
+                <span className="text-xs font-mono truncate max-w-[70%] text-slate-300" style={{ fontFamily: "'Share Tech Mono', monospace" }}>{r.key}</span>
                 {r.ok ? (
-                  <span className="text-[10px] font-bold text-[#00ff88] bg-[#00ff88]/10 px-2 py-0.5 rounded border border-[#00ff88]/20">SUCESSO</span>
+                  <span className="text-xs font-bold text-green-400 bg-green-500/20 px-3 py-1 rounded-lg border border-green-500/30">SUCESSO</span>
                 ) : (
-                  <span className="text-[10px] font-bold text-[#ff006e] bg-[#ff006e]/10 px-2 py-0.5 rounded border border-[#ff006e]/20">FALHA</span>
+                  <span className="text-xs font-bold text-red-400 bg-red-500/20 px-3 py-1 rounded-lg border border-red-500/30">FALHA</span>
                 )}
               </div>
             ))}

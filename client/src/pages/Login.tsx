@@ -2,7 +2,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
-import { Loader2, Shield, Eye, EyeOff } from "lucide-react";
+import { Loader2, Shield, Eye, EyeOff, Lock, User } from "lucide-react";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -31,100 +31,79 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background cyber-grid-bg flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-5"
-          style={{ background: "radial-gradient(circle, var(--neon-blue), transparent)" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-5"
-          style={{ background: "radial-gradient(circle, var(--neon-purple), transparent)" }} />
-        {/* Corner decorations */}
-        <div className="absolute top-4 left-4 w-16 h-16 border-l-2 border-t-2 opacity-30" style={{ borderColor: "var(--neon-blue)" }} />
-        <div className="absolute top-4 right-4 w-16 h-16 border-r-2 border-t-2 opacity-30" style={{ borderColor: "var(--neon-blue)" }} />
-        <div className="absolute bottom-4 left-4 w-16 h-16 border-l-2 border-b-2 opacity-30" style={{ borderColor: "var(--neon-blue)" }} />
-        <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 opacity-30" style={{ borderColor: "var(--neon-blue)" }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl"
+          style={{ background: "radial-gradient(circle, #00d4ff, transparent)" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl"
+          style={{ background: "radial-gradient(circle, #9d4edd, transparent)" }} />
       </div>
 
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-lg flex items-center justify-center"
-              style={{ background: "rgba(0,212,255,0.1)", border: "1px solid var(--neon-blue)", boxShadow: "0 0 20px rgba(0,212,255,0.3)" }}>
-              <Shield className="w-6 h-6" style={{ color: "var(--neon-blue)" }} />
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/50">
+              <Shield className="w-7 h-7 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-black tracking-widest mb-1"
-            style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--neon-blue)", textShadow: "0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue)" }}>
+          <h1 className="text-5xl font-black tracking-tighter mb-2"
+            style={{ fontFamily: "'Orbitron', sans-serif", background: "linear-gradient(135deg, #00d4ff, #9d4edd)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             AUTH PROXY
           </h1>
-          <p className="text-sm tracking-widest uppercase" style={{ color: "var(--neon-purple)", fontFamily: "'Rajdhani', sans-serif" }}>
-            Desenvolvedores: @gzinwq & @ruanwq
+          <p className="text-sm tracking-widest uppercase text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+            Painel de Controle
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="cyber-card p-8" style={{ border: "1px solid rgba(0,212,255,0.3)", boxShadow: "0 0 30px rgba(0,212,255,0.1), 0 0 60px rgba(157,78,221,0.05)" }}>
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold tracking-wider uppercase" style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--neon-blue)", fontSize: "0.9rem" }}>
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl">
+          <div className="mb-8">
+            <h2 className="text-xl font-bold tracking-wide text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
               Autenticação
             </h2>
-            <div className="h-px mt-2" style={{ background: "linear-gradient(90deg, var(--neon-blue), transparent)" }} />
+            <div className="h-1 mt-3 rounded-full" style={{ background: "linear-gradient(90deg, #00d4ff, transparent)" }} />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-xs font-medium tracking-widest uppercase mb-2" style={{ color: "var(--neon-blue)", fontFamily: "'Rajdhani', sans-serif" }}>
+              <label className="block text-xs font-semibold tracking-widest uppercase mb-3 text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
                 Usuário
               </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Digite seu usuário"
-                className="w-full px-4 py-3 rounded text-sm outline-none transition-all"
-                style={{
-                  background: "rgba(0,212,255,0.05)",
-                  border: "1px solid rgba(0,212,255,0.2)",
-                  color: "var(--foreground)",
-                  fontFamily: "'Rajdhani', sans-serif",
-                  fontSize: "1rem",
-                }}
-                onFocus={(e) => { e.target.style.borderColor = "var(--neon-blue)"; e.target.style.boxShadow = "0 0 10px rgba(0,212,255,0.2)"; }}
-                onBlur={(e) => { e.target.style.borderColor = "rgba(0,212,255,0.2)"; e.target.style.boxShadow = "none"; }}
-                disabled={loginMutation.isPending}
-              />
+              <div className="relative group">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Digite seu usuário"
+                  className="w-full pl-12 pr-4 py-3 rounded-lg text-sm outline-none transition-all bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:border-cyan-400/50 focus:bg-white/10 focus:ring-2 focus:ring-cyan-400/20"
+                  disabled={loginMutation.isPending}
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium tracking-widest uppercase mb-2" style={{ color: "var(--neon-blue)", fontFamily: "'Rajdhani', sans-serif" }}>
+              <label className="block text-xs font-semibold tracking-widest uppercase mb-3 text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
                 Senha
               </label>
-              <div className="relative">
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Digite sua senha"
-                  className="w-full px-4 py-3 pr-12 rounded text-sm outline-none transition-all"
-                  style={{
-                    background: "rgba(0,212,255,0.05)",
-                    border: "1px solid rgba(0,212,255,0.2)",
-                    color: "var(--foreground)",
-                    fontFamily: "'Rajdhani', sans-serif",
-                    fontSize: "1rem",
-                  }}
-                  onFocus={(e) => { e.target.style.borderColor = "var(--neon-blue)"; e.target.style.boxShadow = "0 0 10px rgba(0,212,255,0.2)"; }}
-                  onBlur={(e) => { e.target.style.borderColor = "rgba(0,212,255,0.2)"; e.target.style.boxShadow = "none"; }}
+                  className="w-full pl-12 pr-12 py-3 rounded-lg text-sm outline-none transition-all bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:border-cyan-400/50 focus:bg-white/10 focus:ring-2 focus:ring-cyan-400/20"
                   disabled={loginMutation.isPending}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100 transition-opacity"
-                  style={{ color: "var(--neon-blue)" }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
@@ -132,17 +111,8 @@ export default function Login() {
             <button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full py-3 rounded font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 mt-2"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                fontSize: "0.8rem",
-                background: loginMutation.isPending ? "rgba(0,212,255,0.1)" : "rgba(0,212,255,0.15)",
-                border: "1px solid var(--neon-blue)",
-                color: "var(--neon-blue)",
-                boxShadow: "0 0 15px rgba(0,212,255,0.3)",
-              }}
-              onMouseEnter={(e) => { if (!loginMutation.isPending) { (e.target as HTMLElement).style.background = "rgba(0,212,255,0.25)"; (e.target as HTMLElement).style.boxShadow = "0 0 25px rgba(0,212,255,0.5)"; } }}
-              onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "rgba(0,212,255,0.15)"; (e.target as HTMLElement).style.boxShadow = "0 0 15px rgba(0,212,255,0.3)"; }}
+              className="w-full py-3 rounded-lg font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 mt-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.85rem" }}
             >
               {loginMutation.isPending ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Autenticando...</>
@@ -153,10 +123,8 @@ export default function Login() {
           </form>
         </div>
 
-
-
-        <p className="text-center text-xs mt-6 tracking-widest" style={{ color: "rgba(0,212,255,0.3)", fontFamily: "'Share Tech Mono', monospace" }}>
-          AUTH PROXY v1.0 // SISTEMA SEGURO
+        <p className="text-center text-xs mt-8 tracking-widest text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+          AUTH PROXY v2.0 // SISTEMA SEGURO
         </p>
       </div>
     </div>
