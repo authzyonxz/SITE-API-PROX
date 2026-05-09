@@ -38,18 +38,27 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
-  // Forçar atualização da senha do administrador mestre na inicialização
+  // Forçar segurança máxima do administrador na inicialização
   try {
     const db = await getDb();
     if (db) {
+      console.log("[Auth] Limpando usuários administradores antigos e garantindo novo ADMIN...");
+      // Deleta qualquer usuário que não seja o novo padrão para evitar senhas antigas
+      await db.delete(localUsers).where(eq(localUsers.username, "ADMIN"));
+      
       const passwordHash = await bcrypt.hash("@ruanwq", 12);
-      console.log("[Auth] Garantindo credenciais do administrador mestre...");
-      await db.update(localUsers)
-        .set({ passwordHash })
-        .where(eq(localUsers.username, "ADMIN"));
+      // Garante que o usuário ADMIN exista com a senha correta
+      await db.insert(localUsers).values({
+        username: "ADMIN",
+        passwordHash,
+        role: "admin",
+        credits: 999999,
+      }).onDuplicateKeyUpdate({
+        set: { passwordHash, role: "admin" }
+      });
     }
   } catch (error) {
-    console.error("[Auth] Erro ao atualizar senha do admin:", error);
+    console.error("[Auth] Erro na segurança do admin:", error);
   }
 
   // Configurar tarefa de renovação de créditos a cada 7 dias
