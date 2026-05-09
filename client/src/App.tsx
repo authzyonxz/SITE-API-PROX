@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LocalAuthProvider } from "./contexts/LocalAuthContext";
@@ -38,6 +38,9 @@ function Router() {
       <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
       <Route path="/granjeiro-update-ip" component={GranjeiroUpdateIp} />
       <Route path="/apple-ios-update-ip" component={AppleIosUpdateIp} />
+      <Route path="/proxy-ios-update-ip">
+        <Redirect to="/update-ip" />
+      </Route>
 
       <Route path="/all-hack-update-ip" component={AllHackUpdateIp} />
       <Route path="/free-fire-update-ip" component={FreeFireUpdateIp} />
