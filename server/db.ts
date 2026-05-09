@@ -1,4 +1,4 @@
-import { eq, desc, count, and, lt, gte } from "drizzle-orm";
+import { eq, desc, count, and, lt, gte, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "node:crypto";
 import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus, ipBlacklist, InsertIpBlacklist } from "../drizzle/schema";
