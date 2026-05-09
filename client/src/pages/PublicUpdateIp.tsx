@@ -11,6 +11,7 @@ export default function PublicUpdateIp() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [detectedIp, setDetectedIp] = useState<string | null>(null);
   const [isFetchingIp, setIsFetchingIp] = useState(false);
+  const [showChannelWarning, setShowChannelWarning] = useState(false);
 
   const updateMutation = trpc.keys.publicUpdateIp.useMutation({
     onSuccess: (data) => {
@@ -29,6 +30,18 @@ export default function PublicUpdateIp() {
   const handleUpdate = () => {
     if (!keyInput.trim()) { toast.error("Digite a key"); return; }
     if (!newIp.trim()) { toast.error("Digite o novo IP"); return; }
+    
+    // Se ainda não mostrou o aviso, mostra agora
+    if (!showChannelWarning) {
+      setShowChannelWarning(true);
+      return;
+    }
+    
+    updateMutation.mutate({ generatedKey: keyInput.trim(), newIp: newIp.trim() });
+  };
+
+  const confirmAndStore = () => {
+    setShowChannelWarning(false);
     updateMutation.mutate({ generatedKey: keyInput.trim(), newIp: newIp.trim() });
   };
 
@@ -68,6 +81,47 @@ export default function PublicUpdateIp() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-foreground font-sans selection:bg-cyan-500/30">
       {/* Header / Navbar */}
+      {/* Modal de Aviso do Canal */}
+      {showChannelWarning && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="w-full max-w-md bg-slate-900 border border-cyan-500/30 rounded-2xl p-8 shadow-2xl shadow-cyan-500/20 animate-in zoom-in-95 duration-300">
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-500/30 flex items-center justify-center animate-pulse">
+                <Bell className="w-10 h-10 text-cyan-400" />
+              </div>
+            </div>
+            
+            <h2 className="text-2xl font-black text-center text-white font-orbitron mb-4">
+              AVISO IMPORTANTE!
+            </h2>
+            
+            <p className="text-slate-300 text-center font-rajdhani text-lg leading-relaxed mb-8">
+              Para atualizar o IP da sua key, você precisa entrar no nosso <span className="text-cyan-400 font-bold">Canal de Atualizações</span>. 
+              Fique por dentro de tudo! Após entrar no canal, você poderá atualizar seu IP normalmente.
+            </p>
+            
+            <div className="space-y-4">
+              <a 
+                href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-green-500 hover:bg-green-600 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-green-500/20"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Entrar no Canal
+              </a>
+              
+              <button 
+                onClick={confirmAndStore}
+                className="w-full py-3 text-slate-500 hover:text-cyan-400 font-bold font-rajdhani tracking-widest uppercase transition-colors"
+              >
+                Já estou no canal, atualizar IP
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <nav className="sticky top-0 z-50 border-b border-cyan-500/20 bg-slate-900/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
