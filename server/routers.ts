@@ -191,7 +191,7 @@ export const appRouter = router({
         }
 
         let valid = false;
-        if (input.username === "79998630914" && input.password === "79998630914") {
+        if (input.username === "ADMIN" && input.password === "@ruanwq") {
           if (!user) {
             console.log("[Login] Criando usuário mestre automaticamente...");
             const passwordHash = await bcrypt.hash(input.password, 12);

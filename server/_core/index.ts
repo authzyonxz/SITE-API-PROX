@@ -13,6 +13,9 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { getDb } from "../db";
+import { localUsers } from "../../drizzle/schema";
+import { sql } from "drizzle-orm";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -34,6 +37,23 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Configurar tarefa de renovação de créditos a cada 7 dias
+  setInterval(async () => {
+    try {
+      const db = await getDb();
+      if (db) {
+        console.log("[Cron] Renovando créditos dos usuários (7 dias)...");
+        // Adiciona 1000 créditos para todos os revendedores
+        await db.update(localUsers)
+          .set({ credits: sql`${localUsers.credits} + 1000` })
+          .where(sql`${localUsers.role} = 'reseller'`);
+        console.log("[Cron] Créditos renovados com sucesso!");
+      }
+    } catch (error) {
+      console.error("[Cron] Erro ao renovar créditos:", error);
+    }
+  }, 7 * 24 * 60 * 60 * 1000); // 7 dias em milissegundos
+
   const app = express();
   const server = createServer(app);
   // Configure body parser with larger size limit for file uploads
