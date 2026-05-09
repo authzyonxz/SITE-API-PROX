@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch, Redirect } from "wouter";
+import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LocalAuthProvider } from "./contexts/LocalAuthContext";
@@ -22,6 +22,7 @@ import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
 import AppleIosUpdateIp from "@/pages/AppleIosUpdateIp";
+import ProxyIosUpdateIp from "@/pages/ProxyIosUpdateIp";
 
 import AllHackUpdateIp from "@/pages/AllHackUpdateIp";
 import FreeFireUpdateIp from "@/pages/FreeFireUpdateIp";
@@ -38,10 +39,7 @@ function Router() {
       <Route path="/natsu-update-ip" component={NatsuUpdateIp} />
       <Route path="/granjeiro-update-ip" component={GranjeiroUpdateIp} />
       <Route path="/apple-ios-update-ip" component={AppleIosUpdateIp} />
-      <Route path="/proxy-ios-update-ip">
-        <Redirect to="/update-ip" />
-      </Route>
-
+      <Route path="/proxy-ios-update-ip" component={ProxyIosUpdateIp} />
       <Route path="/all-hack-update-ip" component={AllHackUpdateIp} />
       <Route path="/free-fire-update-ip" component={FreeFireUpdateIp} />
       <Route path="/chuky-xiter-update-ip" component={ChukyXiterUpdateIp} />
