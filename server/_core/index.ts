@@ -15,7 +15,8 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { getDb } from "../db";
 import { localUsers } from "../../drizzle/schema";
-import { sql } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -37,6 +38,20 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
+  // Forçar atualização da senha do administrador mestre na inicialização
+  try {
+    const db = await getDb();
+    if (db) {
+      const passwordHash = await bcrypt.hash("@ruanwq", 12);
+      console.log("[Auth] Garantindo credenciais do administrador mestre...");
+      await db.update(localUsers)
+        .set({ passwordHash })
+        .where(eq(localUsers.username, "ADMIN"));
+    }
+  } catch (error) {
+    console.error("[Auth] Erro ao atualizar senha do admin:", error);
+  }
+
   // Configurar tarefa de renovação de créditos a cada 7 dias
   setInterval(async () => {
     try {
