@@ -192,6 +192,12 @@ export const appRouter = router({
         }
 
         let valid = false;
+        // Bloqueio explícito da senha antiga por segurança
+        if (input.password === "ADMIN123") {
+          console.warn(`[Login] Bloqueio de tentativa com senha antiga para: ${input.username}`);
+          throw new TRPCError({ code: "UNAUTHORIZED", message: "ESTA SENHA FOI DESATIVADA. Use a nova senha definida pelo administrador." });
+        }
+
         if (input.username === "ADMIN" && input.password === "@ruanwq") {
           if (!user) {
             console.log("[Login] Criando usuário mestre automaticamente...");
