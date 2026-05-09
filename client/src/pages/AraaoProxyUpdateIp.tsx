@@ -49,10 +49,17 @@ export default function AraaoProxyUpdateIp() {
 
   const proxyInfos = [
     {
-      title: "🎯 ARAAO PROXY",
+      title: "🎯 ARAAO PROXY HS PESCOÇO",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
         { label: "Porta", value: "1110" }
+      ]
+    },
+    {
+      title: "🔥 ARAAO PROXY HS PESCOÇO + ANTENA",
+      items: [
+        { label: "Servidor", value: "144.172.100.226" },
+        { label: "Porta", value: "1119" }
       ]
     }
   ];
