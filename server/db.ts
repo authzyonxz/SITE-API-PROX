@@ -138,10 +138,10 @@ export async function updateUserPassword(userId: number, passwordHash: string) {
   await db.update(localUsers).set({ passwordHash }).where(eq(localUsers.id, userId));
 }
 
-export async function updateUserMaxIps(userId: number, maxIps: number) {
+export async function updateUserMaxIps(userId: number, maxDevices: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  await db.update(localUsers).set({ maxIps }).where(eq(localUsers.id, userId));
+  await db.update(localUsers).set({ maxDevices }).where(eq(localUsers.id, userId));
 }
 
 export async function resetUserSession(userId: number) {
