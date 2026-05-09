@@ -81,6 +81,14 @@ export default function CriarUsuario() {
     onError: (err) => toast.error(err.message),
   });
 
+  const resetDeviceMutation = trpc.users.resetDevice.useMutation({
+    onSuccess: () => {
+      toast.success("Dispositivo resetado com sucesso!");
+      utils.users.list.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
   const resetAllSessionsMutation = trpc.users.resetAllSessions.useMutation({
     onSuccess: () => toast.success("TODAS as sessões foram encerradas!"),
     onError: (err) => toast.error(err.message),
@@ -285,14 +293,22 @@ export default function CriarUsuario() {
                         <p className="text-base font-bold truncate" style={{ color: "var(--foreground)", fontFamily: "'Rajdhani', sans-serif" }}>
                           {user.username}
                         </p>
-                        <div className="flex items-center gap-2">
-                          <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(157,78,221,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                            REVENDEDOR
-                          </p>
-                          <div className="flex items-center gap-1 bg-black/20 px-1.5 py-0.5 rounded border border-white/5">
-                            <Zap className="w-2.5 h-2.5" style={{ color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }} />
-                            <span className="text-[10px] font-bold" style={{ fontFamily: "'Orbitron', sans-serif", color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }}>
-                              {user.credits}
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2">
+                            <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(157,78,221,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                              REVENDEDOR
+                            </p>
+                            <div className="flex items-center gap-1 bg-black/20 px-1.5 py-0.5 rounded border border-white/5">
+                              <Zap className="w-2.5 h-2.5" style={{ color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }} />
+                              <span className="text-[10px] font-bold" style={{ fontFamily: "'Orbitron', sans-serif", color: user.credits > 0 ? "var(--neon-green)" : "rgba(255,0,110,0.5)" }}>
+                                {user.credits}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Monitor className="w-3 h-3 text-slate-500" />
+                            <span className="text-[10px] font-mono uppercase tracking-tight text-slate-500 truncate max-w-[120px]">
+                              {user.deviceId ? user.deviceId : "SEM VÍNCULO"}
                             </span>
                           </div>
                         </div>
@@ -360,6 +376,18 @@ export default function CriarUsuario() {
                         style={{ background: "rgba(157,78,221,0.1)", border: "1px solid rgba(157,78,221,0.3)", color: "var(--neon-purple)" }}
                       >
                         <LogOut className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Resetar o vínculo de dispositivo de ${user.username}? Isso permitirá que ele logue de um novo aparelho.`)) {
+                            resetDeviceMutation.mutate({ userId: user.id });
+                          }
+                        }}
+                        className="p-2 rounded transition-all hover:scale-110 active:scale-95"
+                        title="Resetar Dispositivo (HWID)"
+                        style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)", color: "var(--neon-blue)" }}
+                      >
+                        <Monitor className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {

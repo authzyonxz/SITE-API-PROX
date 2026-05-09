@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { Loader2, Shield, Eye, EyeOff, Lock, User } from "lucide-react";
+
+// Função simples para gerar um ID único para o dispositivo/navegador
+const getDeviceId = () => {
+  let deviceId = localStorage.getItem("auth_device_id");
+  if (!deviceId) {
+    deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem("auth_device_id", deviceId);
+  }
+  return deviceId;
+};
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -27,7 +37,8 @@ export default function Login() {
       toast.error("Preencha todos os campos");
       return;
     }
-    loginMutation.mutate({ username, password });
+    const deviceId = getDeviceId();
+    loginMutation.mutate({ username, password, deviceId });
   };
 
   return (

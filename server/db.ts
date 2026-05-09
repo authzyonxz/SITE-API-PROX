@@ -88,8 +88,15 @@ export async function listLocalUsers() {
     username: localUsers.username,
     role: localUsers.role,
     credits: localUsers.credits,
+    deviceId: localUsers.deviceId,
     createdAt: localUsers.createdAt,
   }).from(localUsers).orderBy(desc(localUsers.createdAt));
+}
+
+export async function updateUserDeviceId(userId: number, deviceId: string | null) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(localUsers).set({ deviceId }).where(eq(localUsers.id, userId));
 }
 
 export async function deleteLocalUser(userId: number) {

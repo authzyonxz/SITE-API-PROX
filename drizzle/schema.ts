@@ -31,6 +31,7 @@ export const localUsers = mysqlTable("local_users", {
   maxIps: int("maxIps").default(1).notNull(),
   isBanned: int("isBanned").default(0).notNull(),
   sessionSecret: varchar("sessionSecret", { length: 36 }).notNull().default("default-secret"),
+  deviceId: varchar("deviceId", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

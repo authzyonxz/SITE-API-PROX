@@ -18,6 +18,7 @@ import {
   deductCredits,
   addCredits,
   updateUserCredits,
+  updateUserDeviceId,
   saveGeneratedKey,
   markKeyDeleted,
   getKeyStats,
@@ -167,7 +168,11 @@ export const appRouter = router({
   // ─── Local Auth ────────────────────────────────────────────────────────────
   localAuth: router({
     login: publicProcedure
-      .input(z.object({ username: z.string().min(1), password: z.string().min(1) }))
+      .input(z.object({ 
+        username: z.string().min(1), 
+        password: z.string().min(1),
+        deviceId: z.string().optional() 
+      }))
       .mutation(async ({ input, ctx }) => {
         const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
         
@@ -225,25 +230,22 @@ export const appRouter = router({
           throw new TRPCError({ code: "FORBIDDEN", message: "SUA CONTA FOI BANIDA PERMANENTEMENTE." });
         }
 
-        // Verificar limite de IPs (exceto para admin)
+        // Sistema de Vínculo de Dispositivo (HWID)
         if (user.role !== "admin") {
-          const currentIp = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
-          const activeIpsCount = await getActiveIpsCount(user.id);
-          
-          // Se o IP atual já estiver nos logs recentes, permitimos (é o mesmo usuário re-logando)
-          // Caso contrário, verificamos se excedeu o limite
-          const db = await getDb();
-          const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
-          const sameIpLog = await db!.select().from(accessLogs).where(and(
-            eq(accessLogs.userId, user.id),
-            eq(accessLogs.ipAddress, currentIp),
-            gte(accessLogs.createdAt, fifteenMinutesAgo)
-          )).limit(1);
+          if (!input.deviceId) {
+            throw new TRPCError({ code: "BAD_REQUEST", message: "ID do dispositivo não identificado." });
+          }
 
-          if (sameIpLog.length === 0 && activeIpsCount >= user.maxIps) {
+          if (!user.deviceId) {
+            // Primeiro acesso: vincular o dispositivo
+            console.log(`[Login] Vinculando dispositivo ${input.deviceId} ao usuário ${user.username}`);
+            await updateUserDeviceId(user.id, input.deviceId);
+          } else if (user.deviceId !== input.deviceId) {
+            // Tentativa de acesso de outro dispositivo
+            console.warn(`[Login] Bloqueio de dispositivo: Usuário ${user.username} tentou logar com dispositivo diferente.`);
             throw new TRPCError({ 
               code: "FORBIDDEN", 
-              message: `Limite de IPs atingido (${user.maxIps}). Deslogue de outros dispositivos.` 
+              message: "DISPOSITIVO NÃO AUTORIZADO: Esta conta está vinculada a outro aparelho. Entre em contato com o administrador para resetar seu vínculo." 
             });
           }
         }
@@ -587,6 +589,13 @@ export const appRouter = router({
       .input(z.object({ userId: z.number().int() }))
       .mutation(async ({ input }) => {
         await resetUserSession(input.userId);
+        return { success: true };
+      }),
+    
+    resetDevice: adminProcedure
+      .input(z.object({ userId: z.number().int() }))
+      .mutation(async ({ input }) => {
+        await updateUserDeviceId(input.userId, null);
         return { success: true };
       }),
 
