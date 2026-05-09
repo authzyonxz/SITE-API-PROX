@@ -68,9 +68,9 @@ export default function CriarUsuario() {
     onError: (err) => toast.error(err.message),
   });
 
-  const updateMaxIpsMutation = trpc.users.updateMaxIps.useMutation({
+  const updateMaxDevicesMutation = trpc.users.updateMaxDevices.useMutation({
     onSuccess: () => {
-      toast.success("Limite de IPs atualizado!");
+      toast.success("Limite de dispositivos atualizado!");
       utils.users.list.invalidate();
     },
     onError: (err) => toast.error(err.message),
@@ -354,16 +354,16 @@ export default function CriarUsuario() {
                       </button>
                       <button
                         onClick={() => {
-                          const limit = parseInt(prompt(`Limite de IPs para ${user.username}:`, (user as any).maxIps?.toString() || "1") || "0");
+                          const limit = parseInt(prompt(`Limite de Dispositivos para ${user.username}:`, (user as any).maxDevices?.toString() || "1") || "0");
                           if (limit > 0) {
-                            updateMaxIpsMutation.mutate({ userId: user.id, maxIps: limit });
+                            updateMaxDevicesMutation.mutate({ userId: user.id, maxDevices: limit });
                           }
                         }}
                         className="p-2 rounded transition-all hover:scale-110 active:scale-95"
-                        title="Limite de IPs"
+                        title="Limite de Dispositivos"
                         style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "var(--neon-green)" }}
                       >
-                        <Monitor className="w-4 h-4" />
+                        <Zap className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => {

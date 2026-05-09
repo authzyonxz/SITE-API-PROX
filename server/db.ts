@@ -158,16 +158,17 @@ export async function resetAllSessions() {
   await db.update(localUsers).set({ sessionSecret: newSecret });
 }
 
-export async function getActiveIpsCount(userId: number) {
+export async function getActiveDevicesCount(userId: number) {
   const db = await getDb();
   if (!db) return 0;
-  // Consideramos IPs ativos nos últimos 15 minutos (tempo de logout automático)
-  const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
-  const result = await db.select({ ip: accessLogs.ipAddress })
-    .from(accessLogs)
-    .where(and(eq(accessLogs.userId, userId), gte(accessLogs.createdAt, fifteenMinutesAgo)))
-    .groupBy(accessLogs.ipAddress);
-  return result.length;
+  
+  // Buscar o usuário para ver quais dispositivos estão vinculados
+  const user = await getLocalUserById(userId);
+  if (!user || !user.deviceId) return 0;
+  
+  // O deviceId é uma string com IDs separados por vírgula
+  const devices = user.deviceId.split(",").filter(id => id.trim() !== "");
+  return devices.length;
 }
 
 // ─── Generated keys ───────────────────────────────────────────────────────────

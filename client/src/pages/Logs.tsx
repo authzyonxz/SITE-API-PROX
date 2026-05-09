@@ -1,7 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Shield, Clock, User, Globe } from "lucide-react";
+import { Shield, Clock, User, Globe, Monitor } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -15,7 +15,7 @@ export default function Logs() {
           LOGS DE ACESSO
         </h2>
         <p className="text-muted-foreground font-medium tracking-wide" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-          Monitoramento de entradas e endereços IP do sistema.
+          Monitoramento de entradas e dispositivos do sistema.
         </p>
       </div>
 
@@ -37,6 +37,7 @@ export default function Logs() {
                 <TableHeader className="bg-white/5">
                   <TableRow className="border-neon-blue/10 hover:bg-transparent">
                     <TableHead className="text-neon-blue font-bold uppercase tracking-wider text-xs">Usuário</TableHead>
+                    <TableHead className="text-neon-blue font-bold uppercase tracking-wider text-xs">Dispositivo (HWID)</TableHead>
                     <TableHead className="text-neon-blue font-bold uppercase tracking-wider text-xs">Endereço IP</TableHead>
                     <TableHead className="text-neon-blue font-bold uppercase tracking-wider text-xs">Data e Hora</TableHead>
                   </TableRow>
@@ -50,6 +51,14 @@ export default function Logs() {
                           <span className="font-bold text-foreground" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
                             {log.username}
                           </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Monitor className="w-4 h-4 text-muted-foreground group-hover:text-neon-blue transition-colors" />
+                          <code className="text-[10px] bg-black/50 px-2 py-1 rounded border border-white/5 text-neon-blue font-mono uppercase">
+                            {(log as any).deviceId || "DESCONHECIDO"}
+                          </code>
                         </div>
                       </TableCell>
                       <TableCell>

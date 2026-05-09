@@ -28,10 +28,10 @@ export const localUsers = mysqlTable("local_users", {
   passwordHash: varchar("passwordHash", { length: 255 }).notNull(),
   role: mysqlEnum("role", ["admin", "reseller"]).default("reseller").notNull(),
   credits: int("credits").default(0).notNull(),
-  maxIps: int("maxIps").default(1).notNull(),
+  maxDevices: int("maxIps").default(1).notNull(),
   isBanned: int("isBanned").default(0).notNull(),
   sessionSecret: varchar("sessionSecret", { length: 36 }).notNull().default("default-secret"),
-  deviceId: varchar("deviceId", { length: 255 }),
+  deviceId: varchar("deviceId", { length: 1000 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -63,6 +63,7 @@ export const accessLogs = mysqlTable("access_logs", {
   userId: int("userId").notNull(),
   username: varchar("username", { length: 64 }).notNull(),
   ipAddress: varchar("ipAddress", { length: 255 }).notNull(),
+  deviceId: varchar("deviceId", { length: 255 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

@@ -236,17 +236,23 @@ export const appRouter = router({
             throw new TRPCError({ code: "BAD_REQUEST", message: "ID do dispositivo não identificado." });
           }
 
-          if (!user.deviceId) {
-            // Primeiro acesso: vincular o dispositivo
-            console.log(`[Login] Vinculando dispositivo ${input.deviceId} ao usuário ${user.username}`);
-            await updateUserDeviceId(user.id, input.deviceId);
-          } else if (user.deviceId !== input.deviceId) {
-            // Tentativa de acesso de outro dispositivo
-            console.warn(`[Login] Bloqueio de dispositivo: Usuário ${user.username} tentou logar com dispositivo diferente.`);
-            throw new TRPCError({ 
-              code: "FORBIDDEN", 
-              message: "DISPOSITIVO NÃO AUTORIZADO: Esta conta está vinculada a outro aparelho. Entre em contato com o administrador para resetar seu vínculo." 
-            });
+          const currentDevices = user.deviceId ? user.deviceId.split(",").filter(id => id.trim() !== "") : [];
+          
+          if (!currentDevices.includes(input.deviceId)) {
+            // Novo dispositivo tentando vincular
+            if (currentDevices.length < user.maxDevices) {
+              // Ainda tem espaço no limite, vincular novo
+              const newDevices = [...currentDevices, input.deviceId].join(",");
+              console.log(`[Login] Vinculando NOVO dispositivo ${input.deviceId} ao usuário ${user.username}. Total: ${currentDevices.length + 1}/${user.maxDevices}`);
+              await updateUserDeviceId(user.id, newDevices);
+            } else {
+              // Atingiu o limite de dispositivos
+              console.warn(`[Login] Bloqueio de dispositivo: Usuário ${user.username} atingiu limite de ${user.maxDevices} aparelhos.`);
+              throw new TRPCError({ 
+                code: "FORBIDDEN", 
+                message: `LIMITE DE DISPOSITIVOS ATINGIDO (${user.maxDevices}): Esta conta já está vinculada ao número máximo de aparelhos permitidos. Entre em contato com o administrador.` 
+              });
+            }
           }
         }
 
@@ -281,6 +287,7 @@ export const appRouter = router({
             userId: user.id,
             username: user.username,
             ipAddress: ip,
+            deviceId: input.deviceId,
           });
         } catch (e) {
           console.error("[Login] Erro ao registrar log de acesso:", e);
@@ -578,10 +585,10 @@ export const appRouter = router({
         return { success: true };
       }),
 
-    updateMaxIps: adminProcedure
-      .input(z.object({ userId: z.number().int(), maxIps: z.number().int().min(1).max(50) }))
+    updateMaxDevices: adminProcedure
+      .input(z.object({ userId: z.number().int(), maxDevices: z.number().int().min(1).max(50) }))
       .mutation(async ({ input }) => {
-        await updateUserMaxIps(input.userId, input.maxIps);
+        await updateUserMaxIps(input.userId, input.maxDevices);
         return { success: true };
       }),
 
