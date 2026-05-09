@@ -1,7 +1,7 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
-import { createLocalUser, getLocalUserByUsername, updateUserPassword } from "./db";
+
 import { TRPCError } from "@trpc/server";
 import { eq, and, gte } from "drizzle-orm";
 import { accessLogs } from "../drizzle/schema";
