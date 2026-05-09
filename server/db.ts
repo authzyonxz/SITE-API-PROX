@@ -231,6 +231,28 @@ export async function listAccessLogs() {
   return db.select().from(accessLogs).orderBy(desc(accessLogs.createdAt)).limit(100);
 }
 
+export async function listGenerationHistory() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    id: generatedKeys.id,
+    keyValue: generatedKeys.keyValue,
+    days: generatedKeys.days,
+    status: generatedKeys.status,
+    createdAt: generatedKeys.createdAt,
+    expiresAt: generatedKeys.expiresAt,
+    creator: {
+      username: localUsers.username,
+      role: localUsers.role
+    }
+  })
+  .from(generatedKeys)
+  .innerJoin(localUsers, eq(generatedKeys.createdById, localUsers.id))
+  .orderBy(desc(generatedKeys.createdAt))
+  .limit(200);
+}
+
 // ─── Key Management ───────────────────────────────────────────────────────────
 
 export async function getKeysByUserId(userId: number) {

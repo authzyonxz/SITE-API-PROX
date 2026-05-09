@@ -38,6 +38,7 @@ import {
   banUser,
   countKeysGeneratedRecently,
   findKeyCreator,
+  listGenerationHistory,
   addToBlacklist,
   removeFromBlacklist,
   listBlacklist,
@@ -475,6 +476,9 @@ export const appRouter = router({
   logs: router({
     list: adminProcedure.query(async () => {
       return listAccessLogs();
+    }),
+    generation: adminProcedure.query(async () => {
+      return listGenerationHistory();
     }),
   }),
 

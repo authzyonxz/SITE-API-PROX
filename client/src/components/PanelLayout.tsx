@@ -38,6 +38,7 @@ const navItems: NavItem[] = [
   { path: "/logs", label: "Logs de Acesso", icon: <Shield className="w-4 h-4" />, adminOnly: true },
   { path: "/buscar-key", label: "Buscar Criador", icon: <Search className="w-4 h-4" />, adminOnly: true },
   { path: "/blacklist", label: "Blacklist IPs", icon: <ShieldAlert className="w-4 h-4" />, adminOnly: true },
+  { path: "/historico-geracao", label: "Histórico Geração", icon: <Zap className="w-4 h-4" />, adminOnly: true },
 ];
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {

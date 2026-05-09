@@ -17,6 +17,7 @@ import CriarUsuario from "./pages/CriarUsuario";
 import Logs from "./pages/Logs";
 import BuscarKey from "./pages/BuscarKey";
 import Blacklist from "./pages/Blacklist";
+import GerarHistory from "./pages/GerarHistory";
 import PublicUpdateIp from "@/pages/PublicUpdateIp";
 import NatsuUpdateIp from "@/pages/NatsuUpdateIp";
 import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
@@ -87,6 +88,11 @@ function Router() {
       <Route path="/blacklist">
         <ProtectedRoute adminOnly>
           <PanelLayout><Blacklist /></PanelLayout>
+        </ProtectedRoute>
+      </Route>
+      <Route path="/historico-geracao">
+        <ProtectedRoute adminOnly>
+          <PanelLayout><GerarHistory /></PanelLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/404" component={NotFound} />
