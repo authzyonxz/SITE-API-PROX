@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { toast } from "sonner";
 import { CheckCheck, Copy, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, Minus, Plus, Shield } from "lucide-react";
+import { nanoid } from "nanoid";
 
 const GRANJEIRO_USERNAME = "GRANJEIRO";
 const GRANJEIRO_PASSWORD = "GRANJEIRO123490";
@@ -21,6 +22,16 @@ function GranjeiroLogin() {
   const [username, setUsername] = useState(GRANJEIRO_USERNAME);
   const [password, setPassword] = useState(GRANJEIRO_PASSWORD);
   const [showPassword, setShowPassword] = useState(false);
+  const [deviceId, setDeviceId] = useState("");
+
+  useEffect(() => {
+    let id = localStorage.getItem("auth_proxy_device_id");
+    if (!id) {
+      id = nanoid();
+      localStorage.setItem("auth_proxy_device_id", id);
+    }
+    setDeviceId(id);
+  }, []);
 
   const loginMutation = trpc.localAuth.login.useMutation({
     onSuccess: async () => {
@@ -40,7 +51,11 @@ function GranjeiroLogin() {
       return;
     }
 
-    loginMutation.mutate({ username: GRANJEIRO_USERNAME, password: GRANJEIRO_PASSWORD });
+    loginMutation.mutate({ 
+      username: GRANJEIRO_USERNAME, 
+      password: GRANJEIRO_PASSWORD,
+      deviceId 
+    });
   };
 
   return (
