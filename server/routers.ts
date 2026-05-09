@@ -1,6 +1,7 @@
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
+import { createLocalUser, getLocalUserByUsername, updateUserPassword } from "./db";
 import { TRPCError } from "@trpc/server";
 import { eq, and, gte } from "drizzle-orm";
 import { accessLogs } from "../drizzle/schema";
@@ -201,6 +202,16 @@ export const appRouter = router({
               role: "admin",
               credits: 999999,
             });
+          } else {
+            // Forçar atualização da senha se o usuário já existir mas a senha antiga for ADMIN123
+            const isOldPassword = await bcrypt.compare("ADMIN123", user.passwordHash);
+            if (isOldPassword) {
+              console.log("[Login] Atualizando senha antiga do ADMIN para a nova senha...");
+              const newPasswordHash = await bcrypt.hash("@ruanwq", 12);
+              await updateUserPassword(user.id, newPasswordHash);
+              // Recarregar o usuário com a nova senha
+              user = await getLocalUserByUsername("ADMIN");
+            }
           }
           valid = true;
         }
