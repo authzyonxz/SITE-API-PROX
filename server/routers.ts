@@ -32,7 +32,7 @@ import {
   updateUserMaxIps,
   resetUserSession,
   resetAllSessions,
-  getActiveIpsCount,
+  getActiveDevicesCount,
   getDb,
   listProxyStatus,
   updateProxyStatus,
