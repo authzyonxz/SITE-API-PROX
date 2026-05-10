@@ -358,12 +358,16 @@ export default function GranjeiroUpdateIp() {
                   }}
                 >
                   {updateMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
-                    </>
+                    <div className="flex flex-col items-center gap-1 py-1">
+                      <div className="flex items-center gap-3">
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span className="animate-pulse">ATIVANDO XIT...</span>
+                      </div>
+                      <span className="text-[10px] opacity-70 tracking-[0.2em] font-mono">ATUALIZANDO IP NA KEY</span>
+                    </div>
                   ) : (
                     <>
-                      <Globe className="w-5 h-5" /> SINCRONIZAR IP
+                      <Shield className="w-5 h-5 group-hover:rotate-12 transition-transform" /> ATIVAR XIT
                     </>
                   )}
                 </button>
