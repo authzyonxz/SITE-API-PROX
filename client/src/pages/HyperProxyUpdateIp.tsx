@@ -45,10 +45,17 @@ export default function HyperProxyUpdateIp() {
 
   const proxyInfos = [
     {
-      title: "⚡ HYPER PROXY HIGH SPEED",
+      title: "🎯 HYPER PROXY HS PESCOÇO",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
         { label: "Porta", value: "1110" }
+      ]
+    },
+    {
+      title: "🔥 HYPER PROXY HS PESCOÇO + ANTENA",
+      items: [
+        { label: "Servidor", value: "144.172.100.226" },
+        { label: "Porta", value: "1119" }
       ]
     }
   ];
