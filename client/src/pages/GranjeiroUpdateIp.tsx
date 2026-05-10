@@ -106,20 +106,6 @@ export default function GranjeiroUpdateIp() {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-4">
               <a
-                href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
-                style={{
-                  background: "rgba(37,211,102,0.15)",
-                  borderColor: "rgba(37,211,102,0.5)",
-                  color: "#25D366",
-                }}
-              >
-                <Globe className="w-4 h-4" />
-                Canal WhatsApp
-              </a>
-              <a
                 href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -178,20 +164,6 @@ export default function GranjeiroUpdateIp() {
             >
               <Download className="w-4 h-4" />
               Download Granjeiro Cert
-            </a>
-            <a
-              href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
-              style={{
-                background: "rgba(37,211,102,0.2)",
-                borderColor: "rgba(37,211,102,0.5)",
-                color: "#25D366",
-              }}
-            >
-              <Globe className="w-4 h-4" />
-              Canal WhatsApp
             </a>
           </div>
         )}
@@ -495,27 +467,6 @@ export default function GranjeiroUpdateIp() {
                   DOWNLOAD GRANJEIRO CERT
                 </a>
 
-                <a
-                  href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "linear-gradient(to right, #25D366, #128C7E)",
-                    boxShadow: "0 0 35px rgba(37,211,102,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 45px rgba(37,211,102,0.4)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(37,211,102,0.3)";
-                  }}
-                >
-                  <Globe className="w-6 h-6" />
-                  CANAL DE ATUALIZAÇÃO
-                </a>
               </div>
 
             </div>
