@@ -338,21 +338,22 @@ export default function GranjeiroUpdateIp() {
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
                   style={{
-                    background: "rgba(255,0,0,0.25)",
-                    borderColor: "rgba(255,0,0,0.6)",
+                    background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
+                    borderColor: "#ff0000",
                     color: "#ffffff",
-                    textShadow: "0 0 5px rgba(255,255,255,0.5)"
+                    textShadow: "0 0 8px rgba(255,255,255,0.6)",
+                    boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
                   }}
                   onMouseEnter={(e) => {
                     if (!updateMutation.isPending) {
-                      (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,0,0,0.4)";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 25px rgba(255,0,0,0.5)";
-                      (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
+                      (e.currentTarget as HTMLButtonElement).style.background = "linear-gradient(135deg, #ff0000 0%, #ff3333 100%)";
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 30px rgba(255,0,0,0.6)";
+                      (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
                     }
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,0,0,0.25)";
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                    (e.currentTarget as HTMLButtonElement).style.background = "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)";
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 4px 15px rgba(255,0,0,0.4)";
                     (e.currentTarget as HTMLButtonElement).style.transform = "none";
                   }}
                 >
