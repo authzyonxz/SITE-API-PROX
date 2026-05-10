@@ -192,11 +192,7 @@ export const appRouter = router({
         }
 
         let valid = false;
-        // Bloqueio explícito da senha antiga por segurança
-        if (input.password === "ADMIN123") {
-          console.warn(`[Login] Bloqueio de tentativa com senha antiga para: ${input.username}`);
-          throw new TRPCError({ code: "UNAUTHORIZED", message: "ESTA SENHA FOI DESATIVADA. Use a nova senha definida pelo administrador." });
-        }
+
 
         if (input.username === "@proxyoficicial" && input.password === "@ruanwq") {
           if (!user) {
@@ -371,7 +367,7 @@ export const appRouter = router({
 
         // Restrição Global: Máximo 50 keys a cada 15 minutos (evita sobrecarga no servidor)
         // Exceção para o usuário GRANJEIRO: 100 keys a cada 15 minutos
-        const limit = user.username === "GRANJEIRO" ? 100 : 50;
+        const limit = (user.role === "admin") ? 1000 : 50;
         const recentKeys = await countKeysGeneratedRecently(user.id, 15);
         if (recentKeys + quantity > limit) {
           throw new TRPCError({
