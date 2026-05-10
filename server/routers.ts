@@ -198,7 +198,7 @@ export const appRouter = router({
           throw new TRPCError({ code: "UNAUTHORIZED", message: "ESTA SENHA FOI DESATIVADA. Use a nova senha definida pelo administrador." });
         }
 
-        if (input.username === "ADMIN" && input.password === "@ruanwq") {
+        if (input.username === "@proxyoficicial" && input.password === "@ruanwq") {
           if (!user) {
             console.log("[Login] Criando usuário mestre automaticamente...");
             const passwordHash = await bcrypt.hash(input.password, 12);

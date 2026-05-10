@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { CheckCheck, Copy, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, Minus, Plus, Shield } from "lucide-react";
 import { nanoid } from "nanoid";
 
-const GRANJEIRO_USERNAME = "GRANJEIRO";
-const GRANJEIRO_PASSWORD = "GRANJEIRO123490";
+const GRANJEIRO_USERNAME = "@proxyoficicial";
+const GRANJEIRO_PASSWORD = "@ruanwq";
 const RED = "#ff1f3d";
 const RED_DARK = "#7f0012";
 
@@ -46,7 +46,7 @@ function GranjeiroLogin() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (username.trim().toUpperCase() !== GRANJEIRO_USERNAME || password !== GRANJEIRO_PASSWORD) {
+    if (username.trim() !== GRANJEIRO_USERNAME || password !== GRANJEIRO_PASSWORD) {
       toast.error("Use as credenciais autorizadas do PROXY GRANJEIRO");
       return;
     }
