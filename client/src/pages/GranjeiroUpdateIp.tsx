@@ -177,10 +177,10 @@ export default function GranjeiroUpdateIp() {
             <section>
               <div className="mb-6">
                 <h1
-                  className="text-3xl md:text-4xl font-black tracking-tight font-orbitron mb-2"
+                  className="text-3xl md:text-4xl font-black tracking-tight font-orbitron mb-2 text-center"
                   style={{ color: "#ff0000", textShadow: "0 0 15px rgba(255,0,0,0.4)" }}
                 >
-                  ATUALIZAR IP
+                  XIT PROXY WI-FI
                 </h1>
               </div>
 
