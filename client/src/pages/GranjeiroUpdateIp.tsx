@@ -199,19 +199,7 @@ export default function GranjeiroUpdateIp() {
                     <Download className="w-5 h-5" /> INJECT XIT
                   </a>
 
-                  <a
-                    href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-4 rounded-lg border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase"
-                    style={{
-                      background: "rgba(0,255,100,0.05)",
-                      borderColor: "rgba(0,255,100,0.3)",
-                      color: "#00ff64",
-                    }}
-                  >
-                    <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
-                  </a>
+
                 </div>
 
                 {result && (
@@ -229,6 +217,28 @@ export default function GranjeiroUpdateIp() {
 
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
+              <a
+                href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-5 rounded-xl border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase mb-6"
+                style={{
+                  background: "rgba(0,255,100,0.05)",
+                  borderColor: "rgba(0,255,100,0.3)",
+                  color: "#00ff64",
+                  boxShadow: "0 0 25px rgba(0,255,100,0.1)"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,255,100,0.15)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(0,255,100,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,255,100,0.05)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 25px rgba(0,255,100,0.1)";
+                }}
+              >
+                <MessageCircle className="w-6 h-6" /> KEYS GRATIS FREE
+              </a>
               {proxyInfos.map((proxy, idx) => (
                 <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(255,0,0,0.3)", background: "rgba(255,0,0,0.02)" }}>
                   <div className="px-5 py-3 border-b bg-red-500/10 border-red-500/20">
