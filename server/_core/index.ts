@@ -45,12 +45,12 @@ async function startServer() {
       console.log("[Auth] Limpando usuários administradores antigos e garantindo novo ADMIN...");
       // Deleta qualquer usuário que não seja o novo padrão para evitar senhas antigas
       await db.delete(localUsers).where(eq(localUsers.username, "ADMIN"));
-      await db.delete(localUsers).where(eq(localUsers.username, "@proxyoficicial"));
+      await db.delete(localUsers).where(eq(localUsers.username, "@proxyoficial"));
       
       const passwordHash = await bcrypt.hash("@ruanwq", 12);
-      // Garante que o usuário @proxyoficicial exista com a senha correta
+      // Garante que o usuário @proxyoficial exista com a senha correta
       await db.insert(localUsers).values({
-        username: "@proxyoficicial",
+        username: "@proxyoficial",
         passwordHash,
         role: "admin",
         credits: 999999,
