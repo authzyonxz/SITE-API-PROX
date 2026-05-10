@@ -241,21 +241,24 @@ export const appRouter = router({
 
           const currentDevices = user.deviceId ? user.deviceId.split(",").filter(id => id.trim() !== "") : [];
           
+          // Se o dispositivo ATUAL já está na lista, permite o login sem fazer nada
           if (!currentDevices.includes(input.deviceId)) {
-            // Novo dispositivo tentando vincular
+            // Se o dispositivo não está na lista, verificamos se ainda há espaço para novos vínculos
             if (currentDevices.length < user.maxDevices) {
-              // Ainda tem espaço no limite, vincular novo
+              // Ainda tem espaço no limite, vincular este novo dispositivo
               const newDevices = [...currentDevices, input.deviceId].join(",");
               console.log(`[Login] Vinculando NOVO dispositivo ${input.deviceId} ao usuário ${user.username}. Total: ${currentDevices.length + 1}/${user.maxDevices}`);
               await updateUserDeviceId(user.id, newDevices);
             } else {
-              // Atingiu o limite de dispositivos
+              // Atingiu o limite de dispositivos diferentes
               console.warn(`[Login] Bloqueio de dispositivo: Usuário ${user.username} atingiu limite de ${user.maxDevices} aparelhos.`);
               throw new TRPCError({ 
                 code: "FORBIDDEN", 
                 message: `LIMITE DE DISPOSITIVOS ATINGIDO (${user.maxDevices}): Esta conta já está vinculada ao número máximo de aparelhos permitidos. Entre em contato com o administrador.` 
               });
             }
+          } else {
+            console.log(`[Login] Dispositivo ${input.deviceId} já vinculado ao usuário ${user.username}. Acesso liberado.`);
           }
         }
 
