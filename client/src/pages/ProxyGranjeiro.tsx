@@ -19,8 +19,8 @@ const DURATION_OPTIONS = [
 
 function GranjeiroLogin() {
   const utils = trpc.useUtils();
-  const [username, setUsername] = useState(GRANJEIRO_USERNAME);
-  const [password, setPassword] = useState(GRANJEIRO_PASSWORD);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [deviceId, setDeviceId] = useState("");
 
@@ -89,7 +89,7 @@ function GranjeiroLogin() {
             <div className="h-px mt-2" style={{ background: `linear-gradient(90deg, ${RED}, transparent)` }} />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
             <div>
               <label className="block text-xs font-medium tracking-widest uppercase mb-2" style={{ color: RED, fontFamily: "'Rajdhani', sans-serif" }}>
                 Usuário
@@ -101,6 +101,7 @@ function GranjeiroLogin() {
                 className="w-full px-4 py-3 rounded text-sm outline-none transition-all"
                 style={{ background: "rgba(255,31,61,0.07)", border: "1px solid rgba(255,31,61,0.26)", color: "#fff", fontFamily: "'Rajdhani', sans-serif", fontSize: "1rem" }}
                 disabled={loginMutation.isPending}
+                autoComplete="off"
               />
             </div>
 
@@ -116,6 +117,7 @@ function GranjeiroLogin() {
                   className="w-full px-4 py-3 pr-12 rounded text-sm outline-none transition-all"
                   style={{ background: "rgba(255,31,61,0.07)", border: "1px solid rgba(255,31,61,0.26)", color: "#fff", fontFamily: "'Rajdhani', sans-serif", fontSize: "1rem" }}
                   disabled={loginMutation.isPending}
+                  autoComplete="new-password"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-60 hover:opacity-100 transition-opacity" style={{ color: RED }}>
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
