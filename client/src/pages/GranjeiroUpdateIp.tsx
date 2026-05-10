@@ -472,6 +472,28 @@ export default function GranjeiroUpdateIp() {
                   DOWNLOAD GRANJEIRO CERT
                 </a>
 
+                <a
+                  href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
+                  style={{
+                    background: "linear-gradient(to right, #25D366, #128C7E)",
+                    boxShadow: "0 0 35px rgba(37,211,102,0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 45px rgba(37,211,102,0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(37,211,102,0.3)";
+                  }}
+                >
+                  <MessageCircle className="w-6 h-6" />
+                  CANAL DE ATUALIZAÇÃO
+                </a>
+
               </div>
 
             </div>
