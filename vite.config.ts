@@ -167,6 +167,8 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    target: "es2015",
+    cssTarget: "chrome61",
   },
   server: {
     host: true,
