@@ -221,20 +221,23 @@ export default function GranjeiroUpdateIp() {
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 rounded-xl border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase mb-2"
+                className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border font-orbitron text-sm mb-4"
                 style={{
-                  background: "rgba(0,255,100,0.05)",
-                  borderColor: "rgba(0,255,100,0.3)",
-                  color: "#00ff64",
-                  boxShadow: "0 0 15px rgba(0,255,100,0.1)"
+                  background: "linear-gradient(135deg, #008037 0%, #00ff64 100%)",
+                  borderColor: "#00ff64",
+                  color: "#ffffff",
+                  textShadow: "0 0 8px rgba(255,255,255,0.4)",
+                  boxShadow: "0 4px 15px rgba(0,255,100,0.3)"
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,255,100,0.12)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 25px rgba(0,255,100,0.2)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #00ff64 0%, #33ff83 100%)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(0,255,100,0.5)";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(0,255,100,0.05)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 15px rgba(0,255,100,0.1)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #008037 0%, #00ff64 100%)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 15px rgba(0,255,100,0.3)";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
                 }}
               >
                 <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
