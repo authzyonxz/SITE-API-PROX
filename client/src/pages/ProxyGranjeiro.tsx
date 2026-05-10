@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { CheckCheck, Copy, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, Minus, Plus, Shield } from "lucide-react";
 import { nanoid } from "nanoid";
 
-const GRANJEIRO_USERNAME = "@proxyoficial";
-const GRANJEIRO_PASSWORD = "@ruanwq";
+const GRANJEIRO_USERNAME = "GRANJEIRO";
+const GRANJEIRO_PASSWORD = "GRANJEIRO123490";
 const RED = "#ff1f3d";
 const RED_DARK = "#7f0012";
 
