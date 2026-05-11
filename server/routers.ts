@@ -369,14 +369,13 @@ export const appRouter = router({
           });
         }
 
-        // Restrição Global: Máximo 50 keys a cada 15 minutos (evita sobrecarga no servidor)
-        // Exceção para o usuário GRANJEIRO: 100 keys a cada 15 minutos
-        const limit = (user.role === "admin") ? 1000 : 50;
-        const recentKeys = await countKeysGeneratedRecently(user.id, 15);
-        if (recentKeys + quantity > limit) {
+        // Limite de geração aumentado para 50 keys por vez conforme solicitado
+        // Restrição de tempo removida para maior liberdade
+        const limit = 50;
+        if (quantity > limit && user.role !== "admin") {
           throw new TRPCError({
-            code: "FORBIDDEN",
-            message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 15 minutos. O limite para seu usuário é ${limit} keys a cada 15 minutos.`,
+            code: "BAD_REQUEST",
+            message: `O limite máximo de geração é de ${limit} keys por vez.`,
           });
         }
 
