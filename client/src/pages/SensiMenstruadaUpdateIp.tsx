@@ -221,6 +221,28 @@ export default function SensiMenstruadaUpdateIp() {
                   </div>
                 )}
               </div>
+
+              {/* Bottom Action Buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <a 
+                  href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-400 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
+                >
+                  <Download className="w-5 h-5" />
+                  Download Certificado
+                </a>
+                <a 
+                  href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-green-400 font-bold font-orbitron tracking-widest uppercase hover:bg-green-500/10 hover:border-green-500/30 transition-all"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Canal de Atualizações
+                </a>
+              </div>
             </section>
           </div>
 
