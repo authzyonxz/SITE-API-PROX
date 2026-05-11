@@ -111,9 +111,9 @@ export default function SensiMenstruadaUpdateIp() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 space-y-8">
             <section>
-              <div className="mb-6 text-center">
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight font-orbitron" style={{ color: "#a855f7", textShadow: "0 0 15px rgba(147,51,234,0.4)" }}>
-                  XIT PROXY WI-FI
+              <div className="mb-6">
+                <h1 className="text-3xl md:text-4xl font-black tracking-tight font-orbitron mb-2" style={{ color: "#a855f7", textShadow: "0 0 15px rgba(147,51,234,0.4)" }}>
+                  ATUALIZAR IP
                 </h1>
               </div>
 
