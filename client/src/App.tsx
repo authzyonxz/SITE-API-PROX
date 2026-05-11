@@ -24,7 +24,8 @@ import GranjeiroUpdateIp from "@/pages/GranjeiroUpdateIp";
 import AppleIosUpdateIp from "@/pages/AppleIosUpdateIp";
 import ProxyIosUpdateIp from "@/pages/ProxyIosUpdateIp";
 import AraaoProxyUpdateIp from "@/pages/AraaoProxyUpdateIp";
-import HyperProxyUpdateIp from "@/pages/HyperProxyUpdateIp";
+import HyperProxyUpdateIp from "./pages/HyperProxyUpdateIp";
+import SensiMenstruadaUpdateIp from "./pages/SensiMenstruadaUpdateIp";
 
 import AllHackUpdateIp from "@/pages/AllHackUpdateIp";
 import FreeFireUpdateIp from "@/pages/FreeFireUpdateIp";
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/proxy-ios-update-ip" component={ProxyIosUpdateIp} />
       <Route path="/araao-proxy" component={AraaoProxyUpdateIp} />
       <Route path="/hyper-proxy" component={HyperProxyUpdateIp} />
+      <Route path="/sensi-menstruada" component={SensiMenstruadaUpdateIp} />
       <Route path="/all-hack-update-ip" component={AllHackUpdateIp} />
       <Route path="/free-fire-update-ip" component={FreeFireUpdateIp} />
       <Route path="/chuky-xiter-update-ip" component={ChukyXiterUpdateIp} />
