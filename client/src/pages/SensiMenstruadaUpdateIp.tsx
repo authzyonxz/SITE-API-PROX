@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MessageCircle, Zap } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MoreVertical, Bell, MessageCircle } from "lucide-react";
 
 export default function SensiMenstruadaUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isFetchingIp, setIsFetchingIp] = useState(false);
 
   const updateMutation = trpc.keys.publicUpdateIp.useMutation({
@@ -46,7 +47,7 @@ export default function SensiMenstruadaUpdateIp() {
 
   const proxyInfos = [
     {
-      title: "🟣 SENSI PROXY HS PESCOÇO",
+      title: "🎯 SENSI PROXY HS PESCOÇO",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
         { label: "Porta", value: "1110" }
@@ -62,49 +63,82 @@ export default function SensiMenstruadaUpdateIp() {
   ];
 
   return (
-    <div
-      className="min-h-screen text-foreground font-sans selection:bg-purple-600/40"
-      style={{
-        background: "#050005",
-        backgroundImage:
-          "radial-gradient(ellipse at 20% 50%, rgba(147,51,234,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(147,51,234,0.1) 0%, transparent 50%), linear-gradient(rgba(147,51,234,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(147,51,234,0.05) 1px, transparent 1px)",
-        backgroundSize: "auto, auto, 40px 40px, 40px 40px",
-      }}
-    >
-      <nav
-        className="sticky top-0 z-50 border-b backdrop-blur-md"
-        style={{
-          borderColor: "rgba(147,51,234,0.4)",
-          background: "rgba(5,0,5,0.9)",
-        }}
-      >
+    <div className="min-h-screen bg-gradient-to-br from-black via-slate-950 to-black text-foreground font-sans selection:bg-purple-500/30">
+      <nav className="sticky top-0 z-50 border-b border-purple-500/20 bg-black/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center border"
-                style={{
-                  background: "rgba(147,51,234,0.2)",
-                  borderColor: "rgba(147,51,234,0.5)",
-                  boxShadow: "0 0 20px rgba(147,51,234,0.4)",
-                }}
-              >
-                <Zap className="w-5 h-5" style={{ color: "#a855f7" }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg shadow-purple-500/50">
+                <Shield className="w-5 h-5 text-white" />
               </div>
-              <span
-                className="text-xl font-black tracking-tighter font-orbitron"
-                style={{ color: "#a855f7", textShadow: "0 0 10px rgba(147,51,234,0.5)" }}
-              >
+              <span className="text-xl font-black tracking-tighter text-purple-400 font-orbitron uppercase">
                 SENSI MENSTRUADA
               </span>
             </div>
+
+            <div className="hidden md:flex items-center gap-3">
+              <div className="relative">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-purple-400 hover:border-purple-400/50 transition-all"
+                >
+                  <MoreVertical className="w-5 h-5" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <a 
+                      href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all border-b border-white/10"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download Certificado
+                    </a>
+                    <a 
+                      href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Canal de Atualizações
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="md:hidden">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md" style={{ color: "#a855f7" }}>
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-purple-400">
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
         </div>
+
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 p-4 space-y-3">
+            <a 
+              href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
+            >
+              <Download className="w-4 h-4" />
+              Download Certificado
+            </a>
+            <a 
+              href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Canal de Atualizações
+            </a>
+          </div>
+        )}
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -112,93 +146,70 @@ export default function SensiMenstruadaUpdateIp() {
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight font-orbitron mb-2" style={{ color: "#a855f7", textShadow: "0 0 15px rgba(147,51,234,0.4)" }}>
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white font-orbitron mb-2">
                   ATUALIZAR IP
                 </h1>
+                <p className="text-slate-400 font-rajdhani text-lg">
+                  Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.
+                </p>
               </div>
 
-              <div
-                className="rounded-xl p-6 md:p-8 space-y-6 border"
-                style={{
-                  background: "rgba(147,51,234,0.03)",
-                  borderColor: "rgba(147,51,234,0.3)",
-                  boxShadow: "0 0 40px rgba(147,51,234,0.08)",
-                }}
-              >
+              <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 md:p-8 space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold tracking-widest uppercase mb-2 font-mono" style={{ color: "rgba(168,85,247,0.8)" }}>Sua Key de Acesso</label>
+                    <label className="block text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 font-mono">
+                      Sua Key de Acesso
+                    </label>
                     <div className="relative group">
-                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: "rgba(168,85,247,0.5)" }} />
+                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400/50 group-focus-within:text-purple-400 transition-colors" />
                       <input
                         type="text"
                         value={keyInput}
                         onChange={(e) => setKeyInput(e.target.value)}
                         placeholder="Cole sua key aqui..."
-                        className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border bg-black/50 border-purple-500/30 text-white focus:border-purple-500/60 focus:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all font-mono text-sm text-white placeholder-slate-500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="block text-xs font-bold tracking-widest uppercase font-mono" style={{ color: "rgba(168,85,247,0.8)" }}>Novo Endereço de IP</label>
-                      <button onClick={handleFetchIp} disabled={isFetchingIp} className="text-xs font-bold uppercase tracking-widest text-purple-500/60 hover:text-purple-500 transition-colors flex items-center gap-1">
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />} Detectar meu IP
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block text-xs font-bold tracking-widest uppercase text-slate-400 font-mono">
+                        Novo Endereço de IP
+                      </label>
+                      <button 
+                        onClick={handleFetchIp}
+                        disabled={isFetchingIp}
+                        className="text-xs font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5"
+                      >
+                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
+                        Detectar meu IP
                       </button>
                     </div>
                     <div className="relative group">
-                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: "rgba(168,85,247,0.5)" }} />
+                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400/50 group-focus-within:text-purple-400 transition-colors" />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
                         placeholder="Ex: 177.123.45.67"
-                        className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border bg-black/50 border-purple-500/30 text-white focus:border-purple-500/60 focus:shadow-[0_0_15px_rgba(168,85,247,0.2)]"
+                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 outline-none transition-all font-mono text-sm text-white placeholder-slate-500"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <button
-                    onClick={handleUpdate}
-                    disabled={updateMutation.isPending}
-                    className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
-                    style={{
-                      background: "linear-gradient(135deg, #6b21a8 0%, #a855f7 100%)",
-                      borderColor: "#a855f7",
-                      color: "#ffffff",
-                      boxShadow: "0 4px 15px rgba(168,85,247,0.4)"
-                    }}
-                  >
-                    {updateMutation.isPending ? (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="flex items-center gap-3">
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span className="animate-pulse">ATIVANDO SENSI...</span>
-                        </div>
-                        <span className="text-[10px] opacity-70 tracking-[0.2em] font-mono uppercase">Sincronizando IP</span>
-                      </div>
-                    ) : (
-                      <><Shield className="w-5 h-5" /> ATIVAR XIT</>
-                    )}
-                  </button>
-
-                  <a
-                    href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-4 rounded-lg border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase"
-                    style={{
-                      background: "rgba(168,85,247,0.1)",
-                      borderColor: "rgba(168,85,247,0.4)",
-                      color: "#c084fc",
-                    }}
-                  >
-                    <Download className="w-5 h-5" /> INJECT XIT
-                  </a>
-                </div>
+                <button
+                  onClick={handleUpdate}
+                  disabled={updateMutation.isPending}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-purple-500/20 flex items-center justify-center gap-3 disabled:opacity-50"
+                >
+                  {updateMutation.isPending ? (
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Atualizando...</>
+                  ) : (
+                    <><CheckCircle className="w-5 h-5" /> Atualizar IP</>
+                  )}
+                </button>
 
                 {result && (
                   <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
@@ -215,32 +226,16 @@ export default function SensiMenstruadaUpdateIp() {
 
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <a
-                href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border font-orbitron text-sm mb-4"
-                style={{
-                  background: "linear-gradient(135deg, #6b21a8 0%, #a855f7 100%)",
-                  borderColor: "#a855f7",
-                  color: "#ffffff",
-                  textShadow: "0 0 8px rgba(255,255,255,0.4)",
-                  boxShadow: "0 4px 15px rgba(168,85,247,0.3)"
-                }}
-              >
-                <MessageCircle className="w-5 h-5" /> CANAL DE ATUALIZAÇÃO
-              </a>
-
               {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(147,51,234,0.3)", background: "rgba(147,51,234,0.02)" }}>
-                  <div className="px-5 py-3 border-b bg-purple-500/10 border-purple-500/20">
+                <div key={idx} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl overflow-hidden shadow-xl shadow-black/20">
+                  <div className="px-5 py-4 border-b border-white/10 bg-white/5">
                     <h3 className="text-sm font-black tracking-widest font-orbitron text-purple-400">{proxy.title}</h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono px-2 py-1 rounded border bg-white/5 border-white/10">{item.value}</span>
+                        <span className="text-xs uppercase tracking-widest text-slate-500 font-mono">{item.label}</span>
+                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">{item.value}</span>
                       </div>
                     ))}
                   </div>
@@ -251,9 +246,9 @@ export default function SensiMenstruadaUpdateIp() {
         </div>
       </main>
 
-      <footer className="mt-12 py-8 border-t text-center border-purple-500/20">
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          Sensi Menstruada System &copy; 2026 // High Performance Proxy
+      <footer className="mt-12 py-8 border-t border-white/5 text-center">
+        <p className="text-[10px] tracking-[0.4em] uppercase text-slate-600 font-mono">
+          Sensi Menstruada Proxy &copy; 2026 // Secure Connection Established
         </p>
       </footer>
     </div>
