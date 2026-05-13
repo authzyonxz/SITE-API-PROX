@@ -45,6 +45,9 @@ import {
   removeFromBlacklist,
   listBlacklist,
   isIpBlacklisted,
+  createReport,
+  listReports,
+  deleteReport,
 } from "./db";
 
 const API_BASE = "https://ruan.arifi.site";

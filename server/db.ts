@@ -35,24 +35,8 @@ export async function getDb() {
           console.error("[Database] Erro na auto-migração:", e);
         }
       }, 1000);
-      // Rodamos em um bloco try-catch separado para não travar se a coluna já existir
-      const db = _db;
-      setTimeout(async () => {
-        try {
-          console.log("[Database] Verificando estrutura das tabelas...");
-          await db.execute(sql`ALTER TABLE local_users ADD COLUMN IF NOT EXISTS deviceId VARCHAR(1000)`);
-          await db.execute(sql`ALTER TABLE access_logs ADD COLUMN IF NOT EXISTS deviceId VARCHAR(255)`);
-          console.log("[Database] Estrutura verificada com sucesso.");
-        } catch (e) {
-          // Se falhar (ex: MySQL antigo que não suporta IF NOT EXISTS), tentamos sem o IF NOT EXISTS e ignoramos erro de "coluna duplicada"
-          try {
-            await db.execute(sql`ALTER TABLE local_users ADD COLUMN deviceId VARCHAR(1000)`);
-          } catch (err) {}
-          try {
-            await db.execute(sql`ALTER TABLE access_logs ADD COLUMN deviceId VARCHAR(255)`);
-          } catch (err) {}
-        }
-      }, 1000);
+      // As colunas de dispositivo já estão sendo tratadas no primeiro setTimeout acima.
+      // Removido o bloco duplicado para evitar erro de compilação.
       
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
