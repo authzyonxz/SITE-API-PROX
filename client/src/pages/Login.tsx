@@ -24,7 +24,6 @@ export default function Login() {
     onSuccess: () => {
       toast.success("Acesso autorizado");
       navigate("/dashboard");
-      window.location.reload();
     },
     onError: (err) => {
       toast.error(err.message || "Credenciais inválidas");

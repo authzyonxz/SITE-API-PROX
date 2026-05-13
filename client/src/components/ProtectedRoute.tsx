@@ -9,7 +9,11 @@ export function ProtectedRoute({ children, adminOnly = false }: { children: Reac
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      navigate("/");
+      // Pequeno delay para garantir que o estado de carregamento foi processado
+      const timer = setTimeout(() => {
+        if (!isAuthenticated) navigate("/");
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [loading, isAuthenticated, navigate]);
 
