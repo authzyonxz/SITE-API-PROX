@@ -89,3 +89,20 @@ export const ipBlacklist = mysqlTable("ip_blacklist", {
 
 export type IpBlacklist = typeof ipBlacklist.$inferSelect;
 export type InsertIpBlacklist = typeof ipBlacklist.$inferInsert;
+
+/**
+ * Table for reporting reseller scams/fraud.
+ */
+export const reports = mysqlTable("reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterName: varchar("reporterName", { length: 255 }).notNull(),
+  discordLink: varchar("discordLink", { length: 255 }).notNull(),
+  scamKey: varchar("scamKey", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  imageUrls: text("imageUrls"), // Comma-separated or JSON array of image URLs
+  status: mysqlEnum("status", ["pending", "reviewed", "resolved"]).default("pending").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Report = typeof reports.$inferSelect;
+export type InsertReport = typeof reports.$inferInsert;

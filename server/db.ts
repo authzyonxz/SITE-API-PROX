@@ -1,7 +1,7 @@
 import { eq, desc, count, and, lt, gte, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "node:crypto";
-import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus, ipBlacklist, InsertIpBlacklist } from "../drizzle/schema";
+import { InsertUser, users, localUsers, generatedKeys, InsertLocalUser, InsertGeneratedKey, accessLogs, InsertAccessLog, proxyStatus, ipBlacklist, InsertIpBlacklist, reports, InsertReport } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -11,7 +11,30 @@ export async function getDb() {
     try {
       _db = drizzle(process.env.DATABASE_URL);
       
-      // Auto-migration: Garantir que as colunas de dispositivo existam
+      // Auto-migration: Garantir que as tabelas e colunas existam
+      const db = _db;
+      setTimeout(async () => {
+        try {
+          console.log("[Database] Verificando estrutura das tabelas...");
+          // Tabela de denúncias
+          await db.execute(sql`CREATE TABLE IF NOT EXISTS reports (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            reporterName VARCHAR(255) NOT NULL,
+            discordLink VARCHAR(255) NOT NULL,
+            scamKey VARCHAR(255) NOT NULL,
+            description TEXT NOT NULL,
+            imageUrls TEXT,
+            status ENUM('pending', 'reviewed', 'resolved') DEFAULT 'pending' NOT NULL,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+          )`);
+          
+          await db.execute(sql`ALTER TABLE local_users ADD COLUMN IF NOT EXISTS deviceId VARCHAR(1000)`);
+          await db.execute(sql`ALTER TABLE access_logs ADD COLUMN IF NOT EXISTS deviceId VARCHAR(255)`);
+          console.log("[Database] Estrutura verificada com sucesso.");
+        } catch (e) {
+          console.error("[Database] Erro na auto-migração:", e);
+        }
+      }, 1000);
       // Rodamos em um bloco try-catch separado para não travar se a coluna já existir
       const db = _db;
       setTimeout(async () => {
@@ -376,4 +399,22 @@ export async function countKeysGeneratedRecently(userId: number, minutes: number
       eq(generatedKeys.status, "active")
     ));
   return result?.value ?? 0;
+}
+
+export async function createReport(report: InsertReport) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(reports).values(report);
+}
+
+export async function listReports() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(reports).orderBy(desc(reports.createdAt));
+}
+
+export async function deleteReport(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(reports).where(eq(reports.id, id));
 }

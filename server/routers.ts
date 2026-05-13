@@ -683,6 +683,39 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ─── Reports ───────────────────────────────────────────────────────────────
+  reports: router({
+    submit: publicProcedure
+      .input(z.object({
+        reporterName: z.string().min(1),
+        discordLink: z.string().min(1),
+        scamKey: z.string().min(1),
+        description: z.string().min(1),
+        imageUrls: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await createReport({
+          reporterName: input.reporterName,
+          discordLink: input.discordLink,
+          scamKey: input.scamKey,
+          description: input.description,
+          imageUrls: input.imageUrls,
+        });
+        return { success: true };
+      }),
+
+    list: adminProcedure.query(async () => {
+      return listReports();
+    }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number().int() }))
+      .mutation(async ({ input }) => {
+        await deleteReport(input.id);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
