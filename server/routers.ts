@@ -562,11 +562,25 @@ export const appRouter = router({
     delete: adminProcedure
       .input(z.object({ userId: z.number().int() }))
       .mutation(async ({ input, ctx }) => {
+        console.log(`[Admin] Tentando excluir usuário ID: ${input.userId}`);
         const user = await getLocalUserById(input.userId);
-        if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
-        if (user.role === "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Não é possível excluir um administrador" });
-        await deleteLocalUser(input.userId);
-        return { success: true };
+        if (!user) {
+          console.error(`[Admin] Falha ao excluir: Usuário ${input.userId} não encontrado.`);
+          throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
+        }
+        if (user.role === "admin") {
+          console.warn(`[Admin] Tentativa bloqueada de excluir outro administrador: ${user.username}`);
+          throw new TRPCError({ code: "FORBIDDEN", message: "Não é possível excluir um administrador" });
+        }
+        
+        try {
+          await deleteLocalUser(input.userId);
+          console.log(`[Admin] Usuário ${user.username} (ID: ${input.userId}) excluído com sucesso do banco.`);
+          return { success: true };
+        } catch (e) {
+          console.error(`[Admin] Erro fatal ao excluir usuário no banco:`, e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao processar exclusão no banco de dados" });
+        }
       }),
 
     deleteAllKeys: adminProcedure
