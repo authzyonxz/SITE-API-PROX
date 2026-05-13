@@ -23,10 +23,12 @@ export async function getDb() {
             discordLink VARCHAR(255) NOT NULL,
             scamKey VARCHAR(255) NOT NULL,
             description TEXT NOT NULL,
-            imageUrls TEXT,
+            imageUrls LONGTEXT,
             status ENUM('pending', 'reviewed', 'resolved') DEFAULT 'pending' NOT NULL,
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
           )`);
+          // Garantir que a coluna seja LONGTEXT se já existir
+          await db.execute(sql`ALTER TABLE reports MODIFY COLUMN imageUrls LONGTEXT`);
           
           await db.execute(sql`ALTER TABLE local_users ADD COLUMN IF NOT EXISTS deviceId VARCHAR(1000)`);
           await db.execute(sql`ALTER TABLE access_logs ADD COLUMN IF NOT EXISTS deviceId VARCHAR(255)`);

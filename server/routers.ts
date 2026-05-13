@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import * as jose from "jose";
 
 import { TRPCError } from "@trpc/server";
-import { eq, and, gte } from "drizzle-orm";
+import { eq, and, gte, sql } from "drizzle-orm";
 import { accessLogs, localUsers } from "../drizzle/schema";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { systemRouter } from "./_core/systemRouter";
