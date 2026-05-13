@@ -175,6 +175,9 @@ export const appRouter = router({
         deviceId: z.string().optional() 
       }))
       .mutation(async ({ input, ctx }) => {
+        // Limpar cookies antigos antes de definir o novo para evitar conflitos
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
         const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
         
         // Bloqueio imediato por IP no login
