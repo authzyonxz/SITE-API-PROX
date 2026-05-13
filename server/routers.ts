@@ -279,10 +279,8 @@ export const appRouter = router({
 
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
           httpOnly: true,
-          secure: isSecure,
-          // Android Chrome exige SameSite: "none" para cookies cross-site em HTTPS
-          // Se não for HTTPS, usamos "lax" que é o padrão moderno
-          sameSite: isSecure ? "none" : "lax",
+          secure: true, // Forçar true para Railway (sempre HTTPS)
+          sameSite: "lax", // Lax é mais compatível para navegação direta e PWAs
           maxAge: 7 * 24 * 60 * 60 * 1000,
           path: "/",
         });
@@ -315,7 +313,10 @@ export const appRouter = router({
 
     me: publicProcedure.query(async ({ ctx }) => {
       const localUser = await getLocalUserFromReq(ctx.req);
-      if (!localUser) return null;
+      if (!localUser) {
+        console.log("[Auth] Sessão não encontrada ou inválida na rota 'me'");
+        return null;
+      }
       return {
         id: localUser.id,
         username: localUser.username,
