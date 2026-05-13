@@ -535,7 +535,9 @@ export const appRouter = router({
       }),
 
     list: adminProcedure.query(async () => {
-      return listLocalUsers();
+      const users = await listLocalUsers();
+      console.log(`[Admin] Listando ${users.length} usuários locais.`);
+      return users;
     }),
 
     addCredits: adminProcedure

@@ -78,7 +78,10 @@ export default function GerarKeyPublic() {
 
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
-  if (!isAuthenticated || (user && user.username !== "79998630914" && user.role !== "admin")) {
+  // Forçar a exibição do painel se o login foi bem sucedido com o usuário correto
+  const canAccess = isAuthenticated && (user?.username === "79998630914" || user?.role === "admin");
+
+  if (!canAccess) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" 
         style={{ background: "#0a0000", backgroundImage: "radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, transparent 70%)" }}>
