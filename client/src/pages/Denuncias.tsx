@@ -33,19 +33,43 @@ export default function Denuncias() {
     let processed = 0;
 
     Array.from(files).forEach(file => {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`A imagem ${file.name} é muito grande (máx 5MB)`);
-        processed++;
-        if (processed === files.length) setUploading(false);
-        return;
-      }
-
       const reader = new FileReader();
-      reader.onloadend = () => {
-        newImages.push(reader.result as string);
-        setImages([...newImages]);
-        processed++;
-        if (processed === files.length) setUploading(false);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          // Redimensionar se for muito grande (max 1200px)
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Comprimir para JPEG com qualidade 0.6
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          newImages.push(dataUrl);
+          setImages([...newImages]);
+          processed++;
+          if (processed === files.length) setUploading(false);
+        };
+        img.src = event.target?.result as string;
       };
       reader.readAsDataURL(file);
     });

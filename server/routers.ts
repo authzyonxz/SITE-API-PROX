@@ -698,14 +698,23 @@ export const appRouter = router({
         imageUrls: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        await createReport({
-          reporterName: input.reporterName,
-          discordLink: input.discordLink,
-          scamKey: input.scamKey,
-          description: input.description,
-          imageUrls: input.imageUrls,
-        });
-        return { success: true };
+        try {
+          console.log(`[Reports] Recebendo denúncia de ${input.reporterName}`);
+          await createReport({
+            reporterName: input.reporterName,
+            discordLink: input.discordLink,
+            scamKey: input.scamKey,
+            description: input.description,
+            imageUrls: input.imageUrls,
+          });
+          return { success: true };
+        } catch (error) {
+          console.error("[Reports] Erro ao salvar denúncia:", error);
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Erro ao salvar denúncia no servidor. Verifique se as imagens não são muito grandes.',
+          });
+        }
       }),
 
     list: adminProcedure.query(async () => {
