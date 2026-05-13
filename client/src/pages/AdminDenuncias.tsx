@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { ShieldAlert, Trash2, Calendar, User, Link, Key, FileText, Image as ImageIcon, ExternalLink, Loader2 } from "lucide-react";
+import { ShieldAlert, Trash2, Calendar, User, Link, Key, FileText, Image as ImageIcon, ExternalLink, Loader2, X } from "lucide-react";
 
 export default function AdminDenuncias() {
   const { data: reports, isLoading, refetch } = trpc.reports.list.useQuery();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const deleteMutation = trpc.reports.delete.useMutation({
     onSuccess: () => {
@@ -95,19 +97,17 @@ export default function AdminDenuncias() {
                 {report.imageUrls && (
                   <div className="space-y-2">
                     <p className="text-[10px] text-zinc-500 uppercase tracking-widest flex items-center gap-1">
-                      <ImageIcon className="w-3 h-3" /> Provas (Prints)
+                      <ImageIcon className="w-3 h-3" /> Provas (Prints Enviados)
                     </p>
-                    <div className="flex flex-wrap gap-2">
-                      {report.imageUrls.split(",").map((url, i) => (
-                        <a 
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                      {report.imageUrls.split("|").map((url, i) => (
+                        <div 
                           key={i} 
-                          href={url.trim()} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900 border border-white/5 text-xs text-zinc-400 hover:text-white hover:border-red-600/50 transition-all"
+                          onClick={() => setSelectedImage(url.trim())}
+                          className="aspect-square rounded-lg overflow-hidden border border-white/10 cursor-pointer hover:border-red-600/50 transition-all"
                         >
-                          <ExternalLink className="w-3 h-3" /> Print {i + 1}
-                        </a>
+                          <img src={url.trim()} alt={`Print ${i+1}`} className="w-full h-full object-cover" />
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -115,6 +115,21 @@ export default function AdminDenuncias() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Modal de visualização de imagem */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setSelectedImage(null)}>
+          <div className="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center">
+            <button 
+              className="absolute -top-12 right-0 p-2 text-white hover:text-red-500 transition-colors"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <img src={selectedImage} alt="Preview" className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+          </div>
         </div>
       )}
     </div>
