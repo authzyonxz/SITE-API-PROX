@@ -279,10 +279,12 @@ export const appRouter = router({
 
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
           httpOnly: true,
-          secure: true, // Forçar true para Railway (sempre HTTPS)
-          sameSite: "lax", // Lax é mais compatível para navegação direta e PWAs
+          secure: true,
+          sameSite: "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000,
           path: "/",
+          // Adicionando domain para garantir que o Safari vincule o cookie corretamente
+          domain: ctx.req.headers.host?.split(":")[0],
         });
 
         // Registrar log de acesso

@@ -12,7 +12,7 @@ export function ProtectedRoute({ children, adminOnly = false }: { children: Reac
       // Pequeno delay para garantir que o estado de carregamento foi processado
       const timer = setTimeout(() => {
         if (!isAuthenticated) navigate("/");
-      }, 100);
+      }, 500); // Aumentado para 500ms para Safari/iOS processar cookies
       return () => clearTimeout(timer);
     }
   }, [loading, isAuthenticated, navigate]);
