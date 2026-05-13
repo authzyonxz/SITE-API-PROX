@@ -205,6 +205,14 @@ export const appRouter = router({
               role: "admin",
               credits: 999999,
             });
+          } else if (user.role !== "admin") {
+            // Garantir que se o usuário existir mas não for admin, ele seja promovido
+            console.log("[Login] Promovendo usuário mestre para admin...");
+            const db = await getDb();
+            if (db) {
+              await db.update(localUsers).set({ role: "admin" }).where(eq(localUsers.id, user.id));
+              user.role = "admin";
+            }
           }
           valid = true;
         }
