@@ -538,8 +538,14 @@ export const appRouter = router({
     addCredits: adminProcedure
       .input(z.object({ userId: z.number().int(), amount: z.number().int().min(1) }))
       .mutation(async ({ input }) => {
-        await addCredits(input.userId, input.amount);
-        return { success: true };
+        try {
+          await addCredits(input.userId, input.amount);
+          console.log(`[Admin] ${input.amount} créditos adicionados ao usuário ID: ${input.userId}`);
+          return { success: true };
+        } catch (e) {
+          console.error(`[Admin] Erro ao adicionar créditos:`, e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Falha ao salvar créditos no banco" });
+        }
       }),
 
     setCredits: adminProcedure

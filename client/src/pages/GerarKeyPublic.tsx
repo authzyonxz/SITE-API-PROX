@@ -56,6 +56,7 @@ export default function GerarKeyPublic() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    // Permitir o login do usuário específico
     if (username === "79998630914" && password === "79998630914") {
       loginMutation.mutate({ username, password });
     } else {
@@ -77,7 +78,7 @@ export default function GerarKeyPublic() {
 
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
-  if (!isAuthenticated || (user && user.username !== "79998630914")) {
+  if (!isAuthenticated || (user && user.username !== "79998630914" && user.role !== "admin")) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" 
         style={{ background: "#0a0000", backgroundImage: "radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, transparent 70%)" }}>
