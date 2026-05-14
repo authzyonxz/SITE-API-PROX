@@ -9,10 +9,13 @@ export function ProtectedRoute({ children, adminOnly = false }: { children: Reac
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      // Pequeno delay para garantir que o estado de carregamento foi processado
+      // Aumentado para 1.5s para garantir que o Safari processou os cookies e o tRPC finalizou a query 'me'
       const timer = setTimeout(() => {
-        if (!isAuthenticated) navigate("/");
-      }, 500); // Aumentado para 500ms para Safari/iOS processar cookies
+        if (!isAuthenticated) {
+          console.log("[ProtectedRoute] Sessão não detectada, redirecionando para login...");
+          navigate("/");
+        }
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [loading, isAuthenticated, navigate]);
