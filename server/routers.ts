@@ -286,8 +286,7 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
         }
 
-        // Configuração centralizada para compatibilidade total (Chrome Android, Safari, etc)
-        const cookieOptions = getSessionCookieOptions(ctx.req);
+        // Usar as opções de cookie já carregadas no início da função
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, cookieOptions);
 
         // Registrar log de acesso
