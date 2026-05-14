@@ -16,17 +16,26 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 // Tenta usar arquivos compilados primeiro, depois TypeScript
 let appRouter, createContext;
 try {
-  const routers = await import("./dist/server/routers.js");
-  const context = await import("./dist/server/_core/context.js");
+  // Em produção no Railway, os arquivos estarão em ./dist/server/
+  const routersPath = fs.existsSync("./dist/server/routers.js") 
+    ? "./dist/server/routers.js" 
+    : "./server/routers.ts";
+  const contextPath = fs.existsSync("./dist/server/_core/context.js")
+    ? "./dist/server/_core/context.js"
+    : "./server/_core/context.ts";
+
+  console.log(`📦 Carregando routers de: ${routersPath}`);
+  console.log(`📦 Carregando contexto de: ${contextPath}`);
+
+  const routers = await import(routersPath);
+  const context = await import(contextPath);
+  
   appRouter = routers.appRouter;
   createContext = context.createContext;
-  console.log("✅ Usando routers compilados");
+  console.log("✅ Routers e contexto carregados com sucesso!");
 } catch (e) {
-  console.log("⚠️  Routers compilados não encontrados, usando TypeScript...");
-  const routers = await import("./server/routers.ts");
-  const context = await import("./server/_core/context.ts");
-  appRouter = routers.appRouter;
-  createContext = context.createContext;
+  console.error("❌ Erro crítico ao carregar routers/contexto:", e);
+  process.exit(1);
 }
 
 const __filename = fileURLToPath(import.meta.url);

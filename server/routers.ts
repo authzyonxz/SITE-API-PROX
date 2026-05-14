@@ -317,22 +317,27 @@ export const appRouter = router({
       }),
 
     logout: publicProcedure.mutation(({ ctx }) => {
-      ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { path: "/" });
+      const cookieOptions = getSessionCookieOptions(ctx.req);
+      // Limpar todos os cookies possíveis para evitar sessões fantasmas
+      ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { ...cookieOptions, path: "/", maxAge: -1 });
+      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, path: "/", maxAge: -1 });
       return { success: true };
     }),
 
     me: publicProcedure.query(async ({ ctx }) => {
-      const localUser = await getLocalUserFromReq(ctx.req);
-      if (!localUser) {
-        console.log("[Auth] Sessão não encontrada ou inválida na rota 'me'");
+      try {
+        const localUser = await getLocalUserFromReq(ctx.req);
+        if (!localUser) return null;
+        
+        return {
+          id: localUser.id,
+          username: localUser.username,
+          role: localUser.role,
+          credits: localUser.credits,
+        };
+      } catch (e) {
         return null;
       }
-      return {
-        id: localUser.id,
-        username: localUser.username,
-        role: localUser.role,
-        credits: localUser.credits,
-      };
     }),
   }),
 
