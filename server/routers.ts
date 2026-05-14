@@ -286,14 +286,9 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
         }
 
-        // Configuração simplificada e robusta de cookies para evitar loops no Safari/iOS
-        ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "lax", // Lax é mais seguro e evita problemas de redirecionamento
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          path: "/",
-        });
+        // Configuração centralizada para compatibilidade total (Chrome Android, Safari, etc)
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(LOCAL_SESSION_COOKIE, token, cookieOptions);
 
         // Registrar log de acesso
         try {
