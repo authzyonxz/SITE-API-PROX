@@ -26,8 +26,9 @@ const LocalAuthContext = createContext<LocalAuthContextType>({
 
 export function LocalAuthProvider({ children }: { children: React.ReactNode }) {
   const { data, isLoading, refetch } = trpc.localAuth.me.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
+    retry: 3, // Tentar algumas vezes se falhar por rede
+    refetchOnWindowFocus: true, // Importante para recuperar sessão ao voltar para a aba
+    staleTime: 1000 * 60 * 5, // 5 minutos de cache
   });
 
   const user = data ?? null;

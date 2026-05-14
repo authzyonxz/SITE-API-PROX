@@ -289,8 +289,8 @@ export const appRouter = router({
         // Configuração simplificada e robusta de cookies para evitar loops no Safari/iOS
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
           httpOnly: true,
-          secure: true, // Sempre true pois Railway usa HTTPS
-          sameSite: "lax",
+          secure: true,
+          sameSite: "lax", // Lax é mais seguro e evita problemas de redirecionamento
           maxAge: 7 * 24 * 60 * 60 * 1000,
           path: "/",
         });

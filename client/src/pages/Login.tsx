@@ -37,9 +37,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const utils = trpc.useUtils();
   const loginMutation = trpc.localAuth.login.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Acesso autorizado");
+      // Forçar a atualização dos dados do usuário logado antes de mudar de página
+      await utils.localAuth.me.invalidate();
       navigate("/dashboard");
     },
     onError: (err) => {
