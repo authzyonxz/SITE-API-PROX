@@ -8,13 +8,55 @@ export type TrpcContext = {
   user: User | null;
 };
 
+import * as jose from "jose";
+import { getLocalUserById } from "../db";
+
+const LOCAL_SESSION_COOKIE = "auth_proxy_session";
+
+async function getJwtSecret() {
+  const secret = process.env.JWT_SECRET ?? "auth-proxy-secret-fallback";
+  return new TextEncoder().encode(secret);
+}
+
+async function verifyLocalToken(token: string) {
+  try {
+    const secret = await getJwtSecret();
+    const { payload } = await jose.jwtVerify(token, secret);
+    return payload as { userId: number; role: string; ss: string };
+  } catch {
+    return null;
+  }
+}
+
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  let user: User | null = null;
+  let user: any = null;
 
   try {
-    user = await sdk.authenticateRequest(opts.req);
+    // 1. Tentar autenticação local (auth_proxy_session) - Prioridade para o seu sistema
+    const cookieHeader = opts.req.headers?.cookie ?? "";
+    const cookies: Record<string, string> = {};
+    cookieHeader.split(";").forEach((c: string) => {
+      const [k, ...v] = c.trim().split("=");
+      if (k) cookies[k.trim()] = decodeURIComponent(v.join("="));
+    });
+    
+    const token = cookies[LOCAL_SESSION_COOKIE];
+    if (token) {
+      const payload = await verifyLocalToken(token);
+      if (payload) {
+        const localUser = await getLocalUserById(payload.userId);
+        if (localUser && localUser.isBanned !== 1) {
+          user = localUser;
+        }
+      }
+    }
+
+    // 2. Se não encontrou usuário local, tentar autenticação padrão (Manus SDK)
+    if (!user) {
+      user = await sdk.authenticateRequest(opts.req);
+    }
   } catch (error) {
     // Authentication is optional for public procedures.
     user = null;
