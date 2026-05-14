@@ -11,8 +11,8 @@ function StatCard({ label, value, icon, color, glow }: {
   glow: string;
 }) {
   return (
-    <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 relative overflow-hidden group hover:border-white/30 transition-all"
-      style={{ boxShadow: `0 0 20px ${glow}20` }}>
+    <div className="bg-slate-800/50 sm:backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-4 sm:p-6 relative overflow-hidden group hover:border-white/30 transition-all"
+      style={{ boxShadow: `0 0 15px ${glow}15` }}>
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${color}40, transparent)` }} />
       <div className="flex items-start justify-between">
         <div>
@@ -60,7 +60,7 @@ export default function Dashboard() {
             Visão geral do sistema e estatísticas
           </p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-xl bg-green-500/10 border border-green-500/30">
+        <div className="flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-2 rounded-lg bg-green-500/10 border border-green-500/30">
           <Activity className="w-4 h-4 text-green-400 animate-pulse" />
           <span className="text-xs tracking-widest text-green-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
             SISTEMA ONLINE
