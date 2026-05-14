@@ -4,11 +4,28 @@ import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { Loader2, Shield, Eye, EyeOff, Lock, User } from "lucide-react";
 
-// Função simples para gerar um ID único para o dispositivo/navegador
+// Função para gerar um ID de dispositivo persistente e estável (Fingerprint simplificado)
 const getDeviceId = () => {
   let deviceId = localStorage.getItem("auth_device_id");
   if (!deviceId) {
-    deviceId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    // Se não houver no localStorage, tentamos criar um baseado nas características do navegador
+    // para que seja o mesmo mesmo se o localStorage for limpo em alguns casos
+    const screenInfo = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
+    const navInfo = `${window.navigator.userAgent}${window.navigator.language}`;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const canvasInfo = ctx ? "canvas-id" : "no-canvas";
+    
+    // Gerar um hash simples
+    const rawId = `${screenInfo}-${navInfo}-${canvasInfo}`;
+    let hash = 0;
+    for (let i = 0; i < rawId.length; i++) {
+      const char = rawId.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    
+    deviceId = `dev_${Math.abs(hash).toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
     localStorage.setItem("auth_device_id", deviceId);
   }
   return deviceId;
