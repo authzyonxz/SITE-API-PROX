@@ -199,8 +199,14 @@ export async function resetUserSession(userId: number) {
 export async function resetAllSessions() {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
+  
+  // SEGURANÇA: Resetar sessionSecret invalida todos os tokens JWT ativos.
+  // Limpar deviceId força todos os usuários a vincularem seus dispositivos novamente.
   const newSecret = crypto.randomUUID();
-  await db.update(localUsers).set({ sessionSecret: newSecret });
+  await db.update(localUsers).set({ 
+    sessionSecret: newSecret,
+    deviceId: null 
+  });
 }
 
 export async function getActiveDevicesCount(userId: number) {
