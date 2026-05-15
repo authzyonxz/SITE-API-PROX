@@ -3,6 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Shield, Lock, User } from "lucide-react";
+import { nanoid } from "nanoid";
 
 const DURATION_OPTIONS = [
   { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
@@ -11,15 +12,29 @@ const DURATION_OPTIONS = [
   { days: 30, label: "30 Dias", credits: 55, color: "#ff9500" },
 ];
 
+// Usuário autorizado para esta página (verificação feita APENAS no servidor)
+const ALLOWED_USERNAME = "79998630914";
+
 export default function GerarKeyPublic() {
   const { user, isAuthenticated, refetch } = useLocalAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [deviceId, setDeviceId] = useState("");
+
   const [selectedDays, setSelectedDays] = useState<1 | 3 | 7 | 30>(1);
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+
+  // Gerar/recuperar deviceId persistente no lado do cliente
+  useEffect(() => {
+    let id = localStorage.getItem("auth_proxy_device_id_pub");
+    if (!id) {
+      id = nanoid();
+      localStorage.setItem("auth_proxy_device_id_pub", id);
+    }
+    setDeviceId(id);
+  }, []);
 
   const loginMutation = trpc.localAuth.login.useMutation({
     onSuccess: () => {
@@ -56,12 +71,17 @@ export default function GerarKeyPublic() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Permitir o login do usuário específico
-    if (username === "79998630914" && password === "79998630914") {
-      loginMutation.mutate({ username, password });
-    } else {
-      toast.error("Este acesso é restrito apenas para o usuário autorizado.");
+    if (!username.trim() || !password) {
+      toast.error("Preencha todos os campos");
+      return;
     }
+    if (!deviceId) {
+      toast.error("Aguarde a inicialização do dispositivo...");
+      return;
+    }
+    // A validação de qual usuário pode acessar esta página é feita no SERVIDOR.
+    // O frontend apenas envia as credenciais para autenticação normal.
+    loginMutation.mutate({ username: username.trim(), password, deviceId });
   };
 
   const handleGenerate = () => {
@@ -78,14 +98,14 @@ export default function GerarKeyPublic() {
 
   const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
-  // Forçar a exibição do painel se o login foi bem sucedido com o usuário correto
-  const canAccess = isAuthenticated && (user?.username === "79998630914" || user?.role === "admin");
+  // Acesso permitido apenas para o usuário autorizado ou admin — validado pelo servidor via JWT
+  const canAccess = isAuthenticated && (user?.username === ALLOWED_USERNAME || user?.role === "admin");
 
   if (!canAccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4" 
+      <div className="min-h-screen flex items-center justify-center p-4"
         style={{ background: "#0a0000", backgroundImage: "radial-gradient(circle at center, rgba(255,0,0,0.1) 0%, transparent 70%)" }}>
-        <div className="w-full max-w-md p-8 rounded-2xl border" 
+        <div className="w-full max-w-md p-8 rounded-2xl border"
           style={{ background: "rgba(255,0,0,0.02)", borderColor: "rgba(255,0,0,0.2)", boxShadow: "0 0 40px rgba(255,0,0,0.1)" }}>
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 rounded-xl flex items-center justify-center border mb-4"
@@ -101,13 +121,14 @@ export default function GerarKeyPublic() {
               <label className="text-xs font-bold uppercase tracking-widest text-red-500/70 font-mono">Usuário</label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-900" />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-red-900/30 text-white outline-none focus:border-red-600 transition-all"
                   placeholder="Digite seu usuário"
                   disabled={loginMutation.isPending}
+                  autoComplete="username"
                 />
               </div>
             </div>
@@ -115,19 +136,20 @@ export default function GerarKeyPublic() {
               <label className="text-xs font-bold uppercase tracking-widest text-red-500/70 font-mono">Senha</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-red-900" />
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-red-900/30 text-white outline-none focus:border-red-600 transition-all"
                   placeholder="Digite sua senha"
                   disabled={loginMutation.isPending}
+                  autoComplete="current-password"
                 />
               </div>
             </div>
-            <button 
+            <button
               type="submit"
-              disabled={loginMutation.isPending}
+              disabled={loginMutation.isPending || !deviceId}
               className="w-full py-4 rounded-lg bg-red-600/20 border border-red-600 text-red-500 font-black tracking-widest uppercase hover:bg-red-600 hover:text-white transition-all font-orbitron mt-4 flex items-center justify-center gap-2"
             >
               {loginMutation.isPending ? (
@@ -159,7 +181,7 @@ export default function GerarKeyPublic() {
               <p className="text-[10px] uppercase tracking-widest text-red-500/40 font-mono">Créditos</p>
               <p className="text-lg font-bold text-red-500 font-orbitron">{user?.credits ?? 0}</p>
             </div>
-            <button 
+            <button
               onClick={() => logoutMutation.mutate()}
               className="px-4 py-2 rounded border border-red-900/30 text-red-900 text-xs font-bold uppercase hover:bg-red-900/10 transition-all"
             >

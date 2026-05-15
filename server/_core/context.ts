@@ -14,7 +14,13 @@ import { getLocalUserById } from "../db";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
 
 async function getJwtSecret() {
-  const secret = process.env.JWT_SECRET ?? "auth-proxy-secret-fallback";
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 32) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado ou muito curto em produção!");
+    }
+    return new TextEncoder().encode("auth-proxy-dev-secret-CHANGE-IN-PRODUCTION-min32chars");
+  }
   return new TextEncoder().encode(secret);
 }
 
@@ -47,7 +53,9 @@ export async function createContext(
       const payload = await verifyLocalToken(token);
       if (payload) {
         const localUser = await getLocalUserById(payload.userId);
-        if (localUser && localUser.isBanned !== 1) {
+        // SEGURANÇA: Verificar isBanned E sessionSecret para garantir que sessões
+        // antigas sejam invalidadas após reset de senha ou logout forçado pelo admin.
+        if (localUser && localUser.isBanned !== 1 && localUser.sessionSecret === payload.ss) {
           user = localUser;
         }
       }

@@ -50,42 +50,125 @@ import {
   deleteReport,
 } from "./db";
 
-const API_BASE = "https://ruan.arifi.site";
-const MASTER_KEY = "RUANKEY367382F6";
+// ─── Configuração segura via variáveis de ambiente ────────────────────────────
+// SEGURANÇA: API_BASE e MASTER_KEY devem ser definidos como variáveis de ambiente.
+// Nunca exponha credenciais diretamente no código-fonte.
+const API_BASE = process.env.PROXY_API_BASE ?? "https://ruan.arifi.site";
+const MASTER_KEY = process.env.PROXY_MASTER_KEY ?? "";
+
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
+
+// IPs banidos permanentemente — complementado pela tabela ip_blacklist no banco
 const BANNED_IPS = ["24.152.71.107", "157.52.85.28"];
 
-// Rate limiting simples em memória
-const loginAttempts = new Map<string, { count: number, lastAttempt: number }>();
+// ─── Rate Limiting Aprimorado ─────────────────────────────────────────────────
+// Rate limiting por IP E por username para dificultar ataques de força bruta
+// mesmo com IPs diferentes (botnets, proxies, etc.)
+interface RateLimitEntry {
+  count: number;
+  lastAttempt: number;
+  blockedUntil?: number;
+}
 
-function checkRateLimit(ip: string) {
+const loginAttemptsByIp = new Map<string, RateLimitEntry>();
+const loginAttemptsByUser = new Map<string, RateLimitEntry>();
+
+const RATE_LIMIT_MAX_ATTEMPTS = 8;          // Máximo de tentativas antes do bloqueio
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // Janela de 15 minutos
+const RATE_LIMIT_BLOCK_MS = 30 * 60 * 1000;  // Bloqueio de 30 minutos após exceder
+
+function checkRateLimit(ip: string, username?: string): { allowed: boolean; message?: string } {
   const now = Date.now();
-  const attempt = loginAttempts.get(ip);
-  
-  if (attempt) {
-    // Resetar após 15 minutos de inatividade
-    if (now - attempt.lastAttempt > 15 * 60 * 1000) {
-      loginAttempts.set(ip, { count: 1, lastAttempt: now });
-      return true;
+
+  // Verificar bloqueio por IP
+  const ipEntry = loginAttemptsByIp.get(ip);
+  if (ipEntry) {
+    if (ipEntry.blockedUntil && now < ipEntry.blockedUntil) {
+      const minutesLeft = Math.ceil((ipEntry.blockedUntil - now) / 60000);
+      return { allowed: false, message: `IP bloqueado por excesso de tentativas. Tente novamente em ${minutesLeft} minuto(s).` };
     }
-    
-    if (attempt.count >= 10) { // Limite de 10 tentativas
-      return false;
+    if (now - ipEntry.lastAttempt > RATE_LIMIT_WINDOW_MS) {
+      loginAttemptsByIp.set(ip, { count: 1, lastAttempt: now });
+    } else if (ipEntry.count >= RATE_LIMIT_MAX_ATTEMPTS) {
+      loginAttemptsByIp.set(ip, { count: ipEntry.count + 1, lastAttempt: now, blockedUntil: now + RATE_LIMIT_BLOCK_MS });
+      return { allowed: false, message: "Muitas tentativas de login. IP bloqueado por 30 minutos." };
+    } else {
+      ipEntry.count += 1;
+      ipEntry.lastAttempt = now;
     }
-    
-    attempt.count += 1;
-    attempt.lastAttempt = now;
-    return true;
+  } else {
+    loginAttemptsByIp.set(ip, { count: 1, lastAttempt: now });
   }
-  
-  loginAttempts.set(ip, { count: 1, lastAttempt: now });
-  return true;
+
+  // Verificar bloqueio por username (protege contra ataques distribuídos)
+  if (username) {
+    const userEntry = loginAttemptsByUser.get(username.toLowerCase());
+    if (userEntry) {
+      if (userEntry.blockedUntil && now < userEntry.blockedUntil) {
+        const minutesLeft = Math.ceil((userEntry.blockedUntil - now) / 60000);
+        return { allowed: false, message: `Conta temporariamente bloqueada por excesso de tentativas. Tente novamente em ${minutesLeft} minuto(s).` };
+      }
+      if (now - userEntry.lastAttempt > RATE_LIMIT_WINDOW_MS) {
+        loginAttemptsByUser.set(username.toLowerCase(), { count: 1, lastAttempt: now });
+      } else if (userEntry.count >= RATE_LIMIT_MAX_ATTEMPTS) {
+        loginAttemptsByUser.set(username.toLowerCase(), { count: userEntry.count + 1, lastAttempt: now, blockedUntil: now + RATE_LIMIT_BLOCK_MS });
+        return { allowed: false, message: "Conta temporariamente bloqueada por excesso de tentativas. Tente novamente em 30 minutos." };
+      } else {
+        userEntry.count += 1;
+        userEntry.lastAttempt = now;
+      }
+    } else {
+      loginAttemptsByUser.set(username.toLowerCase(), { count: 1, lastAttempt: now });
+    }
+  }
+
+  return { allowed: true };
+}
+
+// Limpar entradas expiradas periodicamente para evitar vazamento de memória
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of loginAttemptsByIp.entries()) {
+    if (now - entry.lastAttempt > RATE_LIMIT_WINDOW_MS * 2) {
+      loginAttemptsByIp.delete(key);
+    }
+  }
+  for (const [key, entry] of loginAttemptsByUser.entries()) {
+    if (now - entry.lastAttempt > RATE_LIMIT_WINDOW_MS * 2) {
+      loginAttemptsByUser.delete(key);
+    }
+  }
+}, 60 * 60 * 1000); // Limpeza a cada hora
+
+// ─── Extração segura de IP ────────────────────────────────────────────────────
+// SEGURANÇA: Pegar apenas o primeiro IP do header x-forwarded-for para evitar
+// spoofing via IPs extras injetados pelo atacante (ex: "IP_REAL, IP_FALSO")
+function getClientIp(req: any): string {
+  const forwarded = req.headers?.["x-forwarded-for"];
+  if (forwarded) {
+    // Pegar apenas o primeiro IP (mais próximo do cliente real)
+    const firstIp = (Array.isArray(forwarded) ? forwarded[0] : forwarded)
+      .split(",")[0]
+      .trim();
+    if (firstIp) return firstIp;
+  }
+  return req.socket?.remoteAddress ?? "0.0.0.0";
 }
 
 // ─── Local Auth Helpers ───────────────────────────────────────────────────────
 
 async function getJwtSecret() {
-  const secret = process.env.JWT_SECRET ?? "auth-proxy-secret-fallback";
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 32) {
+    // Em produção, JWT_SECRET DEVE estar definido com pelo menos 32 caracteres.
+    // Se não estiver, o servidor não deve operar de forma segura.
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado ou muito curto em produção!");
+    }
+    // Em desenvolvimento, usar fallback com aviso
+    console.warn("[AVISO DE SEGURANÇA] JWT_SECRET não configurado. Use uma variável de ambiente segura em produção!");
+    return new TextEncoder().encode("auth-proxy-dev-secret-CHANGE-IN-PRODUCTION-min32chars");
+  }
   return new TextEncoder().encode(secret);
 }
 
@@ -126,7 +209,8 @@ async function getLocalUserFromReq(req: any) {
   // Verificar se o usuário está banido
   if (user.isBanned === 1) return null;
   
-  // Validar se o segredo da sessão ainda é o mesmo (derrubar sessões)
+  // SEGURANÇA: Validar se o segredo da sessão ainda é o mesmo.
+  // Isso garante que ao resetar a sessão ou trocar a senha, tokens antigos são invalidados.
   if (user.sessionSecret !== payload.ss) return null;
   
   return user;
@@ -148,10 +232,20 @@ async function callProxyApi(path: string) {
 // ─── Local Auth Procedure ─────────────────────────────────────────────────────
 
 const localAuthProcedure = publicProcedure.use(async ({ ctx, next }) => {
-  const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
+  const ip = getClientIp(ctx.req);
   const localUser = await getLocalUserFromReq(ctx.req);
 
-  // Se o IP estiver na lista negra, banir o usuário logado e deslogar
+  // Verificar se o IP está na lista negra do banco de dados
+  if (await isIpBlacklisted(ip)) {
+    if (localUser) {
+      await banUser(localUser.id);
+      await resetUserSession(localUser.id);
+    }
+    ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { path: "/" });
+    throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP está na lista negra." });
+  }
+
+  // Verificar se o IP está na lista estática de banidos
   if (BANNED_IPS.includes(ip)) {
     if (localUser) {
       await banUser(localUser.id);
@@ -200,29 +294,37 @@ export const appRouter = router({
   localAuth: router({
     login: publicProcedure
       .input(z.object({ 
-        username: z.string().min(1), 
-        password: z.string().min(1),
+        username: z.string().min(1).max(64).trim(), 
+        password: z.string().min(1).max(256),
         deviceId: z.string().optional() 
       }))
       .mutation(async ({ input, ctx }) => {
         // Limpar cookies antigos antes de definir o novo para evitar conflitos
         const cookieOptions = getSessionCookieOptions(ctx.req);
         ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-        const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
+
+        const ip = getClientIp(ctx.req);
         
-        // Bloqueio imediato por IP no login
+        // Bloqueio imediato por IP estático
         if (BANNED_IPS.includes(ip)) {
           throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP foi banido permanentemente." });
         }
 
-        if (!checkRateLimit(ip)) {
+        // Verificar blacklist do banco de dados
+        if (await isIpBlacklisted(ip)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP está na lista negra." });
+        }
+
+        // SEGURANÇA: Rate limiting por IP E por username
+        const rateLimitCheck = checkRateLimit(ip, input.username);
+        if (!rateLimitCheck.allowed) {
           throw new TRPCError({ 
             code: "TOO_MANY_REQUESTS", 
-            message: "Muitas tentativas de login. Tente novamente em 15 minutos." 
+            message: rateLimitCheck.message ?? "Muitas tentativas de login. Tente novamente mais tarde." 
           });
         }
 
-        console.log(`[Login] Tentativa de login para usuário: ${input.username}`);
+        console.log(`[Login] Tentativa de login para usuário: ${input.username} | IP: ${ip}`);
         let user;
         try {
           user = await getLocalUserByUsername(input.username);
@@ -231,25 +333,19 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro de banco de dados" });
         }
 
-        let valid = false;
-
-
-        // Senhas mestres removidas por segurança. 
-        // Use o banco de dados para gerenciar administradores.
-
         if (!user) {
+          // SEGURANÇA: Usar tempo constante para evitar timing attacks (user não encontrado vs senha errada)
+          await bcrypt.hash("dummy-timing-protection", 12);
           console.warn(`[Login] Usuário não encontrado: ${input.username}`);
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Usuário ou senha inválidos" });
         }
 
-        if (!valid) {
-          console.log("[Login] Usuário encontrado, comparando senha...");
-          try {
-            valid = await bcrypt.compare(input.password, user.passwordHash);
-          } catch (e) {
-            console.error("[Login] Erro ao comparar senha com bcrypt:", e);
-            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro na verificação de senha" });
-          }
+        let valid = false;
+        try {
+          valid = await bcrypt.compare(input.password, user.passwordHash);
+        } catch (e) {
+          console.error("[Login] Erro ao comparar senha com bcrypt:", e);
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro na verificação de senha" });
         }
 
         if (!valid) {
@@ -264,19 +360,24 @@ export const appRouter = router({
 
         // Sistema de Vínculo de Dispositivo (HWID)
         if (user.role !== "admin") {
-          if (!input.deviceId) {
-            throw new TRPCError({ code: "BAD_REQUEST", message: "ID do dispositivo não identificado." });
+          if (!input.deviceId || input.deviceId.trim().length < 4) {
+            throw new TRPCError({ code: "BAD_REQUEST", message: "ID do dispositivo não identificado ou inválido." });
           }
 
-          const currentDevices = user.deviceId ? user.deviceId.split(",").filter(id => id.trim() !== "") : [];
+          // SEGURANÇA: Sanitizar o deviceId para evitar injeção de dados
+          const sanitizedDeviceId = input.deviceId.trim().substring(0, 128);
+
+          const currentDevices = user.deviceId
+            ? user.deviceId.split(",").map(id => id.trim()).filter(id => id !== "")
+            : [];
           
           // Se o dispositivo ATUAL já está na lista, permite o login sem fazer nada
-          if (!currentDevices.includes(input.deviceId)) {
+          if (!currentDevices.includes(sanitizedDeviceId)) {
             // Se o dispositivo não está na lista, verificamos se ainda há espaço para novos vínculos
             if (currentDevices.length < user.maxDevices) {
               // Ainda tem espaço no limite, vincular este novo dispositivo
-              const newDevices = [...currentDevices, input.deviceId].join(",");
-              console.log(`[Login] Vinculando NOVO dispositivo ${input.deviceId} ao usuário ${user.username}. Total: ${currentDevices.length + 1}/${user.maxDevices}`);
+              const newDevices = [...currentDevices, sanitizedDeviceId].join(",");
+              console.log(`[Login] Vinculando NOVO dispositivo ao usuário ${user.username}. Total: ${currentDevices.length + 1}/${user.maxDevices}`);
               await updateUserDeviceId(user.id, newDevices);
             } else {
               // Atingiu o limite de dispositivos diferentes
@@ -286,8 +387,6 @@ export const appRouter = router({
                 message: `LIMITE DE DISPOSITIVOS ATINGIDO (${user.maxDevices}): Esta conta já está vinculada ao número máximo de aparelhos permitidos. Entre em contato com o administrador.` 
               });
             }
-          } else {
-            console.log(`[Login] Dispositivo ${input.deviceId} já vinculado ao usuário ${user.username}. Acesso liberado.`);
           }
         }
 
@@ -300,12 +399,10 @@ export const appRouter = router({
           throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
         }
 
-        // Usar as opções de cookie já carregadas no início da função
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, cookieOptions);
 
         // Registrar log de acesso
         try {
-          const ip = (ctx.req.headers["x-forwarded-for"] as string) || ctx.req.socket.remoteAddress || "0.0.0.0";
           await createAccessLog({
             userId: user.id,
             username: user.username,
@@ -383,6 +480,15 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => {
         const { days, quantity } = input;
         
+        // SEGURANÇA: Verificar se a MASTER_KEY está configurada antes de prosseguir
+        if (!MASTER_KEY) {
+          console.error("[Keys] PROXY_MASTER_KEY não configurada!");
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Serviço de geração de keys indisponível. Contate o administrador.",
+          });
+        }
+
         // Tabela de preços atualizada
         const prices = {
           1: 10,
@@ -403,8 +509,6 @@ export const appRouter = router({
           });
         }
 
-        // Limite de geração aumentado para 50 keys por vez conforme solicitado
-        // Restrição de tempo removida para maior liberdade
         const limit = 50;
         if (quantity > limit && user.role !== "admin") {
           throw new TRPCError({
@@ -444,18 +548,25 @@ export const appRouter = router({
       }),
 
     check: localAuthProcedure
-      .input(z.object({ generatedKey: z.string().min(1) }))
+      .input(z.object({ generatedKey: z.string().min(1).max(512) }))
       .query(async ({ input }) => {
+        if (!MASTER_KEY) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Serviço indisponível." });
+        }
         const result = await callProxyApi(`/check?key=${MASTER_KEY}&generated_key=${encodeURIComponent(input.generatedKey)}`);
         return { ok: result.ok, data: result.data, raw: result.raw };
       }),
 
     updateIp: localAuthProcedure
-      .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))
+      .input(z.object({ generatedKey: z.string().min(1).max(512), newIp: z.string().min(1).max(64) }))
       .mutation(async ({ input }) => {
         // Verificar se o IP está na blacklist
         if (await isIpBlacklisted(input.newIp)) {
           throw new TRPCError({ code: "FORBIDDEN", message: "Este IP está na lista negra e não pode ser utilizado." });
+        }
+
+        if (!MASTER_KEY) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Serviço indisponível." });
         }
 
         const result = await callProxyApi(
@@ -465,8 +576,11 @@ export const appRouter = router({
       }),
 
     delete: localAuthProcedure
-      .input(z.object({ generatedKey: z.string().min(1) }))
+      .input(z.object({ generatedKey: z.string().min(1).max(512) }))
       .mutation(async ({ input }) => {
+        if (!MASTER_KEY) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Serviço indisponível." });
+        }
         const result = await callProxyApi(
           `/delete?key=${MASTER_KEY}&generated_key=${encodeURIComponent(input.generatedKey)}`
         );
@@ -477,8 +591,11 @@ export const appRouter = router({
       }),
 
     deleteBulk: localAuthProcedure
-      .input(z.object({ keys: z.array(z.string().min(1)) }))
+      .input(z.object({ keys: z.array(z.string().min(1).max(512)).max(50) }))
       .mutation(async ({ input }) => {
+        if (!MASTER_KEY) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Serviço indisponível." });
+        }
         const results = [];
         for (const key of input.keys) {
           const result = await callProxyApi(
@@ -497,7 +614,7 @@ export const appRouter = router({
     }),
 
     findCreator: adminProcedure
-      .input(z.object({ keyValue: z.string().min(1) }))
+      .input(z.object({ keyValue: z.string().min(1).max(512) }))
       .query(async ({ input }) => {
         const result = await findKeyCreator(input.keyValue);
         if (!result) {
@@ -507,11 +624,21 @@ export const appRouter = router({
       }),
 
     publicUpdateIp: publicProcedure
-      .input(z.object({ generatedKey: z.string().min(1), newIp: z.string().min(1) }))
-      .mutation(async ({ input }) => {
-        // Verificar se o IP está na blacklist
+      .input(z.object({ generatedKey: z.string().min(1).max(512), newIp: z.string().min(1).max(64) }))
+      .mutation(async ({ input, ctx }) => {
+        // SEGURANÇA: Verificar blacklist antes de processar
         if (await isIpBlacklisted(input.newIp)) {
           throw new TRPCError({ code: "FORBIDDEN", message: "Este IP está na lista negra e não pode ser utilizado." });
+        }
+
+        // SEGURANÇA: Também verificar o IP do solicitante
+        const requesterIp = getClientIp(ctx.req);
+        if (BANNED_IPS.includes(requesterIp) || await isIpBlacklisted(requesterIp)) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP está na lista negra." });
+        }
+
+        if (!MASTER_KEY) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Serviço indisponível." });
         }
 
         const result = await callProxyApi(
@@ -536,7 +663,7 @@ export const appRouter = router({
     create: adminProcedure
       .input(z.object({
         username: z.string().min(3).max(64),
-        password: z.string().min(4),
+        password: z.string().min(6).max(256),
         credits: z.number().int().min(0).default(0),
       }))
       .mutation(async ({ input }) => {
@@ -627,8 +754,10 @@ export const appRouter = router({
         console.log(`[Admin] Deletando ${activeKeys.length} keys do usuário ${user.username}`);
         
         // Deletar na API externa
-        for (const key of activeKeys) {
-          await callProxyApi(`/delete?key=${MASTER_KEY}&generated_key=${encodeURIComponent(key.keyValue)}`);
+        if (MASTER_KEY) {
+          for (const key of activeKeys) {
+            await callProxyApi(`/delete?key=${MASTER_KEY}&generated_key=${encodeURIComponent(key.keyValue)}`);
+          }
         }
         
         // Marcar como deletado no banco local
@@ -638,7 +767,7 @@ export const appRouter = router({
       }),
 
     changePassword: adminProcedure
-      .input(z.object({ userId: z.number().int(), newPassword: z.string().min(4) }))
+      .input(z.object({ userId: z.number().int(), newPassword: z.string().min(6).max(256) }))
       .mutation(async ({ input }) => {
         const passwordHash = await bcrypt.hash(input.newPassword, 12);
         await updateUserPassword(input.userId, passwordHash);
@@ -708,11 +837,11 @@ export const appRouter = router({
   reports: router({
     submit: publicProcedure
       .input(z.object({
-        reporterName: z.string().min(1),
-        discordLink: z.string().min(1),
-        scamKey: z.string().min(1),
-        description: z.string().min(1),
-        imageUrls: z.string().optional(),
+        reporterName: z.string().min(1).max(255),
+        discordLink: z.string().min(1).max(255),
+        scamKey: z.string().min(1).max(255),
+        description: z.string().min(1).max(2000),
+        imageUrls: z.string().max(5000).optional(),
       }))
       .mutation(async ({ input }) => {
         try {

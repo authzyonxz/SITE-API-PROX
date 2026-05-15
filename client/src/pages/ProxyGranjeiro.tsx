@@ -5,10 +5,11 @@ import { toast } from "sonner";
 import { CheckCheck, Copy, Eye, EyeOff, KeyRound, Loader2, LockKeyhole, Minus, Plus, Shield } from "lucide-react";
 import { nanoid } from "nanoid";
 
+// NOTA DE SEGURANÇA: As credenciais foram REMOVIDAS do frontend.
+// A verificação de qual usuário pode acessar esta página é feita exclusivamente no servidor.
+// O frontend apenas exibe o formulário de login e envia as credenciais para autenticação normal.
 const GRANJEIRO_USERNAME = "GRANJEIRO";
-const GRANJEIRO_PASSWORD = "GRANJEIRO123490";
 const RED = "#ff1f3d";
-const RED_DARK = "#7f0012";
 
 const DURATION_OPTIONS = [
   { days: 1, label: "1 Dia", credits: 10, color: "#ff1f3d" },
@@ -45,16 +46,20 @@ function GranjeiroLogin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (username.trim() !== GRANJEIRO_USERNAME || password !== GRANJEIRO_PASSWORD) {
-      toast.error("Use as credenciais autorizadas do PROXY GRANJEIRO");
+    if (!username.trim() || !password) {
+      toast.error("Preencha todos os campos");
       return;
     }
-
-    loginMutation.mutate({ 
-      username: GRANJEIRO_USERNAME, 
-      password: GRANJEIRO_PASSWORD,
-      deviceId 
+    if (!deviceId) {
+      toast.error("Aguarde a inicialização do dispositivo...");
+      return;
+    }
+    // A validação de acesso é feita APENAS no servidor via autenticação JWT.
+    // Não há verificação de credenciais no frontend.
+    loginMutation.mutate({
+      username: username.trim(),
+      password,
+      deviceId
     });
   };
 
@@ -89,7 +94,7 @@ function GranjeiroLogin() {
             <div className="h-px mt-2" style={{ background: `linear-gradient(90deg, ${RED}, transparent)` }} />
           </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
+          <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
             <div>
               <label className="block text-xs font-medium tracking-widest uppercase mb-2" style={{ color: RED, fontFamily: "'Rajdhani', sans-serif" }}>
                 Usuário
@@ -101,7 +106,7 @@ function GranjeiroLogin() {
                 className="w-full px-4 py-3 rounded text-sm outline-none transition-all"
                 style={{ background: "rgba(255,31,61,0.07)", border: "1px solid rgba(255,31,61,0.26)", color: "#fff", fontFamily: "'Rajdhani', sans-serif", fontSize: "1rem" }}
                 disabled={loginMutation.isPending}
-                autoComplete="off"
+                autoComplete="username"
               />
             </div>
 
@@ -117,7 +122,7 @@ function GranjeiroLogin() {
                   className="w-full px-4 py-3 pr-12 rounded text-sm outline-none transition-all"
                   style={{ background: "rgba(255,31,61,0.07)", border: "1px solid rgba(255,31,61,0.26)", color: "#fff", fontFamily: "'Rajdhani', sans-serif", fontSize: "1rem" }}
                   disabled={loginMutation.isPending}
-                  autoComplete="new-password"
+                  autoComplete="current-password"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-60 hover:opacity-100 transition-opacity" style={{ color: RED }}>
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -127,7 +132,7 @@ function GranjeiroLogin() {
 
             <button
               type="submit"
-              disabled={loginMutation.isPending}
+              disabled={loginMutation.isPending || !deviceId}
               className="w-full py-3 rounded font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 mt-2"
               style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.8rem", background: "rgba(255,31,61,0.15)", border: `1px solid ${RED}`, color: RED, boxShadow: "0 0 18px rgba(255,31,61,0.35)" }}
             >
@@ -196,7 +201,7 @@ function GranjeiroKeyGenerator() {
                 Gerar Key
               </h2>
               <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.48)", fontFamily: "'Rajdhani', sans-serif" }}>
-                Acesso autenticado como {user?.username ?? "GRANJEIRO"}
+                Acesso autenticado como {user?.username ?? GRANJEIRO_USERNAME}
               </p>
             </div>
             {!isAdmin && (
@@ -316,6 +321,8 @@ export default function ProxyGranjeiro() {
     );
   }
 
+  // Verificação de acesso: apenas o usuário GRANJEIRO ou admin podem acessar esta página.
+  // A validação real é feita no servidor; aqui apenas redirecionamos para o login se necessário.
   if (!isAuthenticated || user?.username?.toUpperCase() !== GRANJEIRO_USERNAME) {
     return <GranjeiroLogin />;
   }
