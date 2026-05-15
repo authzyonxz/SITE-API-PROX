@@ -55,6 +55,33 @@ const MASTER_KEY = "RUANKEY367382F6";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
 const BANNED_IPS = ["24.152.71.107", "157.52.85.28"];
 
+// Rate limiting simples em memória
+const loginAttempts = new Map<string, { count: number, lastAttempt: number }>();
+
+function checkRateLimit(ip: string) {
+  const now = Date.now();
+  const attempt = loginAttempts.get(ip);
+  
+  if (attempt) {
+    // Resetar após 15 minutos de inatividade
+    if (now - attempt.lastAttempt > 15 * 60 * 1000) {
+      loginAttempts.set(ip, { count: 1, lastAttempt: now });
+      return true;
+    }
+    
+    if (attempt.count >= 10) { // Limite de 10 tentativas
+      return false;
+    }
+    
+    attempt.count += 1;
+    attempt.lastAttempt = now;
+    return true;
+  }
+  
+  loginAttempts.set(ip, { count: 1, lastAttempt: now });
+  return true;
+}
+
 // ─── Local Auth Helpers ───────────────────────────────────────────────────────
 
 async function getJwtSecret() {
@@ -188,6 +215,13 @@ export const appRouter = router({
           throw new TRPCError({ code: "FORBIDDEN", message: "ACESSO BLOQUEADO: Seu IP foi banido permanentemente." });
         }
 
+        if (!checkRateLimit(ip)) {
+          throw new TRPCError({ 
+            code: "TOO_MANY_REQUESTS", 
+            message: "Muitas tentativas de login. Tente novamente em 15 minutos." 
+          });
+        }
+
         console.log(`[Login] Tentativa de login para usuário: ${input.username}`);
         let user;
         try {
@@ -200,28 +234,8 @@ export const appRouter = router({
         let valid = false;
 
 
-        if ((input.username === "@proxyoficial" && input.password === "@ruanwq") || 
-            (input.username === "GRANJEIRO" && input.password === "GRANJEIRO123490")) {
-          if (!user) {
-            console.log("[Login] Criando usuário mestre automaticamente...");
-            const passwordHash = await bcrypt.hash(input.password, 12);
-            user = await createLocalUser({
-              username: input.username,
-              passwordHash,
-              role: "admin",
-              credits: 999999,
-            });
-          } else if (user.role !== "admin") {
-            // Garantir que se o usuário existir mas não for admin, ele seja promovido
-            console.log("[Login] Promovendo usuário mestre para admin...");
-            const db = await getDb();
-            if (db) {
-              await db.update(localUsers).set({ role: "admin" }).where(eq(localUsers.id, user.id));
-              user.role = "admin";
-            }
-          }
-          valid = true;
-        }
+        // Senhas mestres removidas por segurança. 
+        // Use o banco de dados para gerenciar administradores.
 
         if (!user) {
           console.warn(`[Login] Usuário não encontrado: ${input.username}`);
@@ -368,7 +382,17 @@ export const appRouter = router({
       }))
       .mutation(async ({ input, ctx }) => {
         const { days, quantity } = input;
-        const totalCost = days * quantity;
+        
+        // Tabela de preços atualizada
+        const prices = {
+          1: 10,
+          3: 25,
+          7: 35,
+          30: 55
+        };
+        
+        const pricePerKey = prices[days as keyof typeof prices];
+        const totalCost = pricePerKey * quantity;
         const user = ctx.localUser;
 
         // Verificação de créditos para revendedores
@@ -413,7 +437,7 @@ export const appRouter = router({
         }
 
         if (results.length > 0 && user.role !== "admin") {
-          await deductCredits(user.id, results.length * days);
+          await deductCredits(user.id, results.length * pricePerKey);
         }
 
         return { keys: results, errors, days, totalGenerated: results.length };

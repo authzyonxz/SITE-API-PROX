@@ -44,91 +44,14 @@ async function runMigrations() {
 }
 
 async function seedAdmin(databaseUrl) {
-  try {
-    // Parse DATABASE_URL
-    const url = new URL(databaseUrl);
-    const connection = await mysql.createConnection({
-      host: url.hostname,
-      user: url.username,
-      password: url.password,
-      database: url.pathname.slice(1),
-      port: url.port || 3306,
-    });
-
-    // Verificar se admin novo já existe
-    const [rows] = await connection.execute(
-      "SELECT * FROM local_users WHERE username = ?",
-      ["ADMIN"]
-    );
-
-    const bcrypt = await import("bcryptjs");
-
-    if (rows.length === 0) {
-      const hash = await bcrypt.default.hash("ADMIN123", 10);
-      await connection.execute(
-        "INSERT INTO local_users (username, passwordHash, role, credits) VALUES (?, ?, ?, ?)",
-        ["ADMIN", hash, "admin", 1000]
-      );
-      console.log("✅ Admin 'ADMIN' criado com sucesso!");
-    }
-
-    // Remover admin antigo se existir
-    await connection.execute(
-      "DELETE FROM local_users WHERE username = ?",
-      ["@ruanwq"]
-    );
-    console.log("🧹 Admin antigo '@ruanwq' removido.");
-
-    await connection.end();
-  } catch (error) {
-    console.error("❌ Erro ao fazer seed do admin:", error);
-    // Não falha se houver erro aqui, pois o admin pode já existir
-  }
+  // Seed de usuários mestres removido por segurança. 
+  // Administradores devem ser criados via banco de dados ou painel administrativo seguro.
+  console.log("🛡️  Seed de usuários mestres ignorado para maior segurança.");
 }
 
 async function seedGranjeiro(databaseUrl) {
-  try {
-    const url = new URL(databaseUrl);
-    const connection = await mysql.createConnection({
-      host: url.hostname,
-      user: url.username,
-      password: url.password,
-      database: url.pathname.slice(1),
-      port: url.port || 3306,
-    });
-
-    const [rows] = await connection.execute(
-      "SELECT * FROM local_users WHERE username = ?",
-      ["GRANJEIRO"]
-    );
-
-    if (rows.length === 0) {
-      const bcrypt = await import("bcryptjs");
-      const hash = await bcrypt.default.hash("GRANJEIRO123490", 10);
-      await connection.execute(
-        "INSERT INTO local_users (username, passwordHash, role, credits, maxIps) VALUES (?, ?, ?, ?, ?)",
-        ["GRANJEIRO", hash, "reseller", 999999, 100]
-      );
-      console.log("✅ Usuário 'GRANJEIRO' criado com sucesso!");
-    } else {
-      // Garantir que a senha esteja correta caso o usuário já exista mas com outra senha
-      const bcrypt = await import("bcryptjs");
-      const user = rows[0];
-      const valid = await bcrypt.default.compare("GRANJEIRO123490", user.passwordHash);
-      if (!valid) {
-        const hash = await bcrypt.default.hash("GRANJEIRO123490", 10);
-        await connection.execute(
-          "UPDATE local_users SET passwordHash = ? WHERE username = ?",
-          [hash, "GRANJEIRO"]
-        );
-        console.log("✅ Senha do usuário 'GRANJEIRO' atualizada!");
-      }
-    }
-
-    await connection.end();
-  } catch (error) {
-    console.error("❌ Erro ao fazer seed do Granjeiro:", error);
-  }
+  // Seed de usuários mestres removido por segurança.
+  console.log("🛡️  Seed de usuários mestres ignorado para maior segurança.");
 }
 
 async function ensureAccessLogsTable(databaseUrl) {
