@@ -5,10 +5,10 @@ import { toast } from "sonner";
 import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download, X } from "lucide-react";
 
 const DURATION_OPTIONS = [
-  { days: 1, label: "1 Dia", credits: 1, color: "#00d4ff" },
-  { days: 3, label: "3 Dias", credits: 3, color: "#9d4edd" },
-  { days: 7, label: "7 Dias", credits: 7, color: "#10b981" },
-  { days: 30, label: "30 Dias", credits: 30, color: "#f59e0b" },
+  { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
+  { days: 3, label: "3 Dias", credits: 25, color: "#9d4edd" },
+  { days: 7, label: "7 Dias", credits: 35, color: "#10b981" },
+  { days: 30, label: "30 Dias", credits: 55, color: "#f59e0b" },
 ];
 
 export default function CriarKey() {
@@ -39,7 +39,8 @@ export default function CriarKey() {
     },
   });
 
-  const totalCost = selectedDays * quantity;
+  const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
+  const totalCost = selectedOption.credits * quantity;
   const canAfford = isAdmin || (user?.credits ?? 0) >= totalCost;
 
   const handleGenerate = () => {
@@ -60,8 +61,6 @@ export default function CriarKey() {
     toast.success("Key copiada!");
     setTimeout(() => setCopiedIndex(null), 1500);
   };
-
-  const selectedOption = DURATION_OPTIONS.find(o => o.days === selectedDays)!;
 
   return (
     <div className="space-y-8 max-w-3xl">

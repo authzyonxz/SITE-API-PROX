@@ -11,10 +11,10 @@ const RED = "#ff1f3d";
 const RED_DARK = "#7f0012";
 
 const DURATION_OPTIONS = [
-  { days: 1, label: "1 Dia", credits: 1, color: "#ff1f3d" },
-  { days: 3, label: "3 Dias", credits: 3, color: "#ff4d00" },
-  { days: 7, label: "7 Dias", credits: 7, color: "#ff6b6b" },
-  { days: 30, label: "30 Dias", credits: 30, color: "#ffb703" },
+  { days: 1, label: "1 Dia", credits: 10, color: "#ff1f3d" },
+  { days: 3, label: "3 Dias", credits: 25, color: "#ff4d00" },
+  { days: 7, label: "7 Dias", credits: 35, color: "#ff6b6b" },
+  { days: 30, label: "30 Dias", credits: 55, color: "#ffb703" },
 ] as const;
 
 function GranjeiroLogin() {
@@ -165,9 +165,9 @@ function GranjeiroKeyGenerator() {
     },
   });
 
-  const totalCost = selectedDays * quantity;
-  const canAfford = isAdmin || (user?.credits ?? 0) >= totalCost;
   const selectedOption = DURATION_OPTIONS.find((option) => option.days === selectedDays)!;
+  const totalCost = selectedOption.credits * quantity;
+  const canAfford = isAdmin || (user?.credits ?? 0) >= totalCost;
 
   const handleCopyAll = async () => {
     await navigator.clipboard.writeText(generatedKeys.join("\n"));

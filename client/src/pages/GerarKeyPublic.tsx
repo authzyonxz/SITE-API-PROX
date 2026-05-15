@@ -5,10 +5,10 @@ import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Shield, Lock, User } from "lucide-react";
 
 const DURATION_OPTIONS = [
-  { days: 1, label: "1 Dia", credits: 1, color: "#00d4ff" },
-  { days: 3, label: "3 Dias", credits: 3, color: "#9d4edd" },
-  { days: 7, label: "7 Dias", credits: 7, color: "#00ff88" },
-  { days: 30, label: "30 Dias", credits: 30, color: "#ff9500" },
+  { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
+  { days: 3, label: "3 Dias", credits: 25, color: "#9d4edd" },
+  { days: 7, label: "7 Dias", credits: 35, color: "#00ff88" },
+  { days: 30, label: "30 Dias", credits: 55, color: "#ff9500" },
 ];
 
 export default function GerarKeyPublic() {
@@ -188,6 +188,9 @@ export default function GerarKeyPublic() {
                 >
                   <p className="font-black text-lg font-orbitron" style={{ color: isSelected ? "#ff0000" : "rgba(255,255,255,0.5)" }}>
                     {option.label}
+                  </p>
+                  <p className="text-[10px] mt-1 font-mono" style={{ color: isSelected ? "rgba(255,0,0,0.6)" : "rgba(255,255,255,0.3)" }}>
+                    {option.credits} CRÉDITOS
                   </p>
                 </button>
               );
