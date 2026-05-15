@@ -300,7 +300,7 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => {
         // Limpar cookies antigos antes de definir o novo para evitar conflitos
         const cookieOptions = getSessionCookieOptions(ctx.req);
-        ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+        ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions });
 
         const ip = getClientIp(ctx.req);
         
@@ -437,8 +437,8 @@ export const appRouter = router({
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       // Limpar todos os cookies possíveis para evitar sessões fantasmas
-      ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { ...cookieOptions, path: "/", maxAge: -1 });
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, path: "/", maxAge: -1 });
+      ctx.res.clearCookie(LOCAL_SESSION_COOKIE, { ...cookieOptions, path: "/" });
+      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, path: "/" });
       return { success: true };
     }),
 
