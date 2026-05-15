@@ -159,15 +159,14 @@ function getClientIp(req: any): string {
 
 async function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
-  if (!secret || secret.length < 32) {
-    // Em produção, JWT_SECRET DEVE estar definido com pelo menos 32 caracteres.
-    // Se não estiver, o servidor não deve operar de forma segura.
+  if (!secret) {
+    // Em produção, JWT_SECRET DEVE estar definido.
     if (process.env.NODE_ENV === "production") {
-      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado ou muito curto em produção!");
+      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado em produção!");
     }
     // Em desenvolvimento, usar fallback com aviso
     console.warn("[AVISO DE SEGURANÇA] JWT_SECRET não configurado. Use uma variável de ambiente segura em produção!");
-    return new TextEncoder().encode("auth-proxy-dev-secret-CHANGE-IN-PRODUCTION-min32chars");
+    return new TextEncoder().encode("auth-proxy-dev-secret-fallback-1234567890");
   }
   return new TextEncoder().encode(secret);
 }
@@ -393,10 +392,24 @@ export const appRouter = router({
         console.log("[Login] Senha válida, gerando token...");
         let token;
         try {
+          // SEGURANÇA: Garantir que o usuário tenha um sessionSecret
+          if (!user.sessionSecret) {
+            console.log(`[Login] Usuário ${user.username} sem sessionSecret, gerando um novo...`);
+            await resetUserSession(user.id);
+            // Recarregar usuário para pegar o novo segredo
+            const updatedUser = await getLocalUserById(user.id);
+            if (updatedUser) user.sessionSecret = updatedUser.sessionSecret;
+          }
+
           token = await signLocalToken(user.id, user.role, user.sessionSecret);
         } catch (e) {
           console.error("[Login] Erro ao gerar token JWT:", e);
-          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
+          // Mostrar erro mais detalhado no log para o admin
+          const errorMsg = e instanceof Error ? e.message : "Erro desconhecido";
+          throw new TRPCError({ 
+            code: "INTERNAL_SERVER_ERROR", 
+            message: `Erro ao gerar sessão: ${errorMsg}. Verifique o JWT_SECRET no servidor.` 
+          });
         }
 
         ctx.res.cookie(LOCAL_SESSION_COOKIE, token, cookieOptions);

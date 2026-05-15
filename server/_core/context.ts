@@ -15,11 +15,11 @@ const LOCAL_SESSION_COOKIE = "auth_proxy_session";
 
 async function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
-  if (!secret || secret.length < 32) {
+  if (!secret) {
     if (process.env.NODE_ENV === "production") {
-      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado ou muito curto em produção!");
+      throw new Error("[SEGURANÇA CRÍTICA] JWT_SECRET não configurado em produção!");
     }
-    return new TextEncoder().encode("auth-proxy-dev-secret-CHANGE-IN-PRODUCTION-min32chars");
+    return new TextEncoder().encode("auth-proxy-dev-secret-fallback-1234567890");
   }
   return new TextEncoder().encode(secret);
 }
