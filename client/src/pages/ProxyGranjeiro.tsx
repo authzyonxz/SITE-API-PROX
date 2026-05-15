@@ -12,6 +12,7 @@ const GRANJEIRO_USERNAME = "GRANJEIRO";
 const RED = "#ff1f3d";
 
 const DURATION_OPTIONS = [
+  { days: 0.0417, label: "1 Hora", credits: 2, color: "#ff0055" },
   { days: 1, label: "1 Dia", credits: 10, color: "#ff1f3d" },
   { days: 3, label: "3 Dias", credits: 25, color: "#ff4d00" },
   { days: 7, label: "7 Dias", credits: 35, color: "#ff6b6b" },
@@ -148,7 +149,7 @@ function GranjeiroLogin() {
 function GranjeiroKeyGenerator() {
   const { user, isAdmin } = useLocalAuth();
   const utils = trpc.useUtils();
-  const [selectedDays, setSelectedDays] = useState<1 | 3 | 7 | 30>(1);
+  const [selectedDays, setSelectedDays] = useState<0.0417 | 1 | 3 | 7 | 30>(1);
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);

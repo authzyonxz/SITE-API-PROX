@@ -6,6 +6,7 @@ import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Shield, Lock, Us
 import { nanoid } from "nanoid";
 
 const DURATION_OPTIONS = [
+  { days: 0.0417, label: "1 Hora", credits: 2, color: "#ff0055" },
   { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
   { days: 3, label: "3 Dias", credits: 25, color: "#9d4edd" },
   { days: 7, label: "7 Dias", credits: 35, color: "#00ff88" },
@@ -21,7 +22,7 @@ export default function GerarKeyPublic() {
   const [password, setPassword] = useState("");
   const [deviceId, setDeviceId] = useState("");
 
-  const [selectedDays, setSelectedDays] = useState<1 | 3 | 7 | 30>(1);
+  const [selectedDays, setSelectedDays] = useState<0.0417 | 1 | 3 | 7 | 30>(1);
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
@@ -201,7 +202,7 @@ export default function GerarKeyPublic() {
               return (
                 <button
                   key={option.days}
-                  onClick={() => setSelectedDays(option.days as 1 | 3 | 7 | 30)}
+                  onClick={() => setSelectedDays(option.days as 0.0417 | 1 | 3 | 7 | 30)}
                   className="p-4 rounded text-center transition-all"
                   style={{
                     background: isSelected ? "rgba(255,0,0,0.1)" : "rgba(255,255,255,0.02)",

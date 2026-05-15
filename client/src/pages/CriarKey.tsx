@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download, X } from "lucide-react";
 
 const DURATION_OPTIONS = [
+  { days: 0.0417, label: "1 Hora", credits: 2, color: "#ff0055" },
   { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
   { days: 3, label: "3 Dias", credits: 25, color: "#9d4edd" },
   { days: 7, label: "7 Dias", credits: 35, color: "#10b981" },
@@ -14,7 +15,7 @@ const DURATION_OPTIONS = [
 export default function CriarKey() {
   const { user, isAdmin } = useLocalAuth();
   const utils = trpc.useUtils();
-  const [selectedDays, setSelectedDays] = useState<1 | 3 | 7 | 30>(1);
+  const [selectedDays, setSelectedDays] = useState<0.0417 | 1 | 3 | 7 | 30>(1);
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
@@ -101,7 +102,7 @@ export default function CriarKey() {
             return (
               <button
                 key={option.days}
-                onClick={() => setSelectedDays(option.days as 1 | 3 | 7 | 30)}
+                onClick={() => setSelectedDays(option.days as 0.0417 | 1 | 3 | 7 | 30)}
                 className="p-4 rounded-lg text-center transition-all group"
                 style={{
                   background: isSelected ? `${option.color}20` : "rgba(255,255,255,0.05)",
@@ -159,7 +160,7 @@ export default function CriarKey() {
         style={{ background: canAfford ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)", border: `2px solid ${canAfford ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)"}` }}>
         <div className="text-sm text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
           Custo total: <span className="font-bold" style={{ color: canAfford ? "#10b981" : "#ef4444" }}>{totalCost} crédito{totalCost > 1 ? "s" : ""}</span>
-          {!isAdmin && <span className="ml-2 text-xs text-slate-500">({quantity} × {selectedDays} dia{selectedDays > 1 ? "s" : ""})</span>}
+          {!isAdmin && <span className="ml-2 text-xs text-slate-500">({quantity} × {selectedDays === 0.0417 ? "1 hora" : `${selectedDays} dia${selectedDays > 1 ? "s" : ""}`})</span>}
         </div>
         {!isAdmin && !canAfford && (
           <span className="text-xs text-red-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>

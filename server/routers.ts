@@ -487,7 +487,7 @@ export const appRouter = router({
   keys: router({
     generate: localAuthProcedure
       .input(z.object({
-        days: z.union([z.literal(1), z.literal(3), z.literal(7), z.literal(30)]),
+        days: z.union([z.literal(0.0417), z.literal(1), z.literal(3), z.literal(7), z.literal(30)]),
         quantity: z.number().int().min(1).max(50),
       }))
       .mutation(async ({ input, ctx }) => {
@@ -504,6 +504,7 @@ export const appRouter = router({
 
         // Tabela de preços atualizada
         const prices = {
+          0.0417: 2, // 1 hora
           1: 10,
           3: 25,
           7: 35,
@@ -540,7 +541,11 @@ export const appRouter = router({
             results.push(key);
 
             const expiresAt = new Date();
-            expiresAt.setDate(expiresAt.getDate() + days);
+            if (days === 0.0417) {
+              expiresAt.setHours(expiresAt.getHours() + 1);
+            } else {
+              expiresAt.setDate(expiresAt.getDate() + days);
+            }
             await saveGeneratedKey({
               keyValue: key,
               days,
