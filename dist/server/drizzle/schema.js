@@ -65,3 +65,16 @@ export const ipBlacklist = mysqlTable("ip_blacklist", {
     reason: text("reason"),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+/**
+ * Table for reporting reseller scams/fraud.
+ */
+export const reports = mysqlTable("reports", {
+    id: int("id").autoincrement().primaryKey(),
+    reporterName: varchar("reporterName", { length: 255 }).notNull(),
+    discordLink: varchar("discordLink", { length: 255 }).notNull(),
+    scamKey: varchar("scamKey", { length: 255 }).notNull(),
+    description: text("description").notNull(),
+    imageUrls: text("imageUrls"), // Comma-separated or JSON array of image URLs
+    status: mysqlEnum("status", ["pending", "reviewed", "resolved"]).default("pending").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+});

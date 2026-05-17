@@ -26,6 +26,7 @@ export function useAuth(options?: UseAuthOptions) {
 
   const logout = useCallback(async () => {
     try {
+      localStorage.removeItem("auth_token");
       await logoutMutation.mutateAsync();
     } catch (error: unknown) {
       if (

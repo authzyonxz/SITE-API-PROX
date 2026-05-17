@@ -335,6 +335,43 @@ export default function NatsuUpdateIp() {
                 </div>
 
                 <button
+        <div className="space-y-3">
+          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+            Certificados
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <a
+              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(157,78,221,0.1)",
+                border: "1px solid rgba(157,78,221,0.5)",
+                color: "rgba(157,78,221,0.8)",
+                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+            </a>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); toast.info("Link do certificado HS PESCOÇO + ANTENA em breve"); }}
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(0,212,255,0.1)",
+                border: "1px solid rgba(0,212,255,0.5)",
+                color: "rgba(0,212,255,0.8)",
+                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
+            </a>
+          </div>
+        </div>
+
                   onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"

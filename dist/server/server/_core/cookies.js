@@ -33,7 +33,7 @@ export function getSessionCookieOptions(req) {
     return {
         httpOnly: true,
         path: "/",
-        sameSite: "none",
-        secure: isSecureRequest(req),
+        sameSite: "lax", // 'lax' é mais compatível com a maioria dos navegadores modernos em domínios Railway
+        secure: true, // Railway sempre fornece HTTPS
     };
 }

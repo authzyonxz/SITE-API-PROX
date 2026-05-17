@@ -48,6 +48,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const logoutMutation = trpc.localAuth.logout.useMutation({
     onSuccess: (data, variables, context) => {
+      localStorage.removeItem("auth_token");
       if (context === "auto") {
         toast.info("Sessão encerrada por inatividade", {
           description: "Por segurança, você foi desconectado.",

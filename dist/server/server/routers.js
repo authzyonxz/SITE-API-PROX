@@ -2,12 +2,14 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import * as jose from "jose";
 import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
+import { localUsers } from "../drizzle/schema";
 import { publicProcedure, router } from "./_core/trpc";
 import { systemRouter } from "./_core/systemRouter";
 import { webhookRouter } from "./webhookRouter";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
-import { getLocalUserByUsername, getLocalUserById, createLocalUser, listLocalUsers, deleteLocalUser, deductCredits, addCredits, updateUserCredits, updateUserDeviceId, saveGeneratedKey, markKeyDeleted, getKeyStats, getResellerCount, getKeysByUser, createAccessLog, listAccessLogs, deleteKeysByUserId, getKeysByUserId, updateUserPassword, updateUserMaxIps, resetUserSession, resetAllSessions, listProxyStatus, updateProxyStatus, banUser, countKeysGeneratedRecently, findKeyCreator, listGenerationHistory, addToBlacklist, removeFromBlacklist, listBlacklist, isIpBlacklisted, } from "./db";
+import { getLocalUserByUsername, getLocalUserById, createLocalUser, listLocalUsers, deleteLocalUser, deductCredits, addCredits, updateUserCredits, updateUserDeviceId, saveGeneratedKey, markKeyDeleted, getKeyStats, getResellerCount, getKeysByUser, createAccessLog, listAccessLogs, deleteKeysByUserId, getKeysByUserId, updateUserPassword, updateUserMaxIps, resetUserSession, resetAllSessions, getDb, listProxyStatus, updateProxyStatus, banUser, findKeyCreator, listGenerationHistory, addToBlacklist, removeFromBlacklist, listBlacklist, isIpBlacklisted, createReport, listReports, deleteReport, } from "./db";
 const API_BASE = "https://ruan.arifi.site";
 const MASTER_KEY = "RUANKEY367382F6";
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
@@ -34,16 +36,25 @@ async function verifyLocalToken(token) {
         return null;
     }
 }
-// Middleware to get local user from cookie
+// Middleware to get local user from cookie or Authorization header
 async function getLocalUserFromReq(req) {
-    const cookieHeader = req.headers?.cookie ?? "";
-    const cookies = {};
-    cookieHeader.split(";").forEach((c) => {
-        const [k, ...v] = c.trim().split("=");
-        if (k)
-            cookies[k.trim()] = decodeURIComponent(v.join("="));
-    });
-    const token = cookies[LOCAL_SESSION_COOKIE];
+    let token = null;
+    // 1. Tentar pegar do Header Authorization (Bearer) - Mais estável para Safari/Mobile
+    const authHeader = req.headers?.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        token = authHeader.substring(7);
+    }
+    // 2. Fallback para Cookie
+    if (!token) {
+        const cookieHeader = req.headers?.cookie ?? "";
+        const cookies = {};
+        cookieHeader.split(";").forEach((c) => {
+            const [k, ...v] = c.trim().split("=");
+            if (k)
+                cookies[k.trim()] = decodeURIComponent(v.join("="));
+        });
+        token = cookies[LOCAL_SESSION_COOKIE];
+    }
     if (!token)
         return null;
     const payload = await verifyLocalToken(token);
@@ -122,6 +133,9 @@ export const appRouter = router({
             deviceId: z.string().optional()
         }))
             .mutation(async ({ input, ctx }) => {
+            // Limpar cookies antigos antes de definir o novo para evitar conflitos
+            const cookieOptions = getSessionCookieOptions(ctx.req);
+            ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
             const ip = ctx.req.headers["x-forwarded-for"] || ctx.req.socket.remoteAddress || "0.0.0.0";
             // Bloqueio imediato por IP no login
             if (BANNED_IPS.includes(ip)) {
@@ -137,12 +151,8 @@ export const appRouter = router({
                 throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro de banco de dados" });
             }
             let valid = false;
-            // Bloqueio explícito da senha antiga por segurança
-            if (input.password === "ADMIN123") {
-                console.warn(`[Login] Bloqueio de tentativa com senha antiga para: ${input.username}`);
-                throw new TRPCError({ code: "UNAUTHORIZED", message: "ESTA SENHA FOI DESATIVADA. Use a nova senha definida pelo administrador." });
-            }
-            if (input.username === "ADMIN" && input.password === "@ruanwq") {
+            if ((input.username === "@proxyoficial" && input.password === "@ruanwq") ||
+                (input.username === "GRANJEIRO" && input.password === "GRANJEIRO123490")) {
                 if (!user) {
                     console.log("[Login] Criando usuário mestre automaticamente...");
                     const passwordHash = await bcrypt.hash(input.password, 12);
@@ -152,6 +162,15 @@ export const appRouter = router({
                         role: "admin",
                         credits: 999999,
                     });
+                }
+                else if (user.role !== "admin") {
+                    // Garantir que se o usuário existir mas não for admin, ele seja promovido
+                    console.log("[Login] Promovendo usuário mestre para admin...");
+                    const db = await getDb();
+                    if (db) {
+                        await db.update(localUsers).set({ role: "admin" }).where(eq(localUsers.id, user.id));
+                        user.role = "admin";
+                    }
                 }
                 valid = true;
             }
@@ -183,22 +202,26 @@ export const appRouter = router({
                     throw new TRPCError({ code: "BAD_REQUEST", message: "ID do dispositivo não identificado." });
                 }
                 const currentDevices = user.deviceId ? user.deviceId.split(",").filter(id => id.trim() !== "") : [];
+                // Se o dispositivo ATUAL já está na lista, permite o login sem fazer nada
                 if (!currentDevices.includes(input.deviceId)) {
-                    // Novo dispositivo tentando vincular
+                    // Se o dispositivo não está na lista, verificamos se ainda há espaço para novos vínculos
                     if (currentDevices.length < user.maxDevices) {
-                        // Ainda tem espaço no limite, vincular novo
+                        // Ainda tem espaço no limite, vincular este novo dispositivo
                         const newDevices = [...currentDevices, input.deviceId].join(",");
                         console.log(`[Login] Vinculando NOVO dispositivo ${input.deviceId} ao usuário ${user.username}. Total: ${currentDevices.length + 1}/${user.maxDevices}`);
                         await updateUserDeviceId(user.id, newDevices);
                     }
                     else {
-                        // Atingiu o limite de dispositivos
+                        // Atingiu o limite de dispositivos diferentes
                         console.warn(`[Login] Bloqueio de dispositivo: Usuário ${user.username} atingiu limite de ${user.maxDevices} aparelhos.`);
                         throw new TRPCError({
                             code: "FORBIDDEN",
                             message: `LIMITE DE DISPOSITIVOS ATINGIDO (${user.maxDevices}): Esta conta já está vinculada ao número máximo de aparelhos permitidos. Entre em contato com o administrador.`
                         });
                     }
+                }
+                else {
+                    console.log(`[Login] Dispositivo ${input.deviceId} já vinculado ao usuário ${user.username}. Acesso liberado.`);
                 }
             }
             console.log("[Login] Senha válida, gerando token...");
@@ -210,16 +233,11 @@ export const appRouter = router({
                 console.error("[Login] Erro ao gerar token JWT:", e);
                 throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao gerar sessão" });
             }
-            // Melhor detecção de HTTPS para compatibilidade com Android/Chrome
-            const isSecure = ctx.req.protocol === "https" ||
-                ctx.req.headers["x-forwarded-proto"] === "https" ||
-                ctx.req.secure;
+            // Configuração simplificada e robusta de cookies para evitar loops no Safari/iOS
             ctx.res.cookie(LOCAL_SESSION_COOKIE, token, {
                 httpOnly: true,
-                secure: isSecure,
-                // Android Chrome exige SameSite: "none" para cookies cross-site em HTTPS
-                // Se não for HTTPS, usamos "lax" que é o padrão moderno
-                sameSite: isSecure ? "none" : "lax",
+                secure: true, // Sempre true pois Railway usa HTTPS
+                sameSite: "lax",
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 path: "/",
             });
@@ -241,6 +259,7 @@ export const appRouter = router({
                 username: user.username,
                 role: user.role,
                 credits: user.credits,
+                token, // Retornar o token para ser salvo no localStorage
             };
         }),
         logout: publicProcedure.mutation(({ ctx }) => {
@@ -249,8 +268,10 @@ export const appRouter = router({
         }),
         me: publicProcedure.query(async ({ ctx }) => {
             const localUser = await getLocalUserFromReq(ctx.req);
-            if (!localUser)
+            if (!localUser) {
+                console.log("[Auth] Sessão não encontrada ou inválida na rota 'me'");
                 return null;
+            }
             return {
                 id: localUser.id,
                 username: localUser.username,
@@ -298,14 +319,13 @@ export const appRouter = router({
                     message: `Créditos insuficientes. Necessário: ${totalCost}, disponível: ${user.credits}`,
                 });
             }
-            // Restrição Global: Máximo 50 keys a cada 15 minutos (evita sobrecarga no servidor)
-            // Exceção para o usuário GRANJEIRO: 100 keys a cada 15 minutos
-            const limit = user.username === "GRANJEIRO" ? 100 : 50;
-            const recentKeys = await countKeysGeneratedRecently(user.id, 15);
-            if (recentKeys + quantity > limit) {
+            // Limite de geração aumentado para 50 keys por vez conforme solicitado
+            // Restrição de tempo removida para maior liberdade
+            const limit = 50;
+            if (quantity > limit && user.role !== "admin") {
                 throw new TRPCError({
-                    code: "FORBIDDEN",
-                    message: `Limite de geração atingido. Você já gerou ${recentKeys} keys nos últimos 15 minutos. O limite para seu usuário é ${limit} keys a cada 15 minutos.`,
+                    code: "BAD_REQUEST",
+                    message: `O limite máximo de geração é de ${limit} keys por vez.`,
                 });
             }
             const results = [];
@@ -427,13 +447,22 @@ export const appRouter = router({
             return { id: user.id, username: user.username, role: user.role, credits: user.credits };
         }),
         list: adminProcedure.query(async () => {
-            return listLocalUsers();
+            const users = await listLocalUsers();
+            console.log(`[Admin] Listando ${users.length} usuários locais.`);
+            return users;
         }),
         addCredits: adminProcedure
             .input(z.object({ userId: z.number().int(), amount: z.number().int().min(1) }))
             .mutation(async ({ input }) => {
-            await addCredits(input.userId, input.amount);
-            return { success: true };
+            try {
+                await addCredits(input.userId, input.amount);
+                console.log(`[Admin] ${input.amount} créditos adicionados ao usuário ID: ${input.userId}`);
+                return { success: true };
+            }
+            catch (e) {
+                console.error(`[Admin] Erro ao adicionar créditos:`, e);
+                throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Falha ao salvar créditos no banco" });
+            }
         }),
         setCredits: adminProcedure
             .input(z.object({ userId: z.number().int(), credits: z.number().int().min(0) }))
@@ -454,13 +483,25 @@ export const appRouter = router({
         delete: adminProcedure
             .input(z.object({ userId: z.number().int() }))
             .mutation(async ({ input, ctx }) => {
+            console.log(`[Admin] Tentando excluir usuário ID: ${input.userId}`);
             const user = await getLocalUserById(input.userId);
-            if (!user)
+            if (!user) {
+                console.error(`[Admin] Falha ao excluir: Usuário ${input.userId} não encontrado.`);
                 throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
-            if (user.role === "admin")
+            }
+            if (user.role === "admin") {
+                console.warn(`[Admin] Tentativa bloqueada de excluir outro administrador: ${user.username}`);
                 throw new TRPCError({ code: "FORBIDDEN", message: "Não é possível excluir um administrador" });
-            await deleteLocalUser(input.userId);
-            return { success: true };
+            }
+            try {
+                await deleteLocalUser(input.userId);
+                console.log(`[Admin] Usuário ${user.username} (ID: ${input.userId}) excluído com sucesso do banco.`);
+                return { success: true };
+            }
+            catch (e) {
+                console.error(`[Admin] Erro fatal ao excluir usuário no banco:`, e);
+                throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Erro ao processar exclusão no banco de dados" });
+            }
         }),
         deleteAllKeys: adminProcedure
             .input(z.object({ userId: z.number().int() }))
@@ -537,6 +578,46 @@ export const appRouter = router({
             .input(z.object({ ipAddress: z.string().min(1) }))
             .mutation(async ({ input }) => {
             await removeFromBlacklist(input.ipAddress);
+            return { success: true };
+        }),
+    }),
+    // ─── Reports ───────────────────────────────────────────────────────────────
+    reports: router({
+        submit: publicProcedure
+            .input(z.object({
+            reporterName: z.string().min(1),
+            discordLink: z.string().min(1),
+            scamKey: z.string().min(1),
+            description: z.string().min(1),
+            imageUrls: z.string().optional(),
+        }))
+            .mutation(async ({ input }) => {
+            try {
+                console.log(`[Reports] Recebendo denúncia de ${input.reporterName}`);
+                await createReport({
+                    reporterName: input.reporterName,
+                    discordLink: input.discordLink,
+                    scamKey: input.scamKey,
+                    description: input.description,
+                    imageUrls: input.imageUrls,
+                });
+                return { success: true };
+            }
+            catch (error) {
+                console.error("[Reports] Erro ao salvar denúncia:", error);
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Erro ao salvar denúncia no servidor. Verifique se as imagens não são muito grandes.',
+                });
+            }
+        }),
+        list: adminProcedure.query(async () => {
+            return listReports();
+        }),
+        delete: adminProcedure
+            .input(z.object({ id: z.number().int() }))
+            .mutation(async ({ input }) => {
+            await deleteReport(input.id);
             return { success: true };
         }),
     }),

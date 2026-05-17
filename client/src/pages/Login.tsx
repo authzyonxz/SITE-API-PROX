@@ -39,7 +39,10 @@ export default function Login() {
 
   const utils = trpc.useUtils();
   const loginMutation = trpc.localAuth.login.useMutation({
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      if (data.token) {
+        localStorage.setItem("auth_token", data.token);
+      }
       toast.success("Acesso autorizado");
       // Forçar a atualização dos dados do usuário logado antes de mudar de página
       await utils.localAuth.me.invalidate();

@@ -189,15 +189,27 @@ async function verifyLocalToken(token: string) {
   }
 }
 
-// Middleware to get local user from cookie
+// Middleware to get local user from cookie or Authorization header
 async function getLocalUserFromReq(req: any) {
-  const cookieHeader = req.headers?.cookie ?? "";
-  const cookies: Record<string, string> = {};
-  cookieHeader.split(";").forEach((c: string) => {
-    const [k, ...v] = c.trim().split("=");
-    if (k) cookies[k.trim()] = decodeURIComponent(v.join("="));
-  });
-  const token = cookies[LOCAL_SESSION_COOKIE];
+  let token = null;
+
+  // 1. Tentar pegar do Header Authorization (Bearer) - Mais estável para Safari/Mobile
+  const authHeader = req.headers?.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    token = authHeader.substring(7);
+  }
+
+  // 2. Fallback para Cookie
+  if (!token) {
+    const cookieHeader = req.headers?.cookie ?? "";
+    const cookies: Record<string, string> = {};
+    cookieHeader.split(";").forEach((c: string) => {
+      const [k, ...v] = c.trim().split("=");
+      if (k) cookies[k.trim()] = decodeURIComponent(v.join("="));
+    });
+    token = cookies[LOCAL_SESSION_COOKIE];
+  }
+
   if (!token) return null;
   const payload = await verifyLocalToken(token);
   if (!payload) return null;
@@ -431,6 +443,7 @@ export const appRouter = router({
           username: user.username,
           role: user.role,
           credits: user.credits,
+          token, // Retornar o token para ser salvo no localStorage
         };
       }),
 

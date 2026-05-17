@@ -1,35 +1,41 @@
 import { eq, desc, count, and, lt, gte, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import crypto from "node:crypto";
-import { users, localUsers, generatedKeys, accessLogs, proxyStatus, ipBlacklist } from "../drizzle/schema";
+import { users, localUsers, generatedKeys, accessLogs, proxyStatus, ipBlacklist, reports } from "../drizzle/schema";
 import { ENV } from './_core/env';
 let _db = null;
 export async function getDb() {
     if (!_db && process.env.DATABASE_URL) {
         try {
             _db = drizzle(process.env.DATABASE_URL);
-            // Auto-migration: Garantir que as colunas de dispositivo existam
-            // Rodamos em um bloco try-catch separado para não travar se a coluna já existir
+            // Auto-migration: Garantir que as tabelas e colunas existam
             const db = _db;
             setTimeout(async () => {
                 try {
                     console.log("[Database] Verificando estrutura das tabelas...");
+                    // Tabela de denúncias
+                    await db.execute(sql `CREATE TABLE IF NOT EXISTS reports (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            reporterName VARCHAR(255) NOT NULL,
+            discordLink VARCHAR(255) NOT NULL,
+            scamKey VARCHAR(255) NOT NULL,
+            description TEXT NOT NULL,
+            imageUrls LONGTEXT,
+            status ENUM('pending', 'reviewed', 'resolved') DEFAULT 'pending' NOT NULL,
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+          )`);
+                    // Garantir que a coluna seja LONGTEXT se já existir
+                    await db.execute(sql `ALTER TABLE reports MODIFY COLUMN imageUrls LONGTEXT`);
                     await db.execute(sql `ALTER TABLE local_users ADD COLUMN IF NOT EXISTS deviceId VARCHAR(1000)`);
                     await db.execute(sql `ALTER TABLE access_logs ADD COLUMN IF NOT EXISTS deviceId VARCHAR(255)`);
                     console.log("[Database] Estrutura verificada com sucesso.");
                 }
                 catch (e) {
-                    // Se falhar (ex: MySQL antigo que não suporta IF NOT EXISTS), tentamos sem o IF NOT EXISTS e ignoramos erro de "coluna duplicada"
-                    try {
-                        await db.execute(sql `ALTER TABLE local_users ADD COLUMN deviceId VARCHAR(1000)`);
-                    }
-                    catch (err) { }
-                    try {
-                        await db.execute(sql `ALTER TABLE access_logs ADD COLUMN deviceId VARCHAR(255)`);
-                    }
-                    catch (err) { }
+                    console.error("[Database] Erro na auto-migração:", e);
                 }
             }, 1000);
+            // As colunas de dispositivo já estão sendo tratadas no primeiro setTimeout acima.
+            // Removido o bloco duplicado para evitar erro de compilação.
         }
         catch (error) {
             console.warn("[Database] Failed to connect:", error);
@@ -375,4 +381,22 @@ export async function countKeysGeneratedRecently(userId, minutes) {
         .from(generatedKeys)
         .where(and(eq(generatedKeys.createdById, userId), gte(generatedKeys.createdAt, since), eq(generatedKeys.status, "active")));
     return result?.value ?? 0;
+}
+export async function createReport(report) {
+    const db = await getDb();
+    if (!db)
+        throw new Error("Database not available");
+    await db.insert(reports).values(report);
+}
+export async function listReports() {
+    const db = await getDb();
+    if (!db)
+        return [];
+    return db.select().from(reports).orderBy(desc(reports.createdAt));
+}
+export async function deleteReport(id) {
+    const db = await getDb();
+    if (!db)
+        throw new Error("Database not available");
+    await db.delete(reports).where(eq(reports.id, id));
 }
