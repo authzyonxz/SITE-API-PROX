@@ -199,120 +199,120 @@ export default function SensiMenstruadaUpdateIp() {
                   </div>
                 </div>
 
-                <button
                 <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
+                    </a>
+                  </div>
+                </div>
 
-        
-
+                <button
                   onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-purple-500/20 flex items-center justify-center gap-3 disabled:opacity-50"
                 >
                   {updateMutation.isPending ? (
-                    <><Loader2 className="w-5 h-5 animate-spin" /> Atualizando...</>
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Processando...</>
                   ) : (
-                    <><CheckCircle className="w-5 h-5" /> Atualizar IP</>
+                    <><CheckCircle className="w-5 h-5" /> Atualizar Acesso</>
                   )}
                 </button>
 
                 {result && (
-                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
+                  <div className={`mt-6 p-4 rounded-lg border animate-in fade-in slide-in-from-top-4 duration-300 ${
+                    result.ok ? "bg-green-500/10 border-green-500/20 text-green-400" : "bg-red-500/10 border-red-500/20 text-red-400"
+                  }`}>
                     <div className="flex items-center gap-3 mb-2">
                       {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
+                      <span className="font-bold font-orbitron text-sm tracking-wider uppercase">
+                        {result.ok ? "Sucesso!" : "Erro na Operação"}
+                      </span>
                     </div>
-                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                    <p className="text-xs font-mono opacity-80 leading-relaxed break-all">
+                      {result.raw}
+                    </p>
                   </div>
                 )}
               </div>
-
-
             </section>
           </div>
 
           <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-24 space-y-6">
-              {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl overflow-hidden shadow-xl shadow-black/20">
-                  <div className="px-5 py-4 border-b border-white/10 bg-white/5">
-                    <h3 className="text-sm font-black tracking-widest font-orbitron text-purple-400">{proxy.title}</h3>
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6">
+              <h3 className="text-lg font-bold font-orbitron text-white mb-6 flex items-center gap-2">
+                <Globe className="w-5 h-5 text-purple-400" />
+                DADOS DO PROXY
+              </h3>
+              
+              <div className="space-y-6">
+                {proxyInfos.map((proxy, idx) => (
+                  <div key={idx} className="space-y-3">
+                    <h4 className="text-[10px] font-bold tracking-[0.2em] text-purple-400/70 uppercase font-mono">
+                      {proxy.title}
+                    </h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      {proxy.items.map((item, iidx) => (
+                        <div key={iidx} className="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-white/5">
+                          <span className="text-xs text-slate-500 font-mono uppercase">{item.label}</span>
+                          <span className="text-sm text-white font-bold font-mono tracking-wider">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="p-5 space-y-4">
-                    {proxy.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs uppercase tracking-widest text-slate-500 font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-
-              <div className="space-y-4 pt-2">
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-400 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
-                >
-                  <Download className="w-5 h-5" />
-                  Download Certificado
-                </a>
-                <a 
-                  href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-green-400 font-bold font-orbitron tracking-widest uppercase hover:bg-green-500/10 hover:border-green-500/30 transition-all"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  Canal de Atualizações
-                </a>
+                ))}
               </div>
+            </div>
+
+            <div className="p-6 rounded-xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-purple-500/30">
+              <div className="flex items-center gap-3 mb-4">
+                <Bell className="w-5 h-5 text-purple-400" />
+                <h3 className="font-bold font-orbitron text-white text-sm uppercase tracking-wider">Aviso Importante</h3>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed font-rajdhani">
+                Lembre-se de sempre atualizar seu IP após reiniciar sua conexão de internet ou mudar de rede (Wi-Fi/4G). O acesso é liberado instantaneamente após a atualização.
+              </p>
             </div>
           </div>
         </div>
       </main>
 
-      <footer className="mt-12 py-8 border-t border-white/5 text-center">
-        <p className="text-[10px] tracking-[0.4em] uppercase text-slate-600 font-mono">
-          Sensi Menstruada Proxy &copy; 2026 // Secure Connection Established
-        </p>
+      <footer className="border-t border-white/5 py-8 mt-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-[10px] font-mono text-slate-600 tracking-[0.3em] uppercase">
+            Sensi Menstruada v2.0 // Secured by Proxy System
+          </p>
+        </div>
       </footer>
     </div>
   );

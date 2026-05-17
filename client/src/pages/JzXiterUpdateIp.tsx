@@ -200,7 +200,6 @@ export default function JzXiterUpdateIp() {
                   </div>
                 </div>
 
-                <button
                 <div className="space-y-3">
           <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
             Certificados
