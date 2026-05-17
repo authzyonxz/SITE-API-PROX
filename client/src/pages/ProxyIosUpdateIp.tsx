@@ -337,6 +337,123 @@ export default function ProxyIosUpdateIp() {
                   </div>
                 </div>
 
+                        <div className="space-y-3">
+          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+            Certificados
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <a
+              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(0,212,255,0.1)",
+                border: "1px solid rgba(0,212,255,0.5)",
+                color: "rgba(0,212,255,0.8)",
+                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+            </a>
+            <a
+              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(157,78,221,0.1)",
+                border: "1px solid rgba(157,78,221,0.5)",
+                color: "rgba(157,78,221,0.8)",
+                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+            </a>
+          </div>
+        </div>
+
+                <button
+                        onClick={handleFetchIp}
+                        disabled={isFetchingIp}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-bold tracking-widest uppercase font-orbitron transition-all disabled:opacity-50"
+                        style={{
+                          background: "rgba(147,51,234,0.2)",
+                          borderColor: "rgba(147,51,234,0.5)",
+                          color: "#c084fc",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isFetchingIp) {
+                            (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.35)";
+                            (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 10px rgba(147,51,234,0.2)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.2)";
+                          (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                        }}
+                      >
+                        {isFetchingIp ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Search className="w-3.5 h-3.5" />
+                        )}
+                        {isFetchingIp ? "Buscando..." : "Buscar IP"}
+                      </button>
+                    </div>
+
+                    {detectedIp && (
+                      <div
+                        className="mb-2 px-3 py-2 rounded-md border text-xs font-mono animate-in fade-in slide-in-from-top-1 duration-300"
+                        style={{
+                          background: "rgba(147,51,234,0.1)",
+                          borderColor: "rgba(147,51,234,0.4)",
+                          color: "#c084fc",
+                        }}
+                      >
+                        <span style={{ color: "rgba(192,132,252,0.7)" }}>IP detectado: </span>
+                        <span className="font-bold">{detectedIp}</span>
+                        <span
+                          className="ml-2 text-[10px] uppercase tracking-widest"
+                          style={{ color: "rgba(192,132,252,0.6)" }}
+                        >
+                          (preenchido automaticamente)
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="relative group">
+                      <Globe
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors"
+                        style={{ color: "rgba(147,51,234,0.5)" }}
+                      />
+                      <input
+                        type="text"
+                        value={newIp}
+                        onChange={(e) => setNewIp(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
+                        placeholder="Ex: 177.123.45.67"
+                        className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
+                        style={{
+                          background: "rgba(0,0,0,0.5)",
+                          borderColor: "rgba(147,51,234,0.3)",
+                          color: "rgba(255,255,255,0.95)",
+                        }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = "#a855f7";
+                          e.currentTarget.style.boxShadow = "0 0 10px rgba(147,51,234,0.3)";
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = "rgba(147,51,234,0.3)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-3">
           <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
             Certificados

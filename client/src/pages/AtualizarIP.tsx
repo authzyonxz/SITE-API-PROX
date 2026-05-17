@@ -137,7 +137,7 @@ export default function AtualizarIP() {
           </div>
         </div>
 
-                <div className="space-y-3">
+                                <div className="space-y-3">
           <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
             Certificados
           </div>
@@ -175,9 +175,7 @@ export default function AtualizarIP() {
           </div>
         </div>
 
-        
-
-        <button
+                <button
           onClick={handleUpdate}
           disabled={updateMutation.isPending}
           className="w-full py-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all mt-2"
