@@ -74,6 +74,7 @@ export default function NatsuUpdateIp() {
         backgroundSize: "auto, auto, 40px 40px, 40px 40px",
       }}
     >
+      {/* Header / Navbar */}
       <nav
         className="sticky top-0 z-50 border-b backdrop-blur-md"
         style={{
@@ -102,6 +103,7 @@ export default function NatsuUpdateIp() {
               </span>
             </div>
 
+            {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
                 href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
@@ -113,53 +115,21 @@ export default function NatsuUpdateIp() {
                   borderColor: "rgba(220,38,38,0.35)",
                   color: "#f87171",
                 }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,38,38,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,38,38,0.1)";
+                }}
               >
                 <Download className="w-4 h-4" />
                 Download Natsu Cert
               </a>
             </div>
 
+            {/* Mobile Menu Button */}
             <div className="md:hidden">
-              
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
-
-                <button
+              <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-md transition-colors"
                 style={{ color: "#f87171" }}
@@ -170,6 +140,7 @@ export default function NatsuUpdateIp() {
           </div>
         </div>
 
+        {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div
             className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
@@ -198,6 +169,8 @@ export default function NatsuUpdateIp() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -244,8 +217,34 @@ export default function NatsuUpdateIp() {
                           borderColor: "rgba(220,38,38,0.2)",
                           color: "rgba(255,255,255,0.9)",
                         }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = "#f87171";
+                          e.currentTarget.style.boxShadow = "0 0 0 1px #f87171";
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = "rgba(220,38,38,0.2)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
                       />
                     </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 py-2">
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background:
+                          "linear-gradient(to right, transparent, rgba(220,38,38,0.3), transparent)",
+                      }}
+                    />
+                    <ArrowRight className="w-5 h-5" style={{ color: "rgba(220,38,38,0.3)" }} />
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background:
+                          "linear-gradient(to right, transparent, rgba(220,38,38,0.3), transparent)",
+                      }}
+                    />
                   </div>
 
                   <div>
@@ -256,20 +255,55 @@ export default function NatsuUpdateIp() {
                       >
                         Novo Endereço de IP
                       </label>
+                      {/* Buscar IP Button */}
                       <button
                         onClick={handleFetchIp}
                         disabled={isFetchingIp}
-                        className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded border transition-all"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-bold tracking-widest uppercase font-orbitron transition-all disabled:opacity-50"
                         style={{
-                          background: "rgba(220,38,38,0.1)",
-                          borderColor: "rgba(220,38,38,0.35)",
+                          background: "rgba(220,38,38,0.12)",
+                          borderColor: "rgba(220,38,38,0.4)",
+                          color: "#f87171",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isFetchingIp)
+                            (e.currentTarget as HTMLButtonElement).style.background =
+                              "rgba(220,38,38,0.25)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background =
+                            "rgba(220,38,38,0.12)";
+                        }}
+                      >
+                        {isFetchingIp ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Search className="w-3.5 h-3.5" />
+                        )}
+                        {isFetchingIp ? "Buscando..." : "Buscar IP"}
+                      </button>
+                    </div>
+
+                    {detectedIp && (
+                      <div
+                        className="mb-2 px-3 py-2 rounded-md border text-xs font-mono animate-in fade-in slide-in-from-top-1 duration-300"
+                        style={{
+                          background: "rgba(220,38,38,0.08)",
+                          borderColor: "rgba(220,38,38,0.3)",
                           color: "#f87171",
                         }}
                       >
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                        BUSCAR IP
-                      </button>
-                    </div>
+                        <span style={{ color: "rgba(248,113,113,0.6)" }}>IP detectado: </span>
+                        <span className="font-bold">{detectedIp}</span>
+                        <span
+                          className="ml-2 text-[10px] uppercase tracking-widest"
+                          style={{ color: "rgba(248,113,113,0.5)" }}
+                        >
+                          (preenchido automaticamente)
+                        </span>
+                      </div>
+                    )}
+
                     <div className="relative group">
                       <Globe
                         className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors"
@@ -279,19 +313,26 @@ export default function NatsuUpdateIp() {
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        placeholder="Ex: 189.120.45.67"
+                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
+                        placeholder="Ex: 177.123.45.67"
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
                         style={{
                           background: "rgba(0,0,0,0.3)",
                           borderColor: "rgba(220,38,38,0.2)",
                           color: "rgba(255,255,255,0.9)",
                         }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = "#f87171";
+                          e.currentTarget.style.boxShadow = "0 0 0 1px #f87171";
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = "rgba(220,38,38,0.2)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
                       />
                     </div>
                   </div>
                 </div>
-
-                
 
                 <button
                   onClick={handleUpdate}
@@ -302,11 +343,28 @@ export default function NatsuUpdateIp() {
                     borderColor: "rgba(220,38,38,0.45)",
                     color: "#f87171",
                   }}
+                  onMouseEnter={(e) => {
+                    if (!updateMutation.isPending) {
+                      (e.currentTarget as HTMLButtonElement).style.background =
+                        "rgba(220,38,38,0.22)";
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                        "0 0 20px rgba(220,38,38,0.35)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "rgba(220,38,38,0.12)";
+                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                  }}
                 >
                   {updateMutation.isPending ? (
-                    <><Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...</>
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
+                    </>
                   ) : (
-                    <><Globe className="w-5 h-5" /> ATUALIZAR AGORA</>
+                    <>
+                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
+                    </>
                   )}
                 </button>
 
@@ -319,9 +377,13 @@ export default function NatsuUpdateIp() {
                     }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="text-sm font-bold uppercase tracking-widest font-orbitron">
-                        {result.ok ? "SUCESSO NA OPERAÇÃO" : "ERRO NA OPERAÇÃO"}
+                      {result.ok ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <XCircle className="w-5 h-5" />
+                      )}
+                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">
+                        {result.ok ? "Sucesso!" : "Erro na Operação"}
                       </span>
                     </div>
                     <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
@@ -329,42 +391,247 @@ export default function NatsuUpdateIp() {
                 )}
               </div>
             </section>
+
+            {/* Tutorial Section */}
+            <section className="space-y-6">
+              <div className="flex items-center gap-3">
+                <Info className="w-6 h-6" style={{ color: "#f87171" }} />
+                <h2
+                  className="text-xl font-bold tracking-widest uppercase font-orbitron"
+                  style={{ color: "#f87171" }}
+                >
+                  TUTORIAL DE INSTALAÇÃO
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    step: "1",
+                    title: "Baixar Natsu Cert",
+                    desc: (
+                      <>
+                        Clique no botão no topo da página para baixar o arquivo{" "}
+                        <b>Natsu Cert.pem</b>. Este certificado é necessário para que o proxy
+                        funcione em conexões seguras.
+                      </>
+                    ),
+                  },
+                  {
+                    step: "2",
+                    title: "Instalar no Dispositivo",
+                    desc: "Abra o arquivo baixado e siga as instruções do seu sistema para instalar. No Android/iOS, vá em Configurações de Segurança e instale como Certificado de Confiança.",
+                  },
+                  {
+                    step: "3",
+                    title: "Confiar no Certificado",
+                    desc: (
+                      <>
+                        <b>IMPORTANTE:</b> Após instalar, você deve habilitar a confiança total
+                        para este certificado nas configurações de certificados raiz confiáveis do
+                        seu aparelho.
+                      </>
+                    ),
+                  },
+                  {
+                    step: "4",
+                    title: "Configurar Proxy",
+                    desc: "Use os dados de IP e Porta fornecidos ao lado nas configurações de rede do seu dispositivo ou aplicativo.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.step}
+                    className="rounded-xl p-5 border space-y-3"
+                    style={{
+                      background: "rgba(220,38,38,0.02)",
+                      borderColor: "rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <div
+                      className="w-8 h-8 rounded flex items-center justify-center font-bold text-sm"
+                      style={{ background: "rgba(220,38,38,0.2)", color: "#f87171" }}
+                    >
+                      {item.step}
+                    </div>
+                    <h3
+                      className="font-bold text-sm uppercase tracking-wider font-orbitron"
+                      style={{ color: "rgba(255,255,255,0.85)" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
 
+          {/* Right Column: Proxy Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6" style={{ color: "#c084fc" }} />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron" style={{ color: "#c084fc" }}>DADOS DO PROXY</h2>
+                <h2
+                  className="text-xl font-bold tracking-widest uppercase font-orbitron"
+                  style={{ color: "#c084fc" }}
+                >
+                  DADOS DO PROXY
+                </h2>
               </div>
 
               {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(192,132,252,0.2)", background: "rgba(192,132,252,0.02)" }}>
-                  <div className="px-5 py-3 border-b" style={{ background: "rgba(192,132,252,0.08)", borderColor: "rgba(192,132,252,0.2)" }}>
-                    <h3 className="text-sm font-black tracking-widest font-orbitron" style={{ color: "#d8b4fe" }}>{proxy.title}</h3>
+                <div
+                  key={idx}
+                  className="rounded-xl overflow-hidden border"
+                  style={{
+                    borderColor: "rgba(192,132,252,0.2)",
+                    background: "rgba(192,132,252,0.02)",
+                  }}
+                >
+                  <div
+                    className="px-5 py-3 border-b"
+                    style={{
+                      background: "rgba(192,132,252,0.08)",
+                      borderColor: "rgba(192,132,252,0.2)",
+                    }}
+                  >
+                    <h3
+                      className="text-sm font-black tracking-widest font-orbitron"
+                      style={{ color: "#d8b4fe" }}
+                    >
+                      {proxy.title}
+                    </h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between group">
-                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono px-2 py-1 rounded border transition-colors" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}>{item.value}</span>
+                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">
+                          {item.label}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="text-sm font-bold text-white font-mono px-2 py-1 rounded border transition-colors"
+                            style={{
+                              background: "rgba(255,255,255,0.05)",
+                              borderColor: "rgba(255,255,255,0.1)",
+                            }}
+                          >
+                            {item.value}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
 
-              <div className="p-6 rounded-xl border space-y-3" style={{ borderColor: "rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.05)" }}>
+              <div
+                className="p-6 rounded-xl border space-y-3"
+                style={{
+                  borderColor: "rgba(251,191,36,0.2)",
+                  background: "rgba(251,191,36,0.05)",
+                }}
+              >
                 <div className="flex items-center gap-2" style={{ color: "#fbbf24" }}>
                   <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">Aviso Importante</span>
+                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
+                    Aviso Importante
+                  </span>
                 </div>
-                <p className="text-xs font-rajdhani leading-relaxed" style={{ color: "rgba(253,230,138,0.7)" }}>Sempre que seu IP de internet mudar, você precisará voltar nesta página e atualizar o IP da sua key para continuar usando o serviço.</p>
+                <p
+                  className="text-xs font-rajdhani leading-relaxed"
+                  style={{ color: "rgba(253,230,138,0.7)" }}
+                >
+                  Sempre que seu IP de internet mudar (ao reiniciar o modem ou trocar de rede),
+                  você precisará voltar nesta página e atualizar o IP da sua key para continuar
+                  usando o serviço.
+                </p>
               </div>
+
+              <div className="pt-4 space-y-3">
+                <a
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
+                  style={{
+                    background: "linear-gradient(to right, #dc2626, #b91c1c)",
+                    boxShadow: "0 0 30px rgba(220,38,38,0.35)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                  }}
+                >
+                  <Download className="w-6 h-6" />
+                  DOWNLOAD NATSU CERT
+                </a>
+                <a
+                  href="https://discord.gg/DmM9FecBER"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
+                  style={{
+                    background: "linear-gradient(to right, #5865f2, #4752c4)",
+                    boxShadow: "0 0 30px rgba(88,101,242,0.35)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                  }}
+                >
+                  {/* Discord SVG Icon */}
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                  </svg>
+                  SERVIDOR DISCORD
+                </a>
+              
+              <div className="pt-4 space-y-3">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+</div>
             </div>
           </div>
         </div>
       </main>
+
+      <footer
+        className="mt-12 py-8 border-t text-center"
+        style={{ borderColor: "rgba(220,38,38,0.1)" }}
+      >
+        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
+          Natsu Proxy System &copy; 2026 // Secure Connection Established
+        </p>
+      </footer>
     </div>
   );
 }

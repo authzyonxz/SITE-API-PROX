@@ -99,46 +99,7 @@ export default function GranjeiroUpdateIp() {
               </span>
             </div>
             <div className="md:hidden">
-              
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
-
-                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md" style={{ color: "#ff0000" }}>
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md" style={{ color: "#ff0000" }}>
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
@@ -199,30 +160,47 @@ export default function GranjeiroUpdateIp() {
                   </div>
                 </div>
 
-                
-
-                <button
-                  onClick={handleUpdate}
-                  disabled={updateMutation.isPending}
-                  className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
-                  style={{
-                    background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
-                    borderColor: "#ff0000",
-                    color: "#ffffff",
-                    boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
-                  }}
-                >
-                  {updateMutation.isPending ? (
-                    <div className="flex flex-col items-center gap-1">
-                      <div className="flex items-center gap-3">
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="animate-pulse">ATIVANDO XIT...</span>
+                <div className="space-y-3">
+                  <button
+                    onClick={handleUpdate}
+                    disabled={updateMutation.isPending}
+                    className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
+                    style={{
+                      background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
+                      borderColor: "#ff0000",
+                      color: "#ffffff",
+                      boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
+                    }}
+                  >
+                    {updateMutation.isPending ? (
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="flex items-center gap-3">
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span className="animate-pulse">ATIVANDO XIT...</span>
+                        </div>
+                        <span className="text-[10px] opacity-70 tracking-[0.2em] font-mono uppercase">Atualizando IP na Key</span>
                       </div>
-                    </div>
-                  ) : (
-                    <><Shield className="w-5 h-5" /> ATIVAR XIT</>
-                  )}
-                </button>
+                    ) : (
+                      <><Shield className="w-5 h-5" /> ATIVAR XIT</>
+                    )}
+                  </button>
+
+                  <a
+                    href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 rounded-lg border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase"
+                    style={{
+                      background: "rgba(255,0,0,0.1)",
+                      borderColor: "rgba(255,0,0,0.4)",
+                      color: "#ff3333",
+                    }}
+                  >
+                    <Download className="w-5 h-5" /> INJECT XIT
+                  </a>
+
+
+                </div>
 
                 {result && (
                   <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
@@ -251,6 +229,16 @@ export default function GranjeiroUpdateIp() {
                   textShadow: "0 0 8px rgba(255,255,255,0.4)",
                   boxShadow: "0 4px 15px rgba(0,255,100,0.3)"
                 }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #00ff64 0%, #33ff83 100%)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(0,255,100,0.5)";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #008037 0%, #00ff64 100%)";
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 15px rgba(0,255,100,0.3)";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
+                }}
               >
                 <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
               </a>
@@ -272,7 +260,35 @@ export default function GranjeiroUpdateIp() {
             </div>
           </div>
         </div>
+      
+              <div className="pt-4 space-y-3">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
       </main>
+
+      <footer className="mt-12 py-8 border-t text-center border-red-500/20">
+        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
+          Granjeiro Proxy System &copy; 2026 // Secure Connection Established
+        </p>
+      </footer>
     </div>
   );
 }

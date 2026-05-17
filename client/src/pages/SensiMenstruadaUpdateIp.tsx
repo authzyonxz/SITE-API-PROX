@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MoreVertical, MessageCircle } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MoreVertical, Bell, MessageCircle } from "lucide-react";
 
 export default function SensiMenstruadaUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
@@ -71,54 +71,74 @@ export default function SensiMenstruadaUpdateIp() {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-purple-600 to-purple-800 shadow-lg shadow-purple-500/50">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tighter text-purple-400 font-orbitron uppercase">SENSI MENSTRUADA</span>
+              <span className="text-xl font-black tracking-tighter text-purple-400 font-orbitron uppercase">
+                SENSI MENSTRUADA
+              </span>
             </div>
-            <div className="md:hidden">
-              
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
 
-                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-purple-400">
+            <div className="hidden md:flex items-center gap-3">
+              <div className="relative">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-purple-400 hover:border-purple-400/50 transition-all"
+                >
+                  <MoreVertical className="w-5 h-5" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                    <a 
+                      href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all border-b border-white/10"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download Certificado
+                    </a>
+                    <a 
+                      href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      Canal de Atualizações
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="md:hidden">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-purple-400">
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>
         </div>
+
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 p-4 space-y-3">
+            <a 
+              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
+            >
+              <Download className="w-4 h-4" />
+              Download Certificado
+            </a>
+            <a 
+              href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Canal de Atualizações
+            </a>
+          </div>
+        )}
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -126,14 +146,20 @@ export default function SensiMenstruadaUpdateIp() {
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white font-orbitron mb-2">ATUALIZAR IP</h1>
-                <p className="text-slate-400 font-rajdhani text-lg">Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.</p>
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white font-orbitron mb-2">
+                  ATUALIZAR IP
+                </h1>
+                <p className="text-slate-400 font-rajdhani text-lg">
+                  Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.
+                </p>
               </div>
 
               <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 md:p-8 space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 font-mono">Sua Key de Acesso</label>
+                    <label className="block text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 font-mono">
+                      Sua Key de Acesso
+                    </label>
                     <div className="relative group">
                       <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400/50 group-focus-within:text-purple-400 transition-colors" />
                       <input
@@ -148,8 +174,14 @@ export default function SensiMenstruadaUpdateIp() {
 
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <label className="block text-xs font-bold tracking-widest uppercase text-slate-400 font-mono">Novo Endereço de IP</label>
-                      <button onClick={handleFetchIp} disabled={isFetchingIp} className="text-xs font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                      <label className="block text-xs font-bold tracking-widest uppercase text-slate-400 font-mono">
+                        Novo Endereço de IP
+                      </label>
+                      <button 
+                        onClick={handleFetchIp}
+                        disabled={isFetchingIp}
+                        className="text-xs font-bold uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5"
+                      >
                         {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
                         Detectar meu IP
                       </button>
@@ -167,14 +199,16 @@ export default function SensiMenstruadaUpdateIp() {
                   </div>
                 </div>
 
-                
-
                 <button
                   onClick={handleUpdate}
                   disabled={updateMutation.isPending}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-purple-500/20 disabled:opacity-50"
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-500 hover:to-purple-700 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-purple-500/20 flex items-center justify-center gap-3 disabled:opacity-50"
                 >
-                  {updateMutation.isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Globe className="w-5 h-5" /> ATUALIZAR AGORA</>}
+                  {updateMutation.isPending ? (
+                    <><Loader2 className="w-5 h-5 animate-spin" /> Atualizando...</>
+                  ) : (
+                    <><CheckCircle className="w-5 h-5" /> Atualizar IP</>
+                  )}
                 </button>
 
                 {result && (
@@ -187,30 +221,80 @@ export default function SensiMenstruadaUpdateIp() {
                   </div>
                 )}
               </div>
+
+
             </section>
           </div>
 
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl overflow-hidden">
-                  <div className="bg-purple-500/20 px-5 py-3 border-b border-white/10">
-                    <h3 className="text-sm font-black tracking-widest text-purple-300 font-orbitron">{proxy.title}</h3>
+                <div key={idx} className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl overflow-hidden shadow-xl shadow-black/20">
+                  <div className="px-5 py-4 border-b border-white/10 bg-white/5">
+                    <h3 className="text-sm font-black tracking-widest font-orbitron text-purple-400">{proxy.title}</h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between group">
-                        <span className="text-xs uppercase tracking-widest text-slate-400 font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 group-hover:border-purple-500/30 transition-colors">{item.value}</span>
+                      <div key={i} className="flex items-center justify-between">
+                        <span className="text-xs uppercase tracking-widest text-slate-500 font-mono">{item.label}</span>
+                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">{item.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
+
+              <div className="space-y-4 pt-2">
+                <a 
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-400 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
+                >
+                  <Download className="w-5 h-5" />
+                  Download Certificado
+                </a>
+                <a 
+                  href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-green-400 font-bold font-orbitron tracking-widest uppercase hover:bg-green-500/10 hover:border-green-500/30 transition-all"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Canal de Atualizações
+                </a>
+              
+              <div className="pt-4 space-y-3">
+                <a 
+                  href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+</div>
             </div>
           </div>
         </div>
       </main>
+
+      <footer className="mt-12 py-8 border-t border-white/5 text-center">
+        <p className="text-[10px] tracking-[0.4em] uppercase text-slate-600 font-mono">
+          Sensi Menstruada Proxy &copy; 2026 // Secure Connection Established
+        </p>
+      </footer>
     </div>
   );
 }

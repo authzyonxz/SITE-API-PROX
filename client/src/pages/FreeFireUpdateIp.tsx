@@ -74,6 +74,7 @@ export default function FreeFireUpdateIp() {
         backgroundSize: "auto, 40px 40px, 40px 40px",
       }}
     >
+      {/* Header / Navbar */}
       <nav
         className="sticky top-0 z-50 border-b backdrop-blur-md"
         style={{
@@ -102,6 +103,7 @@ export default function FreeFireUpdateIp() {
               </span>
             </div>
 
+            {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
                 href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
@@ -113,53 +115,23 @@ export default function FreeFireUpdateIp() {
                   borderColor: "rgba(249,115,22,0.4)",
                   color: "#ffffff",
                 }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#f97316";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "#f97316";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(249,115,22,0.1)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(249,115,22,0.4)";
+                }}
               >
                 <Download className="w-4 h-4" />
                 Download Certificado
               </a>
             </div>
 
+            {/* Mobile Menu Button */}
             <div className="md:hidden">
-              
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
-
-                <button
+              <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-md transition-colors text-orange-500"
               >
@@ -169,6 +141,7 @@ export default function FreeFireUpdateIp() {
           </div>
         </div>
 
+        {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div
             className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
@@ -197,6 +170,8 @@ export default function FreeFireUpdateIp() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -237,6 +212,14 @@ export default function FreeFireUpdateIp() {
                           borderColor: "rgba(249,115,22,0.2)",
                           color: "#ffffff",
                         }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = "#f97316";
+                          e.currentTarget.style.boxShadow = "0 0 10px rgba(249,115,22,0.2)";
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = "rgba(249,115,22,0.2)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
                       />
                     </div>
                   </div>
@@ -265,25 +248,41 @@ export default function FreeFireUpdateIp() {
                         {isFetchingIp ? "Buscando..." : "Buscar IP"}
                       </button>
                     </div>
+
+                    {detectedIp && (
+                      <div className="mb-2 px-3 py-2 rounded-md bg-orange-600/5 border border-orange-600/20 text-[10px] font-mono text-orange-400 animate-in fade-in slide-in-from-top-1 duration-300">
+                        <span className="opacity-70 text-white">IP detectado: </span>
+                        <span className="font-bold">{detectedIp}</span>
+                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
+                      </div>
+                    )}
+
                     <div className="relative group">
                       <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500/50 group-focus-within:text-orange-500 transition-colors" />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        placeholder="Ex: 189.120.45.67"
+                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
+                        placeholder="Ex: 189.45.12.33"
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
                         style={{
                           background: "rgba(0,0,0,0.5)",
                           borderColor: "rgba(249,115,22,0.2)",
                           color: "#ffffff",
                         }}
+                        onFocus={(e) => {
+                          e.currentTarget.style.borderColor = "#f97316";
+                          e.currentTarget.style.boxShadow = "0 0 10px rgba(249,115,22,0.2)";
+                        }}
+                        onBlur={(e) => {
+                          e.currentTarget.style.borderColor = "rgba(249,115,22,0.2)";
+                          e.currentTarget.style.boxShadow = "none";
+                        }}
                       />
                     </div>
                   </div>
                 </div>
-
-                
 
                 <button
                   onClick={handleUpdate}
@@ -291,9 +290,13 @@ export default function FreeFireUpdateIp() {
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-orange-600/10 border border-orange-600/40 text-orange-500 hover:bg-orange-600/20 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] disabled:opacity-50 font-orbitron"
                 >
                   {updateMutation.isPending ? (
-                    <><Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...</>
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
+                    </>
                   ) : (
-                    <><Globe className="w-5 h-5" /> ATUALIZAR AGORA</>
+                    <>
+                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
+                    </>
                   )}
                 </button>
 
@@ -306,9 +309,13 @@ export default function FreeFireUpdateIp() {
                     }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="text-sm font-bold uppercase tracking-widest font-orbitron">
-                        {result.ok ? "SUCESSO NA OPERAÇÃO" : "ERRO NA OPERAÇÃO"}
+                      {result.ok ? (
+                        <CheckCircle className="w-5 h-5" />
+                      ) : (
+                        <XCircle className="w-5 h-5" />
+                      )}
+                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">
+                        {result.ok ? "Sucesso!" : "Erro na Operação"}
                       </span>
                     </div>
                     <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
@@ -316,42 +323,145 @@ export default function FreeFireUpdateIp() {
                 )}
               </div>
             </section>
+
+            {/* Download Section */}
+            <section className="space-y-6">
+              <div className="flex items-center gap-3">
+                <Download className="w-6 h-6 text-orange-500" />
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
+                  CERTIFICADO DE SEGURANÇA
+                </h2>
+              </div>
+
+              <div 
+                className="rounded-xl p-8 border text-center space-y-6"
+                style={{
+                  background: "rgba(249,115,22,0.05)",
+                  borderColor: "rgba(249,115,22,0.2)",
+                }}
+              >
+                <p className="text-sm text-muted-foreground font-rajdhani leading-relaxed max-w-md mx-auto">
+                  Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
+                </p>
+                
+                <a
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm mx-auto"
+                  style={{
+                    background: "#f97316",
+                    boxShadow: "0 0 20px rgba(249,115,22,0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(249,115,22,0.5)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(249,115,22,0.3)";
+                  }}
+                >
+                  <Download className="w-5 h-5" />
+                  BAIXAR CERTIFICADO
+                </a>
+              </div>
+            </section>
           </div>
 
+          {/* Right Column: Proxy Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-orange-500" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">DADOS DO PROXY</h2>
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
+                  DADOS DO PROXY
+                </h2>
               </div>
 
               {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(249,115,22,0.2)", background: "rgba(249,115,22,0.02)" }}>
-                  <div className="px-5 py-3 border-b" style={{ background: "rgba(249,115,22,0.1)", borderColor: "rgba(249,115,22,0.2)" }}>
-                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">{proxy.title}</h3>
+                <div
+                  key={idx}
+                  className="rounded-xl overflow-hidden border"
+                  style={{
+                    borderColor: "rgba(249,115,22,0.2)",
+                    background: "rgba(249,115,22,0.02)",
+                  }}
+                >
+                  <div
+                    className="px-5 py-3 border-b"
+                    style={{
+                      background: "rgba(249,115,22,0.1)",
+                      borderColor: "rgba(249,115,22,0.2)",
+                    }}
+                  >
+                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">
+                      {proxy.title}
+                    </h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs uppercase tracking-widest text-orange-500/70 font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">{item.value}</span>
+                        <span className="text-xs uppercase tracking-widest text-orange-500/70 font-mono">
+                          {item.label}
+                        </span>
+                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">
+                          {item.value}
+                        </span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
 
-              <div className="p-6 rounded-xl border space-y-3" style={{ borderColor: "rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.05)" }}>
+              <div
+                className="p-6 rounded-xl border space-y-3"
+                style={{
+                  borderColor: "rgba(251,191,36,0.2)",
+                  background: "rgba(251,191,36,0.05)",
+                }}
+              >
                 <div className="flex items-center gap-2 text-yellow-500">
                   <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">Aviso Importante</span>
+                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
+                    Aviso Importante
+                  </span>
                 </div>
-                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.</p>
+                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">
+                  Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.
+                </p>
+              
+              <div className="pt-4 space-y-3">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
               </div>
+</div>
             </div>
           </div>
         </div>
       </main>
+
+      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(249,115,22,0.2)" }}>
+        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
+          FREE FIRE PROXY SYSTEM &copy; 2026 // BOOYAH!
+        </p>
+      </footer>
     </div>
   );
 }

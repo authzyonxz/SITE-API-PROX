@@ -66,6 +66,7 @@ export default function JzXiterUpdateIp() {
 
   return (
     <div className="min-h-screen bg-background cyber-grid-bg text-foreground font-sans selection:bg-red-500/30">
+      {/* Header / Navbar */}
       <nav className="sticky top-0 z-50 border-b border-red-500/20 bg-background/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -78,6 +79,7 @@ export default function JzXiterUpdateIp() {
               </span>
             </div>
 
+            {/* Desktop Menu */}
             <div className="hidden md:block">
               <a 
                 href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
@@ -90,47 +92,9 @@ export default function JzXiterUpdateIp() {
               </a>
             </div>
 
+            {/* Mobile Menu Button */}
             <div className="md:hidden">
-              
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
-
-                <button 
+              <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-md text-red-400 hover:bg-red-500/10 transition-colors"
               >
@@ -140,6 +104,7 @@ export default function JzXiterUpdateIp() {
           </div>
         </div>
 
+        {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-background border-b border-red-500/20 p-4 space-y-4 animate-in slide-in-from-top duration-300">
             <a 
@@ -157,6 +122,8 @@ export default function JzXiterUpdateIp() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -202,24 +169,36 @@ export default function JzXiterUpdateIp() {
                         disabled={isFetchingIp}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-red-500/20 transition-all disabled:opacity-50"
                       >
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
+                        {isFetchingIp ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : (
+                          <Search className="w-3 h-3" />
+                        )}
                         {isFetchingIp ? "Buscando..." : "Buscar IP"}
                       </button>
                     </div>
+
+                    {detectedIp && (
+                      <div className="mb-2 px-3 py-2 rounded-md bg-red-500/5 border border-red-500/20 text-[10px] font-mono text-red-400 animate-in fade-in slide-in-from-top-1 duration-300">
+                        <span className="opacity-70 text-white">IP detectado: </span>
+                        <span className="font-bold">{detectedIp}</span>
+                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
+                      </div>
+                    )}
+
                     <div className="relative group">
                       <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500/40 group-focus-within:text-red-400 transition-colors" />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
                         placeholder="Ex: 177.123.45.67"
                         className="w-full pl-12 pr-4 py-4 rounded-lg bg-background border border-red-500/20 focus:border-red-400 focus:ring-1 focus:ring-red-400 outline-none transition-all font-mono text-sm"
                       />
                     </div>
                   </div>
                 </div>
-
-                
 
                 <button
                   onClick={handleUpdate}
@@ -243,30 +222,84 @@ export default function JzXiterUpdateIp() {
                         {result.ok ? "Sucesso!" : "Erro na Operação"}
                       </span>
                     </div>
-                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                    <p className="text-xs font-mono opacity-80 break-all">
+                      {result.raw}
+                    </p>
                   </div>
                 )}
               </div>
             </section>
+
+            {/* Tutorial Section */}
+            <section className="space-y-6">
+              <div className="flex items-center gap-3">
+                <Info className="w-6 h-6 text-red-400" />
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-red-400">
+                  TUTORIAL DE INSTALAÇÃO
+                </h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
+                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">1</div>
+                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Baixar Certificado</h3>
+                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
+                    Clique no botão no topo da página para baixar o arquivo <b>Certificado.pem</b>. Este certificado é necessário para que o proxy funcione em conexões seguras.
+                  </p>
+                </div>
+                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
+                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">2</div>
+                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Instalar no Dispositivo</h3>
+                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
+                    Abra o arquivo baixado e siga as instruções do seu sistema para instalar. No Android/iOS, vá em Configurações de Segurança e instale como Certificado de Confiança.
+                  </p>
+                </div>
+                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
+                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">3</div>
+                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Confiar no Certificado</h3>
+                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
+                    <b>IMPORTANTE:</b> Após instalar, você deve habilitar a confiança total para este certificado nas configurações de certificados raiz confiáveis do seu aparelho.
+                  </p>
+                </div>
+                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
+                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">4</div>
+                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Configurar Proxy</h3>
+                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
+                    Use os dados de IP e Porta fornecidos ao lado nas configurações de rede do seu dispositivo ou aplicativo.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
 
+          {/* Right Column: Proxy Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-red-400" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-red-400">DADOS DO PROXY</h2>
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-red-400">
+                  DADOS DO PROXY
+                </h2>
               </div>
 
               {proxyInfos.map((proxy, idx) => (
                 <div key={idx} className="cyber-card overflow-hidden border-red-500/20 bg-red-500/[0.02]">
                   <div className="bg-red-500/10 px-5 py-3 border-b border-red-500/20">
-                    <h3 className="text-sm font-black tracking-widest text-red-300 font-orbitron">{proxy.title}</h3>
+                    <h3 className="text-sm font-black tracking-widest text-red-300 font-orbitron">
+                      {proxy.title}
+                    </h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between group">
-                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10 group-hover:border-red-500/30 transition-colors">{item.value}</span>
+                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">
+                          {item.label}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10 group-hover:border-red-500/30 transition-colors">
+                            {item.value}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -278,7 +311,9 @@ export default function JzXiterUpdateIp() {
                   <Info className="w-5 h-5" />
                   <span className="text-xs font-bold uppercase tracking-widest font-orbitron">Aviso Importante</span>
                 </div>
-                <p className="text-xs text-amber-200/70 font-rajdhani leading-relaxed">Sempre que seu IP de internet mudar, você precisará voltar nesta página e atualizar o IP da sua key para continuar usando o serviço.</p>
+                <p className="text-xs text-amber-200/70 font-rajdhani leading-relaxed">
+                  Sempre que seu IP de internet mudar (ao reiniciar o modem ou trocar de rede), você precisará voltar nesta página e atualizar o IP da sua key para continuar usando o serviço.
+                </p>
               </div>
               
               <div className="pt-4 space-y-3">
@@ -288,7 +323,8 @@ export default function JzXiterUpdateIp() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(255,0,0,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
                 >
-                  <Download className="w-6 h-6" /> DOWNLOAD CERTIFICADO
+                  <Download className="w-6 h-6" />
+                  DOWNLOAD CERTIFICADO
                 </a>
                 <a 
                   href="https://discord.gg/WxNW7beFQa"
@@ -296,13 +332,43 @@ export default function JzXiterUpdateIp() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
                 >
-                  <ExternalLink className="w-6 h-6" /> DISCORD
+                  <ExternalLink className="w-6 h-6" />
+                  DISCORD
                 </a>
               </div>
             </div>
           </div>
+
         </div>
+      
+              <div className="pt-4 space-y-3">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                >
+                  <Download className="w-5 h-5" />
+                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
       </main>
+
+      <footer className="mt-12 py-8 border-t border-white/5 text-center">
+        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
+          JZ XITER System &copy; 2026 // Secure Connection Established
+        </p>
+      </footer>
     </div>
   );
 }
