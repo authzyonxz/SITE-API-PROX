@@ -230,13 +230,27 @@ export default function AraaoProxyUpdateIp() {
                 <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-red-400">Certificado Aarão</h3>
                 
                 <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
                 >
-                  <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
+              <div className="space-y-3 mb-4">
+                <a 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
+                >
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
+                >
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
 
@@ -259,8 +273,7 @@ export default function AraaoProxyUpdateIp() {
                   <Download className="w-5 h-5" />
                   CERTIFICADO (HS PESCOÇO)
                 </a>
-              </div>
-</div>
+              </div></div>
             </div>
           </div>
         </div>
