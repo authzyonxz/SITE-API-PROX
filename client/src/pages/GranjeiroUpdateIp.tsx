@@ -158,6 +158,7 @@ export default function GranjeiroUpdateIp() {
                       />
                     </div>
                   </div>
+                </div>
 
                 <div className="space-y-3">
                   <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
@@ -198,28 +199,27 @@ export default function GranjeiroUpdateIp() {
                 </div>
 
                 <button
-onClick={handleUpdate}
-                    disabled={updateMutation.isPending}
-                    className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
-                    style={{
-                      background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
-                      borderColor: "#ff0000",
-                      color: "#ffffff",
-                      boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
-                    }}
-                  >
-                    {updateMutation.isPending ? (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="flex items-center gap-3">
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span className="animate-pulse">ATIVANDO XIT...</span>
-                        </div>
-                        <span className="text-[10px] opacity-70 tracking-[0.2em] font-mono uppercase">Atualizando IP na Key</span>
+                  onClick={handleUpdate}
+                  disabled={updateMutation.isPending}
+                  className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
+                  style={{
+                    background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
+                    borderColor: "#ff0000",
+                    color: "#ffffff",
+                    boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
+                  }}
+                >
+                  {updateMutation.isPending ? (
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="flex items-center gap-3">
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span className="animate-pulse">ATIVANDO XIT...</span>
                       </div>
-                    ) : (
-                      <><Shield className="w-5 h-5" /> ATIVAR XIT</>
-                    )}
-                  </button>
+                    </div>
+                  ) : (
+                    <><Shield className="w-5 h-5" /> ATIVAR XIT</>
+                  )}
+                </button>
 
                 {result && (
                   <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
@@ -234,7 +234,7 @@ onClick={handleUpdate}
             </section>
           </div>
 
-            <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <a
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
@@ -247,16 +247,6 @@ onClick={handleUpdate}
                   color: "#ffffff",
                   textShadow: "0 0 8px rgba(255,255,255,0.4)",
                   boxShadow: "0 4px 15px rgba(0,255,100,0.3)"
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #00ff64 0%, #33ff83 100%)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(0,255,100,0.5)";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #008037 0%, #00ff64 100%)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 15px rgba(0,255,100,0.3)";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
                 }}
               >
                 <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
@@ -280,7 +270,6 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-      </div>
     </div>
   );
 }

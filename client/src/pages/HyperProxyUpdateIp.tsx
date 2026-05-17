@@ -169,6 +169,7 @@ export default function HyperProxyUpdateIp() {
                       />
                     </div>
                   </div>
+                </div>
 
                 <div className="space-y-3">
                   <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
@@ -209,7 +210,7 @@ export default function HyperProxyUpdateIp() {
                 </div>
 
                 <button
-onClick={handleUpdate}
+                  onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-orbitron font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all group relative overflow-hidden"
                   style={{ 
@@ -243,63 +244,64 @@ onClick={handleUpdate}
             </section>
           </div>
 
-            <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-xl border overflow-hidden bg-blue-500/5 border-blue-500/20">
-              <div className="px-6 py-4 border-b bg-blue-500/10 border-blue-500/20">
-                <h2 className="font-orbitron font-bold text-sm tracking-widest uppercase text-blue-400">Status da Rede</h2>
-              </div>
-              <div className="p-6 space-y-6">
-                {proxyInfos.map((proxy, idx) => (
-                  <div key={idx} className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-blue-500/30" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/70 whitespace-nowrap">{proxy.title}</span>
-                      <div className="h-px flex-1 bg-gradient-to-l from-transparent to-blue-500/30" />
-                    </div>
-                    <div className="grid grid-cols-1 gap-3">
-                      {proxy.items.map((item, iidx) => (
-                        <div key={iidx} className="group p-4 rounded-lg border bg-black/60 border-blue-500/10 transition-all hover:border-blue-500/50">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{item.label}</span>
+          <div className="lg:col-span-5 space-y-6">
+            <div className="sticky top-24 space-y-6">
+              <div className="rounded-xl border overflow-hidden bg-blue-500/5 border-blue-500/20">
+                <div className="px-6 py-4 border-b bg-blue-500/10 border-blue-500/20">
+                  <h2 className="font-orbitron font-bold text-sm tracking-widest uppercase text-blue-400">Status da Rede</h2>
+                </div>
+                <div className="p-6 space-y-6">
+                  {proxyInfos.map((proxy, idx) => (
+                    <div key={idx} className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-blue-500/30" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500/70 whitespace-nowrap">{proxy.title}</span>
+                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-blue-500/30" />
+                      </div>
+                      <div className="grid grid-cols-1 gap-3">
+                        {proxy.items.map((item, iidx) => (
+                          <div key={iidx} className="group p-4 rounded-lg border bg-black/60 border-blue-500/10 transition-all hover:border-blue-500/50">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{item.label}</span>
+                            </div>
+                            <div className="font-mono text-lg text-blue-100 tracking-tight">{item.value}</div>
                           </div>
-                          <div className="font-mono text-lg text-blue-100 tracking-tight">{item.value}</div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="p-6 rounded-xl border bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30 space-y-4">
-                <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Certificado Hyper</h3>
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-full py-4 rounded-lg border border-blue-500/50 bg-blue-500/10 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-blue-400 hover:bg-blue-500/20 hover:scale-[1.02] transition-all font-orbitron shadow-[0_0_20px_rgba(0,191,255,0.2)]"
-                >
-                  <Download className="w-5 h-5" /> DOWNLOAD CERTIFICADO
-                </a>
+                  ))}
+                </div>
               </div>
 
-              <div className="p-6 rounded-xl border bg-black/40 border-blue-500/20 space-y-4">
-                <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Canal de Atualizações</h3>
-                <a 
-                  href="https://chat.whatsapp.com/GBAkAJuN21X5xnVyT9d6S0?mode=gi_t" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-full py-3 rounded-lg border border-blue-500/30 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400/70 hover:text-blue-400 hover:bg-blue-500/5 transition-all"
-                >
-                  <MessageCircle className="w-4 h-4" /> ENTRAR NO CANAL
-                </a>
+              <div className="space-y-4">
+                <div className="p-6 rounded-xl border bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30 space-y-4">
+                  <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Certificado Hyper</h3>
+                  <a 
+                    href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-full py-4 rounded-lg border border-blue-500/50 bg-blue-500/10 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-blue-400 hover:bg-blue-500/20 hover:scale-[1.02] transition-all font-orbitron shadow-[0_0_20px_rgba(0,191,255,0.2)]"
+                  >
+                    <Download className="w-5 h-5" /> DOWNLOAD CERTIFICADO
+                  </a>
+                </div>
+
+                <div className="p-6 rounded-xl border bg-black/40 border-blue-500/20 space-y-4">
+                  <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Canal de Atualizações</h3>
+                  <a 
+                    href="https://chat.whatsapp.com/GBAkAJuN21X5xnVyT9d6S0?mode=gi_t" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-full py-3 rounded-lg border border-blue-500/30 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400/70 hover:text-blue-400 hover:bg-blue-500/5 transition-all"
+                  >
+                    <MessageCircle className="w-4 h-4" /> ENTRAR NO CANAL
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      </div>
     </div>
   );
 }

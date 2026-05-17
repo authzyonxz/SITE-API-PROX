@@ -120,6 +120,7 @@ export default function AraaoProxyUpdateIp() {
           </div>
         </div>
       </nav>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 space-y-8">
@@ -172,6 +173,7 @@ export default function AraaoProxyUpdateIp() {
                       />
                     </div>
                   </div>
+                </div>
 
                 <div className="space-y-3">
                   <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
@@ -212,7 +214,7 @@ export default function AraaoProxyUpdateIp() {
                 </div>
 
                 <button
-onClick={handleUpdate}
+                  onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-orbitron font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all group relative overflow-hidden"
                   style={{ background: "linear-gradient(135deg, #991b1b 0%, #ef4444 100%)", color: "white", boxShadow: "0 4px 20px rgba(220,38,38,0.4)" }}
@@ -233,7 +235,7 @@ onClick={handleUpdate}
             </section>
           </div>
 
-            <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-6">
             <div className="rounded-xl border overflow-hidden" style={{ borderColor: "rgba(220,38,38,0.3)", background: "rgba(220,38,38,0.02)" }}>
               <div className="px-6 py-4 border-b flex items-center justify-between" style={{ background: "rgba(220,38,38,0.1)", borderColor: "rgba(220,38,38,0.3)" }}>
                 <h2 className="font-orbitron font-bold text-sm tracking-widest uppercase text-red-400">Configurações Proxy</h2>
@@ -284,7 +286,6 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-      </div>
     </div>
   );
 }

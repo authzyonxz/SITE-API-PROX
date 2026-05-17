@@ -74,7 +74,6 @@ export default function ProxyIosUpdateIp() {
         backgroundSize: "auto, auto, 40px 40px, 40px 40px",
       }}
     >
-      {/* Header / Navbar */}
       <nav
         className="sticky top-0 z-50 border-b backdrop-blur-md"
         style={{
@@ -102,34 +101,6 @@ export default function ProxyIosUpdateIp() {
                 PROXY IOS
               </span>
             </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <a
-                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
-                style={{
-                  background: "rgba(147,51,234,0.15)",
-                  borderColor: "rgba(147,51,234,0.5)",
-                  color: "#c084fc",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(147,51,234,0.3)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 15px rgba(147,51,234,0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(147,51,234,0.15)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-                }}
-              >
-                <Download className="w-4 h-4" />
-                Download Cert Proxy
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -141,38 +112,10 @@ export default function ProxyIosUpdateIp() {
             </div>
           </div>
         </div>
-
-        {/* Mobile Sidebar Overlay */}
-        {isMenuOpen && (
-          <div
-            className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
-            style={{
-              background: "rgba(5,0,10,0.98)",
-              borderColor: "rgba(147,51,234,0.4)",
-            }}
-          >
-            <a
-              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
-              style={{
-                background: "rgba(147,51,234,0.2)",
-                borderColor: "rgba(147,51,234,0.5)",
-                color: "#c084fc",
-              }}
-            >
-              <Download className="w-4 h-4" />
-              Download Cert Proxy
-            </a>
-          </div>
-        )}
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -197,144 +140,41 @@ export default function ProxyIosUpdateIp() {
               >
                 <div className="space-y-4">
                   <div>
-                    <label
-                      className="block text-xs font-bold tracking-widest uppercase mb-2 font-mono"
-                      style={{ color: "rgba(192,132,252,0.8)" }}
-                    >
-                      Sua Key de Acesso
-                    </label>
+                    <label className="block text-xs font-bold tracking-widest uppercase mb-2 font-mono" style={{ color: "rgba(192,132,252,0.8)" }}>Sua Key de Acesso</label>
                     <div className="relative group">
-                      <Key
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors"
-                        style={{ color: "rgba(147,51,234,0.5)" }}
-                      />
+                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors" style={{ color: "rgba(147,51,234,0.5)" }} />
                       <input
                         type="text"
                         value={keyInput}
                         onChange={(e) => setKeyInput(e.target.value)}
                         placeholder="Cole sua key aqui..."
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
-                        style={{
-                          background: "rgba(0,0,0,0.5)",
-                          borderColor: "rgba(147,51,234,0.3)",
-                          color: "rgba(255,255,255,0.95)",
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#a855f7";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(147,51,234,0.3)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(147,51,234,0.3)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
+                        style={{ background: "rgba(0,0,0,0.5)", borderColor: "rgba(147,51,234,0.3)", color: "rgba(255,255,255,0.95)" }}
                       />
                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-2">
-                    <div
-                      className="flex-1 h-px"
-                      style={{
-                        background:
-                          "linear-gradient(to right, transparent, rgba(147,51,234,0.4), transparent)",
-                      }}
-                    />
-                    <ArrowRight className="w-5 h-5" style={{ color: "rgba(147,51,234,0.4)" }} />
-                    <div
-                      className="flex-1 h-px"
-                      style={{
-                        background:
-                          "linear-gradient(to right, transparent, rgba(147,51,234,0.4), transparent)",
-                      }}
-                    />
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label
-                        className="block text-xs font-bold tracking-widest uppercase font-mono"
-                        style={{ color: "rgba(192,132,252,0.8)" }}
-                      >
-                        Novo Endereço de IP
-                      </label>
-                      {/* Buscar IP Button */}
-                      <button
-                        onClick={handleFetchIp}
-                        disabled={isFetchingIp}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-bold tracking-widest uppercase font-orbitron transition-all disabled:opacity-50"
-                        style={{
-                          background: "rgba(147,51,234,0.2)",
-                          borderColor: "rgba(147,51,234,0.5)",
-                          color: "#c084fc",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isFetchingIp) {
-                            (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.35)";
-                            (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 10px rgba(147,51,234,0.2)";
-                          }
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.2)";
-                          (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
-                        }}
-                      >
-                        {isFetchingIp ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <Search className="w-3.5 h-3.5" />
-                        )}
+                      <label className="block text-xs font-bold tracking-widest uppercase font-mono" style={{ color: "rgba(192,132,252,0.8)" }}>Novo Endereço de IP</label>
+                      <button onClick={handleFetchIp} disabled={isFetchingIp} className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-bold tracking-widest uppercase font-orbitron transition-all disabled:opacity-50" style={{ background: "rgba(147,51,234,0.2)", borderColor: "rgba(147,51,234,0.5)", color: "#c084fc" }}>
+                        {isFetchingIp ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />}
                         {isFetchingIp ? "Buscando..." : "Buscar IP"}
                       </button>
                     </div>
-
-                    {detectedIp && (
-                      <div
-                        className="mb-2 px-3 py-2 rounded-md border text-xs font-mono animate-in fade-in slide-in-from-top-1 duration-300"
-                        style={{
-                          background: "rgba(147,51,234,0.1)",
-                          borderColor: "rgba(147,51,234,0.4)",
-                          color: "#c084fc",
-                        }}
-                      >
-                        <span style={{ color: "rgba(192,132,252,0.7)" }}>IP detectado: </span>
-                        <span className="font-bold">{detectedIp}</span>
-                        <span
-                          className="ml-2 text-[10px] uppercase tracking-widest"
-                          style={{ color: "rgba(192,132,252,0.6)" }}
-                        >
-                          (preenchido automaticamente)
-                        </span>
-                      </div>
-                    )}
-
                     <div className="relative group">
-                      <Globe
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors"
-                        style={{ color: "rgba(147,51,234,0.5)" }}
-                      />
+                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors" style={{ color: "rgba(147,51,234,0.5)" }} />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
                         placeholder="Ex: 177.123.45.67"
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
-                        style={{
-                          background: "rgba(0,0,0,0.5)",
-                          borderColor: "rgba(147,51,234,0.3)",
-                          color: "rgba(255,255,255,0.95)",
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#a855f7";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(147,51,234,0.3)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(147,51,234,0.3)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
+                        style={{ background: "rgba(0,0,0,0.5)", borderColor: "rgba(147,51,234,0.3)", color: "rgba(255,255,255,0.95)" }}
                       />
                     </div>
                   </div>
+                </div>
 
                 <div className="space-y-3">
                   <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
@@ -375,187 +215,52 @@ export default function ProxyIosUpdateIp() {
                 </div>
 
                 <button
-onClick={handleUpdate}
+                  onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
-                  style={{
-                    background: "rgba(147,51,234,0.25)",
-                    borderColor: "rgba(147,51,234,0.6)",
-                    color: "#ffffff",
-                    textShadow: "0 0 5px rgba(255,255,255,0.5)"
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!updateMutation.isPending) {
-                      (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.4)";
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 25px rgba(147,51,234,0.5)";
-                      (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(147,51,234,0.25)";
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
-                    (e.currentTarget as HTMLButtonElement).style.transform = "none";
-                  }}
+                  style={{ background: "rgba(147,51,234,0.25)", borderColor: "rgba(147,51,234,0.6)", color: "#ffffff" }}
                 >
-                  {updateMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
-                    </>
-                  ) : (
-                    <>
-                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
-                    </>
-                  )}
+                  {updateMutation.isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Globe className="w-5 h-5" /> ATUALIZAR AGORA</>}
                 </button>
 
                 {result && (
-                  <div
-                    className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${
-                      result.ok
-                        ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                        : "bg-rose-500/10 border-rose-500/30 text-rose-400"
-                    }`}
-                  >
+                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
                     <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <XCircle className="w-5 h-5" />
-                      )}
+                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
+                    </div>
+                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                  </div>
+                )}
               </div>
             </section>
           </div>
 
-            <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6" style={{ color: "#c084fc" }} />
-                <h2
-                  className="text-xl font-bold tracking-widest uppercase font-orbitron"
-                  style={{ color: "#c084fc" }}
-                >
-                  DADOS DO PROXY
-                </h2>
-              </div>
-
               {proxyInfos.map((proxy, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl overflow-hidden border"
-                  style={{
-                    borderColor: "rgba(147,51,234,0.3)",
-                    background: "rgba(147,51,234,0.02)",
-                  }}
-                >
-                  <div
-                    className="px-5 py-3 border-b"
-                    style={{
-                      background: "rgba(147,51,234,0.15)",
-                      borderColor: "rgba(147,51,234,0.3)",
-                    }}
-                  >
-                    <h3
-                      className="text-sm font-black tracking-widest font-orbitron"
-                      style={{ color: "#d8b4fe" }}
-                    >
-                      {proxy.title}
-                    </h3>
+                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(147,51,234,0.3)", background: "rgba(147,51,234,0.02)" }}>
+                  <div className="px-5 py-3 border-b" style={{ background: "rgba(147,51,234,0.15)", borderColor: "rgba(147,51,234,0.3)" }}>
+                    <h3 className="text-sm font-black tracking-widest font-orbitron" style={{ color: "#d8b4fe" }}>{proxy.title}</h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between group">
-                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">
-                          {item.label}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="text-sm font-bold text-white font-mono px-2 py-1 rounded border transition-colors"
-                            style={{
-                              background: "rgba(255,255,255,0.05)",
-                              borderColor: "rgba(255,255,255,0.1)",
-                            }}
-                          >
-                            {item.value}
-                          </span>
-                        </div>
+                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
+                        <span className="text-sm font-bold text-white font-mono px-2 py-1 rounded border transition-colors" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" }}>{item.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
-
-              <div
-                className="p-6 rounded-xl border space-y-3"
-                style={{
-                  borderColor: "rgba(251,191,36,0.3)",
-                  background: "rgba(251,191,36,0.08)",
-                }}
-              >
-                <div className="flex items-center gap-2" style={{ color: "#fbbf24" }}>
-                  <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
-                    Aviso Importante
-                  </span>
-                </div>
-                <p
-                  className="text-xs font-rajdhani leading-relaxed"
-                  style={{ color: "rgba(253,230,138,0.8)" }}
-                >
-                  Sempre que seu IP de internet mudar (ao reiniciar o modem ou trocar de rede),
-                  você precisará voltar nesta página e atualizar o IP da sua key para continuar
-                  usando o serviço.
-                </p>
-              </div>
-
-              <div className="pt-4 space-y-3">
-                <a
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "linear-gradient(to right, #9333ea, #6b21a8)",
-                    boxShadow: "0 0 35px rgba(147,51,234,0.5)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 45px rgba(147,51,234,0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(147,51,234,0.5)";
-                  }}
-                >
-                  <Download className="w-6 h-6" />
-                  DOWNLOAD CERT PROXY
-                </a>
-                <a
-                  href="https://whatsapp.com/channel/0029VbBmk1RBlHpUxLLeSc1i"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "linear-gradient(to right, #25d366, #128c7e)",
-                    boxShadow: "0 0 35px rgba(37,211,102,0.4)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.02)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 45px rgba(37,211,102,0.5)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 35px rgba(37,211,102,0.4)";
-                  }}
-                >
-                  <MessageCircle className="w-6 h-6" />
-                  GRUPO WHATSAPP
-                </a>
+              <div className="p-6 rounded-xl border space-y-3" style={{ borderColor: "rgba(251,191,36,0.3)", background: "rgba(251,191,36,0.08)" }}>
+                <div className="flex items-center gap-2" style={{ color: "#fbbf24" }}><Info className="w-5 h-5" /><span className="text-xs font-bold uppercase tracking-widest font-orbitron">Aviso Importante</span></div>
+                <p className="text-xs font-rajdhani leading-relaxed text-amber-200/70">Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.</p>
               </div>
             </div>
           </div>
         </div>
       </main>
-      </div>
     </div>
   );
 }

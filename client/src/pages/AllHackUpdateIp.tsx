@@ -74,7 +74,6 @@ export default function AllHackUpdateIp() {
         backgroundSize: "auto, 40px 40px, 40px 40px",
       }}
     >
-      {/* Header / Navbar */}
       <nav
         className="sticky top-0 z-50 border-b backdrop-blur-md"
         style={{
@@ -103,7 +102,6 @@ export default function AllHackUpdateIp() {
               </span>
             </div>
 
-            {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
                 href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
@@ -115,21 +113,12 @@ export default function AllHackUpdateIp() {
                   borderColor: "rgba(220,38,38,0.4)",
                   color: "#ffffff",
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "#dc2626";
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "#dc2626";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,38,38,0.1)";
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(220,38,38,0.4)";
-                }}
               >
                 <Download className="w-4 h-4" />
                 Download Certificado
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -141,7 +130,6 @@ export default function AllHackUpdateIp() {
           </div>
         </div>
 
-        {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div
             className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
@@ -170,8 +158,6 @@ export default function AllHackUpdateIp() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -212,14 +198,6 @@ export default function AllHackUpdateIp() {
                           borderColor: "rgba(220,38,38,0.2)",
                           color: "#ffffff",
                         }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#dc2626";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(220,38,38,0.2)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(220,38,38,0.2)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
                       />
                     </div>
                   </div>
@@ -240,48 +218,27 @@ export default function AllHackUpdateIp() {
                         disabled={isFetchingIp}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-600/10 border border-red-600/30 text-red-500 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-red-600/20 transition-all disabled:opacity-50"
                       >
-                        {isFetchingIp ? (
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                        ) : (
-                          <Search className="w-3 h-3" />
-                        )}
+                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
                         {isFetchingIp ? "Buscando..." : "Buscar IP"}
                       </button>
                     </div>
-
-                    {detectedIp && (
-                      <div className="mb-2 px-3 py-2 rounded-md bg-red-600/5 border border-red-600/20 text-[10px] font-mono text-red-400 animate-in fade-in slide-in-from-top-1 duration-300">
-                        <span className="opacity-70 text-white">IP detectado: </span>
-                        <span className="font-bold">{detectedIp}</span>
-                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
-                      </div>
-                    )}
-
                     <div className="relative group">
                       <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-600/50 group-focus-within:text-red-500 transition-colors" />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
-                        placeholder="Ex: 189.45.12.33"
+                        placeholder="Ex: 189.120.45.67"
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
                         style={{
                           background: "rgba(0,0,0,0.5)",
                           borderColor: "rgba(220,38,38,0.2)",
                           color: "#ffffff",
                         }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#dc2626";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(220,38,38,0.2)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(220,38,38,0.2)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
                       />
                     </div>
                   </div>
+                </div>
 
                 <div className="space-y-3">
                   <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
@@ -322,18 +279,14 @@ export default function AllHackUpdateIp() {
                 </div>
 
                 <button
-onClick={handleUpdate}
+                  onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-red-600/10 border border-red-600/40 text-red-500 hover:bg-red-600/20 hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] disabled:opacity-50 font-orbitron"
                 >
                   {updateMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
-                    </>
+                    <><Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...</>
                   ) : (
-                    <>
-                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
-                    </>
+                    <><Globe className="w-5 h-5" /> ATUALIZAR AGORA</>
                   )}
                 </button>
 
@@ -346,75 +299,47 @@ onClick={handleUpdate}
                     }`}
                   >
                     <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <XCircle className="w-5 h-5" />
-                      )}
+                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                      <span className="text-sm font-bold uppercase tracking-widest font-orbitron">
+                        {result.ok ? "SUCESSO NA OPERAÇÃO" : "ERRO NA OPERAÇÃO"}
+                      </span>
+                    </div>
+                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                  </div>
+                )}
               </div>
             </section>
           </div>
 
-            <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-red-600" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  DADOS DO PROXY
-                </h2>
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">DADOS DO PROXY</h2>
               </div>
 
               {proxyInfos.map((proxy, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl overflow-hidden border"
-                  style={{
-                    borderColor: "rgba(220,38,38,0.2)",
-                    background: "rgba(220,38,38,0.02)",
-                  }}
-                >
-                  <div
-                    className="px-5 py-3 border-b"
-                    style={{
-                      background: "rgba(220,38,38,0.1)",
-                      borderColor: "rgba(220,38,38,0.2)",
-                    }}
-                  >
-                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">
-                      {proxy.title}
-                    </h3>
+                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(220,38,38,0.2)", background: "rgba(220,38,38,0.02)" }}>
+                  <div className="px-5 py-3 border-b" style={{ background: "rgba(220,38,38,0.1)", borderColor: "rgba(220,38,38,0.2)" }}>
+                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">{proxy.title}</h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs uppercase tracking-widest text-red-500/70 font-mono">
-                          {item.label}
-                        </span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">
-                          {item.value}
-                        </span>
+                        <span className="text-xs uppercase tracking-widest text-red-500/70 font-mono">{item.label}</span>
+                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">{item.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
 
-              <div
-                className="p-6 rounded-xl border space-y-3"
-                style={{
-                  borderColor: "rgba(251,191,36,0.2)",
-                  background: "rgba(251,191,36,0.05)",
-                }}
-              >
+              <div className="p-6 rounded-xl border space-y-3" style={{ borderColor: "rgba(251,191,36,0.2)", background: "rgba(251,191,36,0.05)" }}>
                 <div className="flex items-center gap-2 text-yellow-500">
                   <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
-                    Aviso Importante
-                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">Aviso Importante</span>
                 </div>
-                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">
-                  Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.
-                </p>
+                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.</p>
               </div>
 
               <div className="pt-4 space-y-3">
@@ -423,18 +348,7 @@ onClick={handleUpdate}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "#5865F2",
-                    boxShadow: "0 0 20px rgba(88,101,242,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(88,101,242,0.5)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(88,101,242,0.3)";
-                  }}
+                  style={{ background: "#5865F2", boxShadow: "0 0 20px rgba(88,101,242,0.3)" }}
                 >
                   <MessageSquare className="w-5 h-5" />
                   ENTRAR NO DISCORD
@@ -444,7 +358,6 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-      </div>
     </div>
   );
 }
