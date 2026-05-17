@@ -310,27 +310,7 @@ export default function FreeFireUpdateIp() {
                   Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
                 </p>
                 
-                <a
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm mx-auto"
-                  style={{
-                    background: "#f97316",
-                    boxShadow: "0 0 20px rgba(249,115,22,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(249,115,22,0.5)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(249,115,22,0.3)";
-                  }}
-                >
-                  <Download className="w-5 h-5" />
-                  BAIXAR CERTIFICADO
-                </a>
+                
               </div>
             </section>
           </div>
@@ -397,24 +377,8 @@ export default function FreeFireUpdateIp() {
                   Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.
                 </p>
               
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a></div>
+                
+                </div>
             </div>
           </div>
         </div>

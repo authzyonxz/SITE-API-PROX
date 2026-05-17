@@ -105,39 +105,8 @@ export default function AppleIosUpdateIp() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-4">
-              <a
-                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
-                style={{
-                  background: "rgba(255,0,0,0.15)",
-                  borderColor: "rgba(255,0,0,0.5)",
-                  color: "#ff3333",
-                }}
-              >
-                <Download className="w-4 h-4" />
-                Download Dash Cert
-              </a>
               
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
+                
                 <a
                 href="https://whatsapp.com/channel/0029VbCiClfDjiOaPi4aon2w"
                 target="_blank"

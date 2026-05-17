@@ -185,57 +185,8 @@ export default function GranjeiroUpdateIp() {
                     )}
                   </button>
 
-                  <a
-                    href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-4 rounded-lg border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase"
-                    style={{
-                      background: "rgba(255,0,0,0.1)",
-                      borderColor: "rgba(255,0,0,0.4)",
-                      color: "#ff3333",
-                    }}
-                  >
-                    <Download className="w-5 h-5" /> INJECT XIT
-                  </a>
-
-
-                </div>
-
-                {result && (
-                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
-                    <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
-                    </div>
-                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
-                  </div>
-                )}
-              </div>
-            </section>
-          </div>
-
-          <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-24 space-y-6">
-              
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
+                  
+                
                 <a
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
                 target="_blank"
