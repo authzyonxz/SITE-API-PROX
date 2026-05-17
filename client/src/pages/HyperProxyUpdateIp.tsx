@@ -242,14 +242,7 @@ export default function HyperProxyUpdateIp() {
             <div className="space-y-4">
               <div className="p-6 rounded-xl border bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30 space-y-4">
                 <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Certificado Hyper</h3>
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-full py-4 rounded-lg border border-blue-500/50 bg-blue-500/10 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-blue-400 hover:bg-blue-500/20 hover:scale-[1.02] transition-all font-orbitron shadow-[0_0_20px_rgba(0,191,255,0.2)]"
-                >
-                  <Download className="w-5 h-5" /> DOWNLOAD CERTIFICADO
-                </a>
+                
               </div>
 
               <div className="p-6 rounded-xl border bg-black/40 border-blue-500/20 space-y-4">
@@ -263,30 +256,32 @@ export default function HyperProxyUpdateIp() {
                   <MessageCircle className="w-4 h-4" /> ENTRAR NO CANAL
                 </a>
               
-              <div className="pt-4 space-y-3">
+              
+            </div>
+          </div>
+        </div>
+      
+              <div className="space-y-3 mb-4">
                 <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                  CERTIFICADO (HS ANTENA)
                 </a>
                 <a 
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
-</div>
-            </div>
-          </div>
-        </div>
+
       </main>
     </div>
   );

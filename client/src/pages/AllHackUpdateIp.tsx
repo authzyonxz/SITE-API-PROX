@@ -105,28 +105,7 @@ export default function AllHackUpdateIp() {
 
             {/* Desktop Menu */}
             <div className="hidden md:block">
-              <a
-                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase font-bold"
-                style={{
-                  background: "rgba(220,38,38,0.1)",
-                  borderColor: "rgba(220,38,38,0.4)",
-                  color: "#ffffff",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "#dc2626";
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "#dc2626";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "rgba(220,38,38,0.1)";
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(220,38,38,0.4)";
-                }}
-              >
-                <Download className="w-4 h-4" />
-                Download Certificado
-              </a>
+              
             </div>
 
             {/* Mobile Menu Button */}
@@ -150,20 +129,7 @@ export default function AllHackUpdateIp() {
               borderColor: "rgba(220,38,38,0.3)",
             }}
           >
-            <a
-              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase font-bold"
-              style={{
-                background: "rgba(220,38,38,0.2)",
-                borderColor: "rgba(220,38,38,0.4)",
-                color: "#ffffff",
-              }}
-            >
-              <Download className="w-4 h-4" />
-              Download Certificado
-            </a>
+            
           </div>
         )}
       </nav>
@@ -445,53 +411,32 @@ export default function AllHackUpdateIp() {
                 </p>
               </div>
 
-              <div className="pt-4 space-y-3">
-                <a
-                  href="https://discord.gg/allhack"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
-                  style={{
-                    background: "#5865F2",
-                    boxShadow: "0 0 20px rgba(88,101,242,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(88,101,242,0.5)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(88,101,242,0.3)";
-                  }}
-                >
-                  <MessageSquare className="w-5 h-5" />
-                  ENTRAR NO DISCORD
-                </a>
               
-              <div className="pt-4 space-y-3">
+            </div>
+          </div>
+        </div>
+      
+              <div className="space-y-3 mb-4">
                 <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS ANTENA)
+                  CERTIFICADO (HS ANTENA)
                 </a>
                 <a 
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
-</div>
-            </div>
-          </div>
-        </div>
+
       </main>
 
       <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(220,38,38,0.2)" }}>

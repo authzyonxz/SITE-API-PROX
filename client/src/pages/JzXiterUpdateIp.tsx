@@ -81,15 +81,7 @@ export default function JzXiterUpdateIp() {
 
             {/* Desktop Menu */}
             <div className="hidden md:block">
-              <a 
-                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition-all font-orbitron text-xs tracking-widest uppercase"
-              >
-                <Download className="w-4 h-4" />
-                Download Certificado
-              </a>
+              
             </div>
 
             {/* Mobile Menu Button */}
@@ -107,15 +99,7 @@ export default function JzXiterUpdateIp() {
         {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-background border-b border-red-500/20 p-4 space-y-4 animate-in slide-in-from-top duration-300">
-            <a 
-              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 font-orbitron text-xs tracking-widest uppercase"
-            >
-              <Download className="w-4 h-4" />
-              Download Certificado
-            </a>
+            
           </div>
         )}
       </nav>
@@ -316,27 +300,7 @@ export default function JzXiterUpdateIp() {
                 </p>
               </div>
               
-              <div className="pt-4 space-y-3">
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(255,0,0,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
-                >
-                  <Download className="w-6 h-6" />
-                  DOWNLOAD CERTIFICADO
-                </a>
-                <a 
-                  href="https://discord.gg/WxNW7beFQa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:scale-[1.02] transition-all font-orbitron text-sm"
-                >
-                  <ExternalLink className="w-6 h-6" />
-                  DISCORD
-                </a>
-              </div>
-            </div>
+              
           </div>
 
         </div>
@@ -359,6 +323,28 @@ export default function JzXiterUpdateIp() {
                 >
                   <Download className="w-5 h-5" />
                   DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
+      
+              <div className="space-y-3 mb-4">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
+                >
+                  <Download className="w-5 h-5" />
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
+                >
+                  <Download className="w-5 h-5" />
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
 

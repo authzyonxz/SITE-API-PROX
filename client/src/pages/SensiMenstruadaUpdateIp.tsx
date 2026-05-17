@@ -86,15 +86,7 @@ export default function SensiMenstruadaUpdateIp() {
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                    <a 
-                      href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all border-b border-white/10"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download Certificado
-                    </a>
+                    
                     <a 
                       href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
                       target="_blank"
@@ -119,15 +111,7 @@ export default function SensiMenstruadaUpdateIp() {
 
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 p-4 space-y-3">
-            <a 
-              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
-            >
-              <Download className="w-4 h-4" />
-              Download Certificado
-            </a>
+            
             <a 
               href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
               target="_blank"
@@ -245,15 +229,7 @@ export default function SensiMenstruadaUpdateIp() {
               ))}
 
               <div className="space-y-4 pt-2">
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-400 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
-                >
-                  <Download className="w-5 h-5" />
-                  Download Certificado
-                </a>
+                
                 <a 
                   href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
                   target="_blank"
@@ -264,30 +240,32 @@ export default function SensiMenstruadaUpdateIp() {
                   Canal de Atualizações
                 </a>
               
-              <div className="pt-4 space-y-3">
+              
+            </div>
+          </div>
+        </div>
+      
+              <div className="space-y-3 mb-4">
                 <a 
                   href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
+                  CERTIFICADO (HS PESCOÇO + ANTENA)
                 </a>
                 <a 
                   href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
-</div>
-            </div>
-          </div>
-        </div>
+
       </main>
 
       <footer className="mt-12 py-8 border-t border-white/5 text-center">

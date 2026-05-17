@@ -145,15 +145,7 @@ export default function PublicUpdateIp() {
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-800/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                    <a 
-                      href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-cyan-500/20 hover:text-cyan-400 transition-all border-b border-white/10"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download Certificado
-                    </a>
+                    
                     <a 
                       href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
                       target="_blank"
@@ -183,15 +175,7 @@ export default function PublicUpdateIp() {
         {/* Mobile Sidebar Overlay */}
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-slate-800/95 backdrop-blur-xl border-b border-cyan-500/20 p-4 space-y-3 animate-in slide-in-from-top duration-300">
-            <a 
-              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-orbitron text-xs tracking-widest uppercase hover:bg-cyan-500/30 transition-all"
-            >
-              <Download className="w-4 h-4" />
-              Download Certificado
-            </a>
+            
             <a 
               href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
               target="_blank"
@@ -401,27 +385,7 @@ export default function PublicUpdateIp() {
                 </p>
               </div>
               
-              <div className="pt-4 space-y-3">
-                <a 
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
-                >
-                  <Download className="w-5 h-5" />
-                  DOWNLOAD CERTIFICADO
-                </a>
-                <a 
-                  href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
-                >
-                  <Bell className="w-5 h-5" />
-                  CANAL DE ATUALIZAÇÕES
-                </a>
-              </div>
-            </div>
+              
           </div>
 
         </div>
@@ -444,6 +408,28 @@ export default function PublicUpdateIp() {
                 >
                   <Download className="w-5 h-5" />
                   DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
+      
+              <div className="space-y-3 mb-4">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
+                >
+                  <Download className="w-5 h-5" />
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
+                >
+                  <Download className="w-5 h-5" />
+                  CERTIFICADO (HS PESCOÇO)
                 </a>
               </div>
 
