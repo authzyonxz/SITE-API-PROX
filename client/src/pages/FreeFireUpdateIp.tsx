@@ -74,7 +74,6 @@ export default function FreeFireUpdateIp() {
         backgroundSize: "auto, 40px 40px, 40px 40px",
       }}
     >
-      {/* Header / Navbar */}
       <nav
         className="sticky top-0 z-50 border-b backdrop-blur-md"
         style={{
@@ -103,12 +102,6 @@ export default function FreeFireUpdateIp() {
               </span>
             </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              
-            </div>
-
-            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -119,25 +112,10 @@ export default function FreeFireUpdateIp() {
             </div>
           </div>
         </div>
-
-        {/* Mobile Sidebar Overlay */}
-        {isMenuOpen && (
-          <div
-            className="md:hidden absolute top-16 left-0 w-full border-b p-4 space-y-4 animate-in slide-in-from-top duration-300"
-            style={{
-              background: "rgba(10,10,10,0.98)",
-              borderColor: "rgba(249,115,22,0.3)",
-            }}
-          >
-            
-          </div>
-        )}
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-          {/* Left Column: Update IP Form */}
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6">
@@ -173,27 +151,9 @@ export default function FreeFireUpdateIp() {
                         onChange={(e) => setKeyInput(e.target.value)}
                         placeholder="Cole sua key aqui..."
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
-                        style={{
-                          background: "rgba(0,0,0,0.5)",
-                          borderColor: "rgba(249,115,22,0.2)",
-                          color: "#ffffff",
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#f97316";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(249,115,22,0.2)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(249,115,22,0.2)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
+                        style={{ background: "rgba(0,0,0,0.5)", borderColor: "rgba(249,115,22,0.2)", color: "#ffffff" }}
                       />
                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-2">
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-900/30 to-transparent" />
-                    <ArrowRight className="w-5 h-5 text-orange-900/30" />
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-orange-900/30 to-transparent" />
                   </div>
 
                   <div>
@@ -206,22 +166,10 @@ export default function FreeFireUpdateIp() {
                         disabled={isFetchingIp}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-orange-600/10 border border-orange-600/30 text-orange-500 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-orange-600/20 transition-all disabled:opacity-50"
                       >
-                        {isFetchingIp ? (
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                        ) : (
-                          <Search className="w-3 h-3" />
-                        )}
-                        {isFetchingIp ? "Buscando..." : "Buscar IP"}
+                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
+                        Buscar IP
                       </button>
                     </div>
-
-                    {detectedIp && (
-                      <div className="mb-2 px-3 py-2 rounded-md bg-orange-600/5 border border-orange-600/20 text-[10px] font-mono text-orange-400 animate-in fade-in slide-in-from-top-1 duration-300">
-                        <span className="opacity-70 text-white">IP detectado: </span>
-                        <span className="font-bold">{detectedIp}</span>
-                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
-                      </div>
-                    )}
 
                     <div className="relative group">
                       <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-500/50 group-focus-within:text-orange-500 transition-colors" />
@@ -229,22 +177,9 @@ export default function FreeFireUpdateIp() {
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
-                        placeholder="Ex: 189.45.12.33"
+                        placeholder="Ex: 177.123.45.67"
                         className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
-                        style={{
-                          background: "rgba(0,0,0,0.5)",
-                          borderColor: "rgba(249,115,22,0.2)",
-                          color: "#ffffff",
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = "#f97316";
-                          e.currentTarget.style.boxShadow = "0 0 10px rgba(249,115,22,0.2)";
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = "rgba(249,115,22,0.2)";
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
+                        style={{ background: "rgba(0,0,0,0.5)", borderColor: "rgba(249,115,22,0.2)", color: "#ffffff" }}
                       />
                     </div>
                   </div>
@@ -253,140 +188,71 @@ export default function FreeFireUpdateIp() {
                 <button
                   onClick={handleUpdate}
                   disabled={updateMutation.isPending}
-                  className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-orange-600/10 border border-orange-600/40 text-orange-500 hover:bg-orange-600/20 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] disabled:opacity-50 font-orbitron"
+                  className="w-full py-4 rounded-xl font-black font-orbitron tracking-widest uppercase transition-all shadow-lg flex items-center justify-center gap-3 disabled:opacity-50"
+                  style={{ background: "linear-gradient(135deg, #f97316 0%, #c2410c 100%)", boxShadow: "0 0 20px rgba(249,115,22,0.3)", color: "#ffffff" }}
                 >
-                  {updateMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...
-                    </>
-                  ) : (
-                    <>
-                      <Globe className="w-5 h-5" /> ATUALIZAR AGORA
-                    </>
-                  )}
+                  {updateMutation.isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <><CheckCircle className="w-5 h-5" /> Atualizar IP</>}
                 </button>
 
                 {result && (
-                  <div
-                    className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${
-                      result.ok
-                        ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                        : "bg-rose-500/10 border-rose-500/30 text-rose-400"
-                    }`}
-                  >
+                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
                     <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? (
-                        <CheckCircle className="w-5 h-5" />
-                      ) : (
-                        <XCircle className="w-5 h-5" />
-                      )}
-                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">
-                        {result.ok ? "Sucesso!" : "Erro na Operação"}
-                      </span>
+                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
                     </div>
                     <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
                   </div>
                 )}
               </div>
             </section>
-
-            {/* Download Section */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Download className="w-6 h-6 text-orange-500" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  CERTIFICADO DE SEGURANÇA
-                </h2>
-              </div>
-
-              <div 
-                className="rounded-xl p-8 border text-center space-y-6"
-                style={{
-                  background: "rgba(249,115,22,0.05)",
-                  borderColor: "rgba(249,115,22,0.2)",
-                }}
-              >
-                <p className="text-sm text-muted-foreground font-rajdhani leading-relaxed max-w-md mx-auto">
-                  Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
-                </p>
-                
-                
-              </div>
-            </section>
           </div>
 
-          {/* Right Column: Proxy Info */}
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6 text-orange-500" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  DADOS DO PROXY
-                </h2>
+              <div className="space-y-4">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS PESCOÇO)
+                </a>
               </div>
 
               {proxyInfos.map((proxy, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl overflow-hidden border"
-                  style={{
-                    borderColor: "rgba(249,115,22,0.2)",
-                    background: "rgba(249,115,22,0.02)",
-                  }}
-                >
-                  <div
-                    className="px-5 py-3 border-b"
-                    style={{
-                      background: "rgba(249,115,22,0.1)",
-                      borderColor: "rgba(249,115,22,0.2)",
-                    }}
-                  >
-                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">
-                      {proxy.title}
-                    </h3>
+                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(249,115,22,0.3)", background: "rgba(249,115,22,0.02)" }}>
+                  <div className="px-5 py-3 border-b bg-orange-500/10 border-orange-500/20">
+                    <h3 className="text-sm font-black tracking-widest font-orbitron text-orange-500">{proxy.title}</h3>
                   </div>
                   <div className="p-5 space-y-4">
                     {proxy.items.map((item, i) => (
                       <div key={i} className="flex items-center justify-between">
-                        <span className="text-xs uppercase tracking-widest text-orange-500/70 font-mono">
-                          {item.label}
-                        </span>
-                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">
-                          {item.value}
-                        </span>
+                        <span className="text-xs uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
+                        <span className="text-sm font-bold text-white font-mono px-2 py-1 rounded border bg-white/5 border-white/10">{item.value}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
-
-              <div
-                className="p-6 rounded-xl border space-y-3"
-                style={{
-                  borderColor: "rgba(251,191,36,0.2)",
-                  background: "rgba(251,191,36,0.05)",
-                }}
-              >
-                <div className="flex items-center gap-2 text-yellow-500">
-                  <Info className="w-5 h-5" />
-                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
-                    Aviso Importante
-                  </span>
-                </div>
-                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">
-                  Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.
-                </p>
-              
-                
-                </div>
             </div>
           </div>
         </div>
       </main>
 
-      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(249,115,22,0.2)" }}>
+      <footer className="mt-12 py-8 border-t text-center border-orange-500/20">
         <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          FREE FIRE PROXY SYSTEM &copy; 2026 // BOOYAH!
+          Free Fire Proxy System &copy; 2026 // Secure Connection Established
         </p>
       </footer>
     </div>

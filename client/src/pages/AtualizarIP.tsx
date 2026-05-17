@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Radio, Wifi, WifiOff } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Radio, Wifi, WifiOff, Download } from "lucide-react";
 
 export default function AtualizarIP() {
   const [keyInput, setKeyInput] = useState("");
@@ -154,6 +154,27 @@ export default function AtualizarIP() {
             ? <><Loader2 className="w-4 h-4 animate-spin" /> Atualizando...</>
             : <><Globe className="w-4 h-4" /> Atualizar IP</>}
         </button>
+      </div>
+
+      <div className="space-y-4">
+        <a 
+          href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30"
+        >
+          <Download className="w-4 h-4" />
+          CERTIFICADO (HS ANTENA)
+        </a>
+        <a 
+          href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30"
+        >
+          <Download className="w-4 h-4" />
+          CERTIFICADO (HS PESCOÇO)
+        </a>
       </div>
 
       {result && (

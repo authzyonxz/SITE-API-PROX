@@ -98,10 +98,7 @@ export default function HyperProxyUpdateIp() {
               </span>
             </div>
             <div className="hidden md:flex items-center gap-4">
-              
-                
-                
-                <a
+              <a
                 href="https://chat.whatsapp.com/GBAkAJuN21X5xnVyT9d6S0?mode=gi_t"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -245,7 +242,24 @@ export default function HyperProxyUpdateIp() {
             <div className="space-y-4">
               <div className="p-6 rounded-xl border bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30 space-y-4">
                 <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Certificado Hyper</h3>
-                
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS PESCOÇO)
+                </a>
               </div>
 
               <div className="p-6 rounded-xl border bg-black/40 border-blue-500/20 space-y-4">

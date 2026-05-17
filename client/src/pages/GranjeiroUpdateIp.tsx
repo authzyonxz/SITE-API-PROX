@@ -184,10 +184,24 @@ export default function GranjeiroUpdateIp() {
                       <><Shield className="w-5 h-5" /> ATIVAR XIT</>
                     )}
                   </button>
+                </div>
 
-                  
-                
-                <a
+                {result && (
+                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
+                    <div className="flex items-center gap-3 mb-2">
+                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
+                    </div>
+                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+
+          <div className="lg:col-span-5 space-y-6">
+            <div className="sticky top-24 space-y-6">
+              <a
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -199,19 +213,31 @@ export default function GranjeiroUpdateIp() {
                   textShadow: "0 0 8px rgba(255,255,255,0.4)",
                   boxShadow: "0 4px 15px rgba(0,255,100,0.3)"
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #00ff64 0%, #33ff83 100%)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(0,255,100,0.5)";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = "linear-gradient(135deg, #008037 0%, #00ff64 100%)";
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 15px rgba(0,255,100,0.3)";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
-                }}
               >
                 <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
               </a>
+
+              <div className="space-y-4">
+                <a 
+                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS ANTENA)
+                </a>
+                <a 
+                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30"
+                >
+                  <Download className="w-4 h-4" />
+                  CERTIFICADO (HS PESCOÇO)
+                </a>
+              </div>
+
               {proxyInfos.map((proxy, idx) => (
                 <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(255,0,0,0.3)", background: "rgba(255,0,0,0.02)" }}>
                   <div className="px-5 py-3 border-b bg-red-500/10 border-red-500/20">

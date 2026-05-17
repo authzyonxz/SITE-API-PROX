@@ -86,11 +86,7 @@ export default function SensiMenstruadaUpdateIp() {
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                    
-                    
-                
-                
-                <a 
+                    <a 
                       href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -114,7 +110,6 @@ export default function SensiMenstruadaUpdateIp() {
 
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 p-4 space-y-3">
-            
             <a 
               href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
               target="_blank"
@@ -250,7 +245,6 @@ export default function SensiMenstruadaUpdateIp() {
                   <Download className="w-4 h-4" />
                   CERTIFICADO (HS PESCOÇO)
                 </a>
-                
                 <a 
                   href="https://whatsapp.com/channel/0029VbC4GJfC6Zvfov89zy0f"
                   target="_blank"
