@@ -4,529 +4,46 @@ import { toast } from "sonner";
 import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, Search, MessageSquare } from "lucide-react";
 
 export default function AllHackUpdateIp() {
-  const [keyInput, setKeyInput] = useState(""
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-  const [newIp, setNewIp] = useState(""
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-  const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-  const [isMenuOpen, setIsMenuOpen] = useState(false
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-  const [detectedIp, setDetectedIp] = useState<string | null>(null
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-  const [isFetchingIp, setIsFetchingIp] = useState(false
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+  const [keyInput, setKeyInput] = useState("");
+  const [newIp, setNewIp] = useState("");
+  const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [detectedIp, setDetectedIp] = useState<string | null>(null);
+  const [isFetchingIp, setIsFetchingIp] = useState(false);
 
   const updateMutation = trpc.keys.publicUpdateIp.useMutation({
     onSuccess: (data) => {
-      setResult(data
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+      setResult(data);
       if (data.ok) {
-        toast.success("IP atualizado com sucesso!"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+        toast.success("IP atualizado com sucesso!");
       } else {
-        toast.error("Falha ao atualizar IP"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+        toast.error("Falha ao atualizar IP");
       }
     },
     onError: (err) => {
-      toast.error(err.message || "Erro ao atualizar IP"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+      toast.error(err.message || "Erro ao atualizar IP");
     },
-  }
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+  });
 
   const handleUpdate = () => {
-    if (!keyInput.trim()) { toast.error("Digite a key"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-); return; }
-    if (!newIp.trim()) { toast.error("Digite o novo IP"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-); return; }
-    updateMutation.mutate({ generatedKey: keyInput.trim(), newIp: newIp.trim() }
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+    if (!keyInput.trim()) { toast.error("Digite a key"); return; }
+    if (!newIp.trim()) { toast.error("Digite o novo IP"); return; }
+    updateMutation.mutate({ generatedKey: keyInput.trim(), newIp: newIp.trim() });
   };
 
   const handleFetchIp = async () => {
-    setIsFetchingIp(true
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-    setDetectedIp(null
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+    setIsFetchingIp(true);
+    setDetectedIp(null);
     try {
-      const res = await fetch("https://api.ipify.org?format=json"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-      const data = await res.json(
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-      setDetectedIp(data.ip
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-      setNewIp(data.ip
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
-      toast.success("IP detectado e preenchido automaticamente!"
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      setDetectedIp(data.ip);
+      setNewIp(data.ip);
+      toast.success("IP detectado e preenchido automaticamente!");
     } catch {
-      toast.error("Não foi possível detectar seu IP. Tente novamente."
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+      toast.error("Não foi possível detectar seu IP. Tente novamente.");
     } finally {
-      setIsFetchingIp(false
-              <div className="space-y-3 mb-4">
-                <a 
-                  href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-);
+      setIsFetchingIp(false);
     }
   };
 
@@ -894,43 +411,13 @@ export default function AllHackUpdateIp() {
                 </p>
               </div>
 
-              
-            </div>
-          </div>
-        </div>
-      
-              <div className="space-y-3 mb-4">
-                <a 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div>
-
-      </main>
-
-      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(220,38,38,0.2)" }}>
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          ALL HACK PROXY SYSTEM &copy; 2026 // SECURE CONNECTION
-        </p>
-      </footer>
-    </div>
-  
-              <div className="space-y-3 mb-4">
+              <div className="pt-4 space-y-3">
+                
                 <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-xs border border-cyan-400/30"
                 >
                   <Download className="w-5 h-5" />
                   CERTIFICADO (HS ANTENA)
@@ -939,11 +426,43 @@ export default function AllHackUpdateIp() {
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-xs border border-purple-400/30"
                 >
                   <Download className="w-5 h-5" />
                   CERTIFICADO (HS PESCOÇO)
                 </a>
+                <a
+                  href="https://discord.gg/allhack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"
+                  style={{
+                    background: "#5865F2",
+                    boxShadow: "0 0 20px rgba(88,101,242,0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(88,101,242,0.5)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(88,101,242,0.3)";
+                  }}
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  ENTRAR NO DISCORD
+                </a>
               </div>
-);
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(220,38,38,0.2)" }}>
+        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
+          ALL HACK PROXY SYSTEM &copy; 2026 // SECURE CONNECTION
+        </p>
+      </footer>
+    </div>
+  );
 }

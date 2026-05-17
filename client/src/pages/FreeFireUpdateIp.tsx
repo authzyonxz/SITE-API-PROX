@@ -310,38 +310,98 @@ export default function FreeFireUpdateIp() {
                   Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
                 </p>
                 
-                
-                <a 
+                <a
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"
+                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm mx-auto"
+                  style={{
+                    background: "#f97316",
+                    boxShadow: "0 0 20px rgba(249,115,22,0.3)",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(249,115,22,0.5)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(249,115,22,0.3)";
+                  }}
                 >
+                  <Download className="w-5 h-5" />
+                  BAIXAR CERTIFICADO
                 </a>
               </div>
+            </section>
+          </div>
 
-              <div className="space-y-3 mb-4">
-                <a 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
-                >
-                  CERTIFICADO (HS ANTENA)
-                </a>
-                <a 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
-                >
-                  CERTIFICADO (HS PESCOÇO)
-                </a>
+          {/* Right Column: Proxy Info */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="sticky top-24 space-y-6">
+              <div className="flex items-center gap-3">
+                <Shield className="w-6 h-6 text-orange-500" />
+                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
+                  DADOS DO PROXY
+                </h2>
               </div>
 
-              <div className="space-y-3 mb-4">
+              {proxyInfos.map((proxy, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-xl overflow-hidden border"
+                  style={{
+                    borderColor: "rgba(249,115,22,0.2)",
+                    background: "rgba(249,115,22,0.02)",
+                  }}
+                >
+                  <div
+                    className="px-5 py-3 border-b"
+                    style={{
+                      background: "rgba(249,115,22,0.1)",
+                      borderColor: "rgba(249,115,22,0.2)",
+                    }}
+                  >
+                    <h3 className="text-sm font-black tracking-widest font-orbitron text-white">
+                      {proxy.title}
+                    </h3>
+                  </div>
+                  <div className="p-5 space-y-4">
+                    {proxy.items.map((item, i) => (
+                      <div key={i} className="flex items-center justify-between">
+                        <span className="text-xs uppercase tracking-widest text-orange-500/70 font-mono">
+                          {item.label}
+                        </span>
+                        <span className="text-sm font-bold text-white font-mono bg-white/5 px-2 py-1 rounded border border-white/10">
+                          {item.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <div
+                className="p-6 rounded-xl border space-y-3"
+                style={{
+                  borderColor: "rgba(251,191,36,0.2)",
+                  background: "rgba(251,191,36,0.05)",
+                }}
+              >
+                <div className="flex items-center gap-2 text-yellow-500">
+                  <Info className="w-5 h-5" />
+                  <span className="text-xs font-bold uppercase tracking-widest font-orbitron">
+                    Aviso Importante
+                  </span>
+                </div>
+                <p className="text-xs font-rajdhani leading-relaxed text-yellow-200/70">
+                  Sempre que seu IP mudar, você deve voltar aqui e atualizar para continuar usando o serviço.
+                </p>
+              
                 <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-cyan-400/30"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-xs border border-cyan-400/30"
                 >
                   <Download className="w-5 h-5" />
                   CERTIFICADO (HS ANTENA)
@@ -350,12 +410,11 @@ export default function FreeFireUpdateIp() {
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all font-orbitron text-xs border border-purple-400/30"
+                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-xs border border-purple-400/30"
                 >
                   <Download className="w-5 h-5" />
                   CERTIFICADO (HS PESCOÇO)
-                </a>
-              </div></div>
+                </a></div>
             </div>
           </div>
         </div>
