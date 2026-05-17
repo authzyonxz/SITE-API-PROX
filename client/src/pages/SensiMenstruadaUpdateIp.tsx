@@ -74,7 +74,46 @@ export default function SensiMenstruadaUpdateIp() {
               <span className="text-xl font-black tracking-tighter text-purple-400 font-orbitron uppercase">SENSI MENSTRUADA</span>
             </div>
             <div className="md:hidden">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-purple-400">
+              
+                <div className="space-y-3">
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
+                  </div>
+                </div>
+
+                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-purple-400">
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
@@ -128,29 +167,7 @@ export default function SensiMenstruadaUpdateIp() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>Certificados</div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u9cwhguk66nrhj6/SensiMenstruada2.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{ fontFamily: "'Orbitron', sans-serif", background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.5)", color: "rgba(0,212,255,0.8)", boxShadow: "0 0 10px rgba(0,212,255,0.2)" }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO + ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/mjwc20ltbyduqwz/SensiMenstruada1.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{ fontFamily: "'Orbitron', sans-serif", background: "rgba(157,78,221,0.1)", border: "1px solid rgba(157,78,221,0.5)", color: "rgba(157,78,221,0.8)", boxShadow: "0 0 10px rgba(157,78,221,0.2)" }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
+                
 
                 <button
                   onClick={handleUpdate}
