@@ -137,43 +137,43 @@ export default function AtualizarIP() {
           </div>
         </div>
 
-                                <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
+                <div className="space-y-3">
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
+                  </div>
+                </div>
 
                 <button
           onClick={handleUpdate}
@@ -192,9 +192,8 @@ export default function AtualizarIP() {
             ? <><Loader2 className="w-4 h-4 animate-spin" /> Atualizando...</>
             : <><Globe className="w-4 h-4" /> Atualizar IP</>}
         </button>
-      </div>
 
-      {result && (
+                {result && (
         <div className="cyber-card p-5"
           style={{ border: `1px solid ${result.ok ? "rgba(0,255,136,0.2)" : "rgba(255,0,110,0.2)"}` }}>
           <div className="flex items-center gap-2 mb-3">
@@ -213,6 +212,5 @@ export default function AtualizarIP() {
           </div>
         </div>
       )}
-    </div>
-  );
-}
+              </div>
+            

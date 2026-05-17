@@ -198,123 +198,46 @@ export default function JzXiterUpdateIp() {
                       />
                     </div>
                   </div>
-                </div>
 
-                        <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
-
-                <button
-                        onClick={handleFetchIp}
-                        disabled={isFetchingIp}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-500/10 border border-red-500/30 text-red-400 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-red-500/20 transition-all disabled:opacity-50"
-                      >
-                        {isFetchingIp ? (
-                          <Loader2 className="w-3 h-3 animate-spin" />
-                        ) : (
-                          <Search className="w-3 h-3" />
-                        )}
-                        {isFetchingIp ? "Buscando..." : "Buscar IP"}
-                      </button>
-                    </div>
-
-                    {detectedIp && (
-                      <div className="mb-2 px-3 py-2 rounded-md bg-red-500/5 border border-red-500/20 text-[10px] font-mono text-red-400 animate-in fade-in slide-in-from-top-1 duration-300">
-                        <span className="opacity-70 text-white">IP detectado: </span>
-                        <span className="font-bold">{detectedIp}</span>
-                        <span className="ml-2 opacity-50 uppercase tracking-widest">(preenchido automaticamente)</span>
-                      </div>
-                    )}
-
-                    <div className="relative group">
-                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500/40 group-focus-within:text-red-400 transition-colors" />
-                      <input
-                        type="text"
-                        value={newIp}
-                        onChange={(e) => setNewIp(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
-                        placeholder="Ex: 177.123.45.67"
-                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-background border border-red-500/20 focus:border-red-400 focus:ring-1 focus:ring-red-400 outline-none transition-all font-mono text-sm"
-                      />
-                    </div>
+                <div className="space-y-3">
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
-
-        
-
-                  <button
+                <button
 onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-red-500/10 border border-red-500/40 text-red-400 hover:bg-red-500/20 hover:shadow-[0_0_20px_rgba(255,0,0,0.3)] disabled:opacity-50 font-orbitron"

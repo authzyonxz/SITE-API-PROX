@@ -309,125 +309,45 @@ export default function AppleIosUpdateIp() {
                   </div>
                 </div>
 
-                        <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
-
-                <button
-                        onClick={handleFetchIp}
-                        disabled={isFetchingIp}
-                        className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded border transition-all"
-                        style={{
-                          background: "rgba(255,0,0,0.1)",
-                          borderColor: "rgba(255,0,0,0.3)",
-                          color: "#ff3333",
-                        }}
-                      >
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                        BUSCAR IP
-                      </button>
-                    </div>
-                    <div className="relative group">
-                      <Globe
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors"
-                        style={{ color: "rgba(255,0,0,0.5)" }}
-                      />
-                      <input
-                        type="text"
-                        value={newIp}
-                        onChange={(e) => setNewIp(e.target.value)}
-                        placeholder="Ex: 189.120.45.67"
-                        className="w-full pl-12 pr-4 py-4 rounded-lg outline-none transition-all font-mono text-sm border"
-                        style={{
-                          background: "rgba(0,0,0,0.5)",
-                          borderColor: "rgba(255,0,0,0.3)",
-                          color: "rgba(255,255,255,0.95)",
-                        }}
-                      />
-                    </div>
-                    {detectedIp && (
-                      <p className="mt-2 text-[10px] font-mono" style={{ color: "rgba(255,0,0,0.6)" }}>
-                        IP detectado: <span className="text-white/80">{detectedIp}</span> (PREENCHIDO AUTOMATICAMENTE)
-                      </p>
-                    )}
+                <div className="space-y-3">
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
-
-        
-
-                  <button
+                <button
 onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all font-orbitron"
@@ -446,6 +366,21 @@ onClick={handleUpdate}
                     </>
                   )}
                 </button>
+
+                {result && (
+              <div
+                className="rounded-xl p-6 border animate-in zoom-in-95 duration-300"
+                style={{
+                  background: result.ok ? "rgba(0,255,136,0.05)" : "rgba(255,0,0,0.05)",
+                  borderColor: result.ok ? "rgba(0,255,136,0.3)" : "rgba(255,0,0,0.3)",
+                }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  {result.ok ? (
+                    <CheckCircle className="w-6 h-6 text-green-500" />
+                  ) : (
+                    <XCircle className="w-6 h-6 text-red-500" />
+                  )}
               </div>
             </section>
 

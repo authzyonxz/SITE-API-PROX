@@ -172,95 +172,46 @@ export default function AraaoProxyUpdateIp() {
                       />
                     </div>
                   </div>
-                  <button onClick={handleFetchIp} disabled={isFetchingIp} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition-colors hover:text-red-400 disabled:opacity-50" style={{ color: "rgba(248,113,113,0.6)" }}>
-                    {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                    Detectar meu IP atual
-                  </button>
-                </div>
-                        <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
 
-                <button onClick={handleFetchIp} disabled={isFetchingIp} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest transition-colors hover:text-red-400 disabled:opacity-50" style={{ color: "rgba(248,113,113,0.6)" }}>
-                    {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                    Detectar meu IP atual
-                  </button>
-                </div>
                 <div className="space-y-3">
-          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-            Certificados
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <a
-              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(0,212,255,0.1)",
-                border: "1px solid rgba(0,212,255,0.5)",
-                color: "rgba(0,212,255,0.8)",
-                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-            </a>
-            <a
-              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-              style={{
-                fontFamily: "'Orbitron', sans-serif",
-                background: "rgba(157,78,221,0.1)",
-                border: "1px solid rgba(157,78,221,0.5)",
-                color: "rgba(157,78,221,0.8)",
-                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-              }}
-            >
-              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-            </a>
-          </div>
-        </div>
+                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+                    Certificados
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <a
+                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(0,212,255,0.1)",
+                        border: "1px solid rgba(0,212,255,0.5)",
+                        color: "rgba(0,212,255,0.8)",
+                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+                    </a>
+                    <a
+                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+                      style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        background: "rgba(157,78,221,0.1)",
+                        border: "1px solid rgba(157,78,221,0.5)",
+                        color: "rgba(157,78,221,0.8)",
+                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+                      }}
+                    >
+                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+                    </a>
+                  </div>
+                </div>
 
-        
-
-                  <button
+                <button
 onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-orbitron font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all group relative overflow-hidden"
@@ -268,6 +219,7 @@ onClick={handleUpdate}
                 >
                   {updateMutation.isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <><span>Vincular IP Agora</span><ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>}
                 </button>
+
                 {result && (
                   <div className={`p-4 rounded-lg border flex items-start gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-green-500/10 border-green-500/30" : "bg-red-500/10 border-red-500/30"}`}>
                     {result.ok ? <CheckCircle className="w-5 h-5 text-green-500 shrink-0 mt-0.5" /> : <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />}
