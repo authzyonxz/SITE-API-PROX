@@ -266,51 +266,9 @@ onClick={handleUpdate}
                 )}
               </div>
             </section>
-
-            {/* Tutorial Section */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Info className="w-6 h-6 text-red-400" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-red-400">
-                  TUTORIAL DE INSTALAÇÃO
-                </h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
-                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">1</div>
-                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Baixar Certificado</h3>
-                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                    Clique no botão no topo da página para baixar o arquivo <b>Certificado.pem</b>. Este certificado é necessário para que o proxy funcione em conexões seguras.
-                  </p>
-                </div>
-                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
-                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">2</div>
-                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Instalar no Dispositivo</h3>
-                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                    Abra o arquivo baixado e siga as instruções do seu sistema para instalar. No Android/iOS, vá em Configurações de Segurança e instale como Certificado de Confiança.
-                  </p>
-                </div>
-                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
-                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">3</div>
-                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Confiar no Certificado</h3>
-                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                    <b>IMPORTANTE:</b> Após instalar, você deve habilitar a confiança total para este certificado nas configurações de certificados raiz confiáveis do seu aparelho.
-                  </p>
-                </div>
-                <div className="cyber-card p-5 border-white/5 bg-white/[0.02] space-y-3">
-                  <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center text-red-400 font-bold">4</div>
-                  <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron">Configurar Proxy</h3>
-                  <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                    Use os dados de IP e Porta fornecidos ao lado nas configurações de rede do seu dispositivo ou aplicativo.
-                  </p>
-                </div>
-              </div>
-            </section>
           </div>
 
-          {/* Right Column: Proxy Info */}
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-red-400" />
@@ -378,12 +336,7 @@ onClick={handleUpdate}
 
         </div>
       </main>
-
-      <footer className="mt-12 py-8 border-t border-white/5 text-center">
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          JZ XITER System &copy; 2026 // Secure Connection Established
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }

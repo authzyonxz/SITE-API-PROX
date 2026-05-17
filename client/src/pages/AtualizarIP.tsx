@@ -41,7 +41,6 @@ export default function AtualizarIP() {
         </p>
       </div>
 
-      {/* Proxy Status Display */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         {loadingProxies ? (
           [...Array(2)].map((_, i) => (
@@ -99,8 +98,6 @@ export default function AtualizarIP() {
                 fontFamily: "'Share Tech Mono', monospace",
                 fontSize: "0.85rem",
               }}
-              onFocus={(e) => { e.target.style.borderColor = "var(--neon-blue)"; e.target.style.boxShadow = "0 0 10px rgba(0,212,255,0.2)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "rgba(0,212,255,0.2)"; e.target.style.boxShadow = "none"; }}
             />
           </div>
         </div>
@@ -131,51 +128,49 @@ export default function AtualizarIP() {
                 fontFamily: "'Share Tech Mono', monospace",
                 fontSize: "0.85rem",
               }}
-              onFocus={(e) => { e.target.style.borderColor = "var(--neon-blue)"; e.target.style.boxShadow = "0 0 10px rgba(0,212,255,0.2)"; }}
-              onBlur={(e) => { e.target.style.borderColor = "rgba(0,212,255,0.2)"; e.target.style.boxShadow = "none"; }}
             />
           </div>
         </div>
 
-                <div className="space-y-3">
-                  <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
-                    Certificados
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <a
-                      href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(0,212,255,0.1)",
-                        border: "1px solid rgba(0,212,255,0.5)",
-                        color: "rgba(0,212,255,0.8)",
-                        boxShadow: "0 0 10px rgba(0,212,255,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS ANTENA)
-                    </a>
-                    <a
-                      href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
-                      style={{
-                        fontFamily: "'Orbitron', sans-serif",
-                        background: "rgba(157,78,221,0.1)",
-                        border: "1px solid rgba(157,78,221,0.5)",
-                        color: "rgba(157,78,221,0.8)",
-                        boxShadow: "0 0 10px rgba(157,78,221,0.2)",
-                      }}
-                    >
-                      📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
-                    </a>
-                  </div>
-                </div>
+        <div className="space-y-3">
+          <div className="text-xs tracking-widest uppercase mb-2" style={{ color: "rgba(0,212,255,0.6)", fontFamily: "'Share Tech Mono', monospace" }}>
+            Certificados
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <a
+              href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(0,212,255,0.1)",
+                border: "1px solid rgba(0,212,255,0.5)",
+                color: "rgba(0,212,255,0.8)",
+                boxShadow: "0 0 10px rgba(0,212,255,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS ANTENA)
+            </a>
+            <a
+              href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all text-xs"
+              style={{
+                fontFamily: "'Orbitron', sans-serif",
+                background: "rgba(157,78,221,0.1)",
+                border: "1px solid rgba(157,78,221,0.5)",
+                color: "rgba(157,78,221,0.8)",
+                boxShadow: "0 0 10px rgba(157,78,221,0.2)",
+              }}
+            >
+              📥 DOWNLOAD CERTIFICADO (HS PESCOÇO)
+            </a>
+          </div>
+        </div>
 
-                <button
+        <button
           onClick={handleUpdate}
           disabled={updateMutation.isPending}
           className="w-full py-3 rounded font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all mt-2"
@@ -193,24 +188,26 @@ export default function AtualizarIP() {
             : <><Globe className="w-4 h-4" /> Atualizar IP</>}
         </button>
 
-                {result && (
-        <div className="cyber-card p-5"
-          style={{ border: `1px solid ${result.ok ? "rgba(0,255,136,0.2)" : "rgba(255,0,110,0.2)"}` }}>
-          <div className="flex items-center gap-2 mb-3">
-            {result.ok
-              ? <CheckCircle className="w-4 h-4" style={{ color: "var(--neon-green)" }} />
-              : <XCircle className="w-4 h-4" style={{ color: "#ff006e" }} />}
-            <span className="text-xs font-semibold tracking-widest uppercase"
-              style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "var(--neon-green)" : "#ff006e", fontSize: "0.7rem" }}>
-              {result.ok ? "IP Atualizado com Sucesso" : "Falha na Atualização"}
-            </span>
+        {result && (
+          <div className="cyber-card p-5"
+            style={{ border: `1px solid ${result.ok ? "rgba(0,255,136,0.2)" : "rgba(255,0,110,0.2)"}` }}>
+            <div className="flex items-center gap-2 mb-3">
+              {result.ok
+                ? <CheckCircle className="w-4 h-4" style={{ color: "var(--neon-green)" }} />
+                : <XCircle className="w-4 h-4" style={{ color: "#ff006e" }} />}
+              <span className="text-xs font-semibold tracking-widest uppercase"
+                style={{ fontFamily: "'Orbitron', sans-serif", color: result.ok ? "var(--neon-green)" : "#ff006e", fontSize: "0.7rem" }}>
+                {result.ok ? "IP Atualizado com Sucesso" : "Falha na Atualização"}
+              </span>
+            </div>
+            <div className="px-3 py-2 rounded" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+              <span className="text-sm font-mono" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Share Tech Mono', monospace" }}>
+                {result.raw}
+              </span>
+            </div>
           </div>
-          <div className="px-3 py-2 rounded" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
-            <span className="text-sm font-mono" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Share Tech Mono', monospace" }}>
-              {result.raw}
-            </span>
-          </div>
-        </div>
-      )}
-              </div>
-            
+        )}
+      </div>
+    </div>
+  );
+}

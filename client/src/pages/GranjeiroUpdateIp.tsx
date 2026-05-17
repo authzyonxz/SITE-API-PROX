@@ -234,7 +234,7 @@ onClick={handleUpdate}
             </section>
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <a
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
@@ -280,12 +280,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-
-      <footer className="mt-12 py-8 border-t text-center border-red-500/20">
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          Granjeiro Proxy System &copy; 2026 // Secure Connection Established
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }

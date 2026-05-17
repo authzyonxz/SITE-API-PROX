@@ -243,7 +243,7 @@ onClick={handleUpdate}
             </section>
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="rounded-xl border overflow-hidden bg-blue-500/5 border-blue-500/20">
               <div className="px-6 py-4 border-b bg-blue-500/10 border-blue-500/20">
                 <h2 className="font-orbitron font-bold text-sm tracking-widest uppercase text-blue-400">Status da Rede</h2>
@@ -299,6 +299,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 }

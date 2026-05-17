@@ -232,7 +232,8 @@ onClick={handleUpdate}
               </div>
             </section>
           </div>
-          <div className="lg:col-span-5 space-y-6">
+
+            <div className="lg:col-span-5 space-y-6">
             <div className="rounded-xl border overflow-hidden" style={{ borderColor: "rgba(220,38,38,0.3)", background: "rgba(220,38,38,0.02)" }}>
               <div className="px-6 py-4 border-b flex items-center justify-between" style={{ background: "rgba(220,38,38,0.1)", borderColor: "rgba(220,38,38,0.3)" }}>
                 <h2 className="font-orbitron font-bold text-sm tracking-widest uppercase text-red-400">Configurações Proxy</h2>
@@ -283,6 +284,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
+      </div>
     </div>
   );
 }

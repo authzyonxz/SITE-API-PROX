@@ -353,54 +353,9 @@ onClick={handleUpdate}
                       )}
               </div>
             </section>
-
-            {/* Download Section */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Download className="w-6 h-6 text-orange-500" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  CERTIFICADO DE SEGURANÇA
-                </h2>
-              </div>
-
-              <div 
-                className="rounded-xl p-8 border text-center space-y-6"
-                style={{
-                  background: "rgba(249,115,22,0.05)",
-                  borderColor: "rgba(249,115,22,0.2)",
-                }}
-              >
-                <p className="text-sm text-muted-foreground font-rajdhani leading-relaxed max-w-md mx-auto">
-                  Para que o proxy funcione corretamente em conexões seguras, você deve baixar e instalar o certificado abaixo no seu dispositivo.
-                </p>
-                
-                <a
-                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm mx-auto"
-                  style={{
-                    background: "#f97316",
-                    boxShadow: "0 0 20px rgba(249,115,22,0.3)",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(249,115,22,0.5)";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-                    (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 20px rgba(249,115,22,0.3)";
-                  }}
-                >
-                  <Download className="w-5 h-5" />
-                  BAIXAR CERTIFICADO
-                </a>
-              </div>
-            </section>
           </div>
 
-          {/* Right Column: Proxy Info */}
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-orange-500" />
@@ -465,12 +420,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-
-      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(249,115,22,0.2)" }}>
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          FREE FIRE PROXY SYSTEM &copy; 2026 // BOOYAH!
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }

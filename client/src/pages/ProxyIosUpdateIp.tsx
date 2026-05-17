@@ -424,85 +424,9 @@ onClick={handleUpdate}
                       )}
               </div>
             </section>
-
-            {/* Tutorial Section */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Info className="w-6 h-6" style={{ color: "#a855f7" }} />
-                <h2
-                  className="text-xl font-bold tracking-widest uppercase font-orbitron"
-                  style={{ color: "#a855f7" }}
-                >
-                  TUTORIAL DE INSTALAÇÃO
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    step: "1",
-                    title: "Baixar Cert Proxy",
-                    desc: (
-                      <>
-                        Clique no botão no topo da página para baixar o arquivo{" "}
-                        <b>Cert Proxy.pem</b>. Este certificado é necessário para que o proxy
-                        funcione em conexões seguras.
-                      </>
-                    ),
-                  },
-                  {
-                    step: "2",
-                    title: "Instalar no Dispositivo",
-                    desc: "Abra o arquivo baixado e siga as instruções do seu sistema para instalar. No Android/iOS, vá em Configurações de Segurança e instale como Certificado de Confiança.",
-                  },
-                  {
-                    step: "3",
-                    title: "Confiar no Certificado",
-                    desc: (
-                      <>
-                        <b>IMPORTANTE:</b> Após instalar, você deve habilitar a confiança total
-                        para este certificado nas configurações de certificados raiz confiáveis do
-                        seu aparelho.
-                      </>
-                    ),
-                  },
-                  {
-                    step: "4",
-                    title: "Configurar Proxy",
-                    desc: "Use os dados de IP e Porta fornecidos ao lado nas configurações de rede do seu dispositivo ou aplicativo.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="rounded-xl p-5 border space-y-3"
-                    style={{
-                      background: "rgba(147,51,234,0.02)",
-                      borderColor: "rgba(147,51,234,0.2)",
-                    }}
-                  >
-                    <div
-                      className="w-8 h-8 rounded flex items-center justify-center font-bold text-sm"
-                      style={{ background: "rgba(147,51,234,0.3)", color: "#ffffff" }}
-                    >
-                      {item.step}
-                    </div>
-                    <h3
-                      className="font-bold text-sm uppercase tracking-wider font-orbitron"
-                      style={{ color: "rgba(255,255,255,0.9)" }}
-                    >
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
           </div>
 
-          {/* Right Column: Proxy Info */}
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6" style={{ color: "#c084fc" }} />
@@ -631,15 +555,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-
-      <footer
-        className="mt-12 py-8 border-t text-center"
-        style={{ borderColor: "rgba(147,51,234,0.2)" }}
-      >
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          Proxy iOS System &copy; 2026 // Secure Connection Established
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }

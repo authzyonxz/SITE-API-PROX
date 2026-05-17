@@ -267,7 +267,7 @@ export default function SensiMenstruadaUpdateIp() {
             </section>
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6">
               <h3 className="text-lg font-bold font-orbitron text-white mb-6 flex items-center gap-2">
                 <Globe className="w-5 h-5 text-purple-400" />
@@ -305,14 +305,7 @@ export default function SensiMenstruadaUpdateIp() {
           </div>
         </div>
       </main>
-
-      <footer className="border-t border-white/5 py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-[10px] font-mono text-slate-600 tracking-[0.3em] uppercase">
-            Sensi Menstruada v2.0 // Secured by Proxy System
-          </p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }

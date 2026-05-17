@@ -353,67 +353,9 @@ onClick={handleUpdate}
                       )}
               </div>
             </section>
-
-            {/* Tutorial Section */}
-            <section className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Info className="w-6 h-6 text-red-600" />
-                <h2 className="text-xl font-bold tracking-widest uppercase font-orbitron text-white">
-                  GUIA DE INSTALAÇÃO
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    step: "1",
-                    title: "Baixar Certificado",
-                    desc: "Clique no botão no topo da página para baixar o arquivo de segurança necessário.",
-                  },
-                  {
-                    step: "2",
-                    title: "Instalar Perfil",
-                    desc: "Abra o arquivo e instale como um perfil de configuração confiável no seu dispositivo.",
-                  },
-                  {
-                    step: "3",
-                    title: "Confiança Total",
-                    desc: "Habilite a confiança total para o certificado nas configurações do seu aparelho.",
-                  },
-                  {
-                    step: "4",
-                    title: "Configurar Proxy",
-                    desc: "Use os dados de IP e Porta fornecidos ao lado nas configurações de rede.",
-                  },
-                ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="rounded-xl p-5 border space-y-3"
-                    style={{
-                      background: "rgba(220,38,38,0.02)",
-                      borderColor: "rgba(220,38,38,0.15)",
-                    }}
-                  >
-                    <div
-                      className="w-8 h-8 rounded flex items-center justify-center font-bold text-sm"
-                      style={{ background: "rgba(220,38,38,0.2)", color: "#ffffff" }}
-                    >
-                      {item.step}
-                    </div>
-                    <h3 className="font-bold text-sm uppercase tracking-wider font-orbitron text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-rajdhani leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
           </div>
 
-          {/* Right Column: Proxy Info */}
-          <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center gap-3">
                 <Shield className="w-6 h-6 text-red-600" />
@@ -502,12 +444,7 @@ onClick={handleUpdate}
           </div>
         </div>
       </main>
-
-      <footer className="mt-12 py-8 border-t text-center" style={{ borderColor: "rgba(220,38,38,0.2)" }}>
-        <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-mono">
-          ALL HACK PROXY SYSTEM &copy; 2026 // SECURE CONNECTION
-        </p>
-      </footer>
+      </div>
     </div>
   );
 }
