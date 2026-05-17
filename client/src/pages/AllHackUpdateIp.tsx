@@ -411,7 +411,8 @@ export default function AllHackUpdateIp() {
 
         
 
-                  onClick={handleUpdate}
+                  <button
+onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-red-600/10 border border-red-600/40 text-red-500 hover:bg-red-600/20 hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] disabled:opacity-50 font-orbitron"
                 >

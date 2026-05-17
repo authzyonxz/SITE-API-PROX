@@ -399,7 +399,8 @@ export default function PublicUpdateIp() {
 
         
 
-                  onClick={handleUpdate}
+                  <button
+onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/30 font-orbitron"
                 >

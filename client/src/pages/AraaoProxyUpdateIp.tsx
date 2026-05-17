@@ -260,7 +260,8 @@ export default function AraaoProxyUpdateIp() {
 
         
 
-                  onClick={handleUpdate}
+                  <button
+onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-orbitron font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all group relative overflow-hidden"
                   style={{ background: "linear-gradient(135deg, #991b1b 0%, #ef4444 100%)", color: "white", boxShadow: "0 4px 20px rgba(220,38,38,0.4)" }}

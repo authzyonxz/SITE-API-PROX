@@ -411,7 +411,8 @@ export default function FreeFireUpdateIp() {
 
         
 
-                  onClick={handleUpdate}
+                  <button
+onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-orange-600/10 border border-orange-600/40 text-orange-500 hover:bg-orange-600/20 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)] disabled:opacity-50 font-orbitron"
                 >

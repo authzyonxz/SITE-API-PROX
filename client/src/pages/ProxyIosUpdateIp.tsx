@@ -494,7 +494,8 @@ export default function ProxyIosUpdateIp() {
 
         
 
-                  onClick={handleUpdate}
+                  <button
+onClick={handleUpdate}
                   disabled={updateMutation.isPending}
                   className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
                   style={{
