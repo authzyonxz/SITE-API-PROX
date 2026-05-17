@@ -56,8 +56,8 @@ export default function SensiMenstruadaUpdateIp() {
     {
       title: "🔥 SENSI PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -87,7 +87,7 @@ export default function SensiMenstruadaUpdateIp() {
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-900/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                     <a 
-                      href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+                      href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-purple-500/20 hover:text-purple-400 transition-all border-b border-white/10"
@@ -120,7 +120,7 @@ export default function SensiMenstruadaUpdateIp() {
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 p-4 space-y-3">
             <a 
-              href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 font-orbitron text-xs tracking-widest uppercase"
@@ -246,7 +246,7 @@ export default function SensiMenstruadaUpdateIp() {
 
               <div className="space-y-4 pt-2">
                 <a 
-                  href="https://www.mediafire.com/file/xrsfks48pzfe8ik/SensiMenstruada.cer/file"
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-400 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"

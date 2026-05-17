@@ -58,8 +58,8 @@ export default function AraaoProxyUpdateIp() {
     {
       title: "🔥 ARAAO PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -229,7 +229,7 @@ export default function AraaoProxyUpdateIp() {
               <div className="p-6 rounded-xl border bg-gradient-to-br from-red-900/20 to-transparent space-y-4" style={{ borderColor: "rgba(220,38,38,0.3)" }}>
                 <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-red-400">Certificado Aarão</h3>
                 <a 
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file" 
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-full py-4 rounded-lg border border-red-500/50 bg-red-500/10 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-red-400 hover:bg-red-500/20 hover:scale-[1.02] transition-all font-orbitron shadow-[0_0_20px_rgba(220,38,38,0.2)]"

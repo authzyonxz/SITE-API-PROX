@@ -58,8 +58,8 @@ export default function ProxyIosUpdateIp() {
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -106,7 +106,7 @@ export default function ProxyIosUpdateIp() {
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
-                href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase"
@@ -152,7 +152,7 @@ export default function ProxyIosUpdateIp() {
             }}
           >
             <a
-              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase"
@@ -555,7 +555,7 @@ export default function ProxyIosUpdateIp() {
 
               <div className="pt-4 space-y-3">
                 <a
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-5 rounded-xl text-white font-black tracking-[0.2em] uppercase transition-all font-orbitron text-sm"

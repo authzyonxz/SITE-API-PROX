@@ -58,8 +58,8 @@ export default function AllHackUpdateIp() {
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -106,7 +106,7 @@ export default function AllHackUpdateIp() {
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <a
-                href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-md border transition-all font-orbitron text-xs tracking-widest uppercase font-bold"
@@ -151,7 +151,7 @@ export default function AllHackUpdateIp() {
             }}
           >
             <a
-              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-md border font-orbitron text-xs tracking-widest uppercase font-bold"

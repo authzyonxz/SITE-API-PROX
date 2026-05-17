@@ -55,8 +55,8 @@ export default function GranjeiroUpdateIp() {
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -186,7 +186,7 @@ export default function GranjeiroUpdateIp() {
                   </button>
 
                   <a
-                    href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                    href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-4 rounded-lg border flex items-center justify-center gap-3 transition-all font-orbitron text-sm font-black tracking-[0.2em] uppercase"

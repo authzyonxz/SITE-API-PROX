@@ -72,8 +72,8 @@ export default function PublicUpdateIp() {
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -146,7 +146,7 @@ export default function PublicUpdateIp() {
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-slate-800/90 border border-white/20 rounded-xl shadow-xl shadow-black/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                     <a 
-                      href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                      href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 px-4 py-3 text-sm text-slate-200 hover:bg-cyan-500/20 hover:text-cyan-400 transition-all border-b border-white/10"
@@ -184,7 +184,7 @@ export default function PublicUpdateIp() {
         {isMenuOpen && (
           <div className="md:hidden absolute top-16 left-0 w-full bg-slate-800/95 backdrop-blur-xl border-b border-cyan-500/20 p-4 space-y-3 animate-in slide-in-from-top duration-300">
             <a 
-              href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+              href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-orbitron text-xs tracking-widest uppercase hover:bg-cyan-500/30 transition-all"
@@ -403,7 +403,7 @@ export default function PublicUpdateIp() {
               
               <div className="pt-4 space-y-3">
                 <a 
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file"
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black tracking-[0.2em] uppercase shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] transition-all font-orbitron text-sm"

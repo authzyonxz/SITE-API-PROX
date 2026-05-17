@@ -54,8 +54,8 @@ export default function HyperProxyUpdateIp() {
     {
       title: "🔥 HYPER PROXY HS PESCOÇO + ANTENA",
       items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1119" }
+        { label: "Servidor", value: "69.197.176.242" },
+        { label: "Porta", value: "10063" }
       ]
     }
   ];
@@ -243,7 +243,7 @@ export default function HyperProxyUpdateIp() {
               <div className="p-6 rounded-xl border bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/30 space-y-4">
                 <h3 className="font-orbitron font-bold text-xs tracking-widest uppercase text-blue-400">Certificado Hyper</h3>
                 <a 
-                  href="https://www.mediafire.com/file/z5mgxmczilommnk/Dash+Cert+👌.pem/file" 
+                  href="https://www.mediafire.com/file/ll2jrzzqiv4ctjx/mitmproxy-ca-cert.pem/file" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="w-full py-4 rounded-lg border border-blue-500/50 bg-blue-500/10 flex items-center justify-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-blue-400 hover:bg-blue-500/20 hover:scale-[1.02] transition-all font-orbitron shadow-[0_0_20px_rgba(0,191,255,0.2)]"
