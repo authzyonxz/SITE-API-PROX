@@ -55,7 +55,7 @@ export default function HyperProxyUpdateIp() {
       title: "🔥 HYPER PROXY HS PESCOÇO + ANTENA",
       items: [
         { label: "Servidor", value: "69.197.176.242" },
-        { label: "Porta", value: "10063" }
+        { label: "Porta", value: "10064" }
       ]
     }
   ];
