@@ -49,14 +49,14 @@ export default function GranjeiroUpdateIp() {
       title: "🎯 PROXY HS PESCOÇO",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1110" }
+        { label: "Porta", value: "10099" }
       ]
     },
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
       items: [
         { label: "Servidor", value: "69.197.176.242" },
-        { label: "Porta", value: "10064" }
+        { label: "Porta", value: "10065" }
       ]
     }
   ];
