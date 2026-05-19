@@ -50,17 +50,11 @@ export default function NatsuUpdateIp() {
   const proxyInfos = [
     {
       title: "🎯 PROXY HS PESCOÇO",
-      items: [
-        { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "1110" }
-      ]
+      items: []
     },
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
-      items: [
-        { label: "Servidor", value: "69.197.176.242" },
-        { label: "Porta", value: "10064" }
-      ]
+      items: []
     }
   ];
 

@@ -25,9 +25,25 @@ export async function getDb() {
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
           )`);
                     // Garantir que a coluna seja LONGTEXT se já existir
-                    await db.execute(sql `ALTER TABLE reports MODIFY COLUMN imageUrls LONGTEXT`);
-                    await db.execute(sql `ALTER TABLE local_users ADD COLUMN IF NOT EXISTS deviceId VARCHAR(1000)`);
-                    await db.execute(sql `ALTER TABLE access_logs ADD COLUMN IF NOT EXISTS deviceId VARCHAR(255)`);
+                    try {
+                        await db.execute(sql `ALTER TABLE reports MODIFY COLUMN imageUrls LONGTEXT`);
+                    }
+                    catch (e) {
+                        // Ignorar se a tabela não existir ainda
+                    }
+                    // Forma compatível de adicionar colunas (MySQL < 8.0.19 não suporta IF NOT EXISTS no ALTER TABLE)
+                    try {
+                        await db.execute(sql `ALTER TABLE local_users ADD COLUMN deviceId VARCHAR(1000)`);
+                    }
+                    catch (e) {
+                        // Ignorar erro se a coluna já existir
+                    }
+                    try {
+                        await db.execute(sql `ALTER TABLE access_logs ADD COLUMN deviceId VARCHAR(255)`);
+                    }
+                    catch (e) {
+                        // Ignorar erro se a coluna já existir
+                    }
                     console.log("[Database] Estrutura verificada com sucesso.");
                 }
                 catch (e) {
@@ -196,8 +212,13 @@ export async function resetAllSessions() {
     const db = await getDb();
     if (!db)
         throw new Error("Database not available");
+    // SEGURANÇA: Resetar sessionSecret invalida todos os tokens JWT ativos.
+    // Limpar deviceId força todos os usuários a vincularem seus dispositivos novamente.
     const newSecret = crypto.randomUUID();
-    await db.update(localUsers).set({ sessionSecret: newSecret });
+    await db.update(localUsers).set({
+        sessionSecret: newSecret,
+        deviceId: null
+    });
 }
 export async function getActiveDevicesCount(userId) {
     const db = await getDb();

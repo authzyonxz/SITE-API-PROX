@@ -17,23 +17,15 @@ function isSecureRequest(req) {
     return protoList.some(proto => proto.trim().toLowerCase() === "https");
 }
 export function getSessionCookieOptions(req) {
-    // const hostname = req.hostname;
-    // const shouldSetDomain =
-    //   hostname &&
-    //   !LOCAL_HOSTS.has(hostname) &&
-    //   !isIpAddress(hostname) &&
-    //   hostname !== "127.0.0.1" &&
-    //   hostname !== "::1";
-    // const domain =
-    //   shouldSetDomain && !hostname.startsWith(".")
-    //     ? `.${hostname}`
-    //     : shouldSetDomain
-    //       ? hostname
-    //       : undefined;
+    const hostname = req.get("host") || "";
+    const isLocal = hostname.includes("localhost") || hostname.includes("127.0.0.1");
+    // No Chrome Android, se o site for HTTPS, o cookie PRECISA ser secure: true e SameSite: 'Lax' ou 'None'.
+    // Para domínios do Railway, 'Lax' costuma funcionar melhor sem precisar de configurações extras de domínio.
     return {
         httpOnly: true,
         path: "/",
-        sameSite: "lax", // 'lax' é mais compatível com a maioria dos navegadores modernos em domínios Railway
-        secure: true, // Railway sempre fornece HTTPS
+        sameSite: isLocal ? "lax" : "lax",
+        secure: !isLocal, // Secure apenas em produção (HTTPS)
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias
     };
 }
