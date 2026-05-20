@@ -214,13 +214,13 @@ export default function ProxyIosUpdateIp() {
                   CERTIFICADO (HS PESCOÇO)
                 </a>
                 <a 
-                  href="https://discord.gg/YkTMhzFks"
+                  href="https://whatsapp.com/channel/0029VbBmk1RBlHpUxLLeSc1i"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 py-4 rounded-xl bg-white/5 border border-white/10 text-purple-500 font-bold font-orbitron tracking-widest uppercase hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  ENTRAR NO DISCORD
+                  canal dw atualizacoes
                 </a>
               </div>
 
