@@ -11,7 +11,7 @@ interface LanguageContextType {
 const translations = {
   pt: {
     "login.title": "Acesse sua conta",
-    "login.subtitle": "A próxima geração de autenticação segura.",
+    "login.subtitle": "Gerador Proxy API",
     "login.username": "Usuário",
     "login.username_placeholder": "Digite seu usuário",
     "login.password": "Senha",
@@ -28,7 +28,7 @@ const translations = {
   },
   en: {
     "login.title": "Sign In",
-    "login.subtitle": "The next generation of secure authentication.",
+    "login.subtitle": "Gerador Proxy API",
     "login.username": "Username",
     "login.username_placeholder": "Enter your username",
     "login.password": "Password",
