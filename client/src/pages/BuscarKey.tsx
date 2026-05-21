@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { Search, User, Calendar, ShieldCheck, AlertCircle, Key } from "lucide-react";
+import { Search, User, Calendar, ShieldCheck, AlertCircle, Key, Sparkles, Fingerprint, Clock, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 
 export default function BuscarKey() {
   const [keyValue, setKeyValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: result, isLoading, error, isError } = trpc.keys.findCreator.useQuery(
+  const { data: result, isLoading, isError } = trpc.keys.findCreator.useQuery(
     { keyValue: searchQuery },
     { enabled: searchQuery.length > 0, retry: false }
   );
@@ -22,112 +22,120 @@ export default function BuscarKey() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="space-y-3">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/5 border border-cyan-500/10 text-cyan-300 text-[10px] font-black uppercase tracking-[0.2em]">
+          <Sparkles className="w-3.5 h-3.5" /> rastreamento de licenças
+        </div>
         <div>
-          <h2 className="text-2xl font-black tracking-wider"
-            style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--neon-blue)", textShadow: "0 0 15px rgba(0,212,255,0.5)" }}>
-            Buscar Criador
+          <h2 className="text-4xl font-bold text-white tracking-tight">
+            Buscar <span className="text-cyan-400">Criador</span>
           </h2>
-          <p className="text-sm mt-1 tracking-wide" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Rajdhani', sans-serif" }}>
-            Identifique quem gerou uma chave específica
+          <p className="text-slate-400 text-lg font-medium max-w-2xl mt-2">
+            Identifique instantaneamente a origem de qualquer chave e visualize detalhes de expiração e autoria.
           </p>
         </div>
       </div>
 
-      <div className="cyber-card p-6" style={{ border: "1px solid rgba(0,212,255,0.2)" }}>
-        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-              <Key className="h-4 w-4 text-white/40" />
-            </div>
+      <div className="glass-card p-8 rounded-3xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 blur-3xl rounded-full" />
+        
+        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 relative z-10">
+          <div className="relative flex-1 group">
+            <Key className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-cyan-400 transition-colors" />
             <input
               type="text"
               value={keyValue}
               onChange={(e) => setKeyValue(e.target.value)}
-              placeholder="Cole a chave aqui..."
-              className="w-full bg-black/40 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-blue-500/50 transition-all"
-              style={{ fontFamily: "'Share Tech Mono', monospace" }}
+              placeholder="Cole a chave (key) para identificar o criador..."
+              className="w-full pl-14 pr-6 py-5 rounded-2xl bg-white/[0.03] border border-white/10 focus:border-cyan-400/40 focus:ring-4 focus:ring-cyan-400/10 outline-none transition-all font-mono text-white placeholder-slate-700"
             />
           </div>
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center gap-2 transition-all"
-            style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.8rem" }}
+            className="px-10 py-5 rounded-2xl font-bold tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-xl shadow-cyan-500/20 hover:-translate-y-0.5 disabled:opacity-50"
           >
-            {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <Search className="w-4 h-4" />
-            )}
-            BUSCAR
+            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
+            Buscar
           </button>
         </form>
       </div>
 
       {searchQuery && !isLoading && (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="animate-in fade-in slide-in-from-bottom-6 duration-700">
           {isError ? (
-            <div className="cyber-card p-8 text-center" style={{ border: "1px solid rgba(255,0,110,0.2)" }}>
-              <AlertCircle className="w-12 h-12 mx-auto mb-4 text-[#ff006e]" />
-              <h3 className="text-lg font-bold mb-2" style={{ fontFamily: "'Orbitron', sans-serif" }}>Chave não encontrada</h3>
-              <p className="text-sm text-white/40">Não encontramos nenhum registro desta chave no banco de dados local.</p>
+            <div className="glass-card p-12 text-center rounded-3xl border-rose-500/20 bg-rose-500/5">
+              <div className="w-20 h-20 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mx-auto mb-6">
+                <ShieldAlert className="w-10 h-10 text-rose-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Chave não encontrada</h3>
+              <p className="text-slate-400 max-w-md mx-auto">
+                Não localizamos nenhum registro para esta licença em nosso banco de dados. Verifique se a chave está correta.
+              </p>
             </div>
           ) : result ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Informações do Criador */}
-              <div className="cyber-card p-6" style={{ border: "1px solid rgba(0,255,136,0.2)" }}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-                    <User className="w-6 h-6 text-[#00ff88]" />
+              <div className="glass-card p-8 rounded-3xl relative overflow-hidden group">
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full transition-all group-hover:scale-150" />
+                
+                <div className="flex items-center gap-5 mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-xl shadow-emerald-500/10">
+                    <User className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold tracking-widest uppercase text-white/40" style={{ fontFamily: "'Orbitron', sans-serif" }}>Criador da Chave</h3>
-                    <p className="text-xl font-black text-[#00ff88]" style={{ fontFamily: "'Orbitron', sans-serif" }}>{result.creator.username}</p>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Autor da Licença</p>
+                    <h3 className="text-3xl font-bold text-white tracking-tight">{result.creator.username}</h3>
                   </div>
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
-                    <span className="text-xs text-white/40 uppercase tracking-widest" style={{ fontFamily: "'Share Tech Mono', monospace" }}>Cargo</span>
-                    <span className="text-sm font-bold uppercase" style={{ color: result.creator.role === 'admin' ? 'var(--neon-purple)' : 'var(--neon-blue)' }}>
+                  <div className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Nível de Acesso</span>
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${result.creator.role === 'admin' ? 'bg-purple-500/10 border border-purple-500/20 text-purple-300' : 'bg-blue-500/10 border border-blue-500/20 text-blue-300'}`}>
                       {result.creator.role}
                     </span>
+                  </div>
+                  <div className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">ID do Criador</span>
+                    <span className="text-xs font-mono text-slate-300">#{result.creator.id}</span>
                   </div>
                 </div>
               </div>
 
               {/* Detalhes da Chave */}
-              <div className="cyber-card p-6" style={{ border: "1px solid rgba(0,212,255,0.2)" }}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6 text-[#00d4ff]" />
+              <div className="glass-card p-8 rounded-3xl relative overflow-hidden group">
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-cyan-500/5 blur-3xl rounded-full transition-all group-hover:scale-150" />
+                
+                <div className="flex items-center gap-5 mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shadow-xl shadow-cyan-500/10">
+                    <Fingerprint className="w-8 h-8" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold tracking-widest uppercase text-white/40" style={{ fontFamily: "'Orbitron', sans-serif" }}>Detalhes da Chave</h3>
-                    <p className="text-sm font-bold text-[#00d4ff]" style={{ fontFamily: "'Share Tech Mono', monospace" }}>{result.key.keyValue.substring(0, 20)}...</p>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Dados da Licença</p>
+                    <h3 className="text-sm font-mono font-bold text-white break-all">{result.key.keyValue}</h3>
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3 text-white/40" />
-                      <span className="text-xs text-white/40 uppercase tracking-widest" style={{ fontFamily: "'Share Tech Mono', monospace" }}>Gerada em</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <div className="flex items-center gap-2 mb-2 text-slate-500">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Criação</span>
                     </div>
-                    <span className="text-xs font-bold">{new Date(result.key.createdAt).toLocaleString()}</span>
+                    <span className="text-xs font-bold text-white">{new Date(result.key.createdAt).toLocaleString()}</span>
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-3 h-3 text-white/40" />
-                      <span className="text-xs text-white/40 uppercase tracking-widest" style={{ fontFamily: "'Share Tech Mono', monospace" }}>Expira em</span>
+                  <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5">
+                    <div className="flex items-center gap-2 mb-2 text-slate-500">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Expiração</span>
                     </div>
-                    <span className="text-xs font-bold">{new Date(result.key.expiresAt).toLocaleString()}</span>
+                    <span className="text-xs font-bold text-white">{new Date(result.key.expiresAt).toLocaleString()}</span>
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded bg-white/5 border border-white/5">
-                    <span className="text-xs text-white/40 uppercase tracking-widest" style={{ fontFamily: "'Share Tech Mono', monospace" }}>Duração</span>
-                    <span className="text-xs font-bold">{result.key.days} Dias</span>
+                  <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 sm:col-span-2 flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Duração Contratada</span>
+                    <span className="px-3 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-bold text-xs">{result.key.days} Dias</span>
                   </div>
                 </div>
               </div>
@@ -136,5 +144,25 @@ export default function BuscarKey() {
         </div>
       )}
     </div>
+  );
+}
+
+function Loader2(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`animate-spin ${props.className}`}
+    >
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
   );
 }
