@@ -94,6 +94,7 @@
   --neon-purple: #9d4edd;
   --neon-green: #00ff88;
   --neon-pink: #ff006e;
+  --neon-red: #ff1a1a;
 }
 
 /* Dark mode inherits same cyberpunk theme */
@@ -123,10 +124,12 @@
 .neon-blue { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue); }
 .neon-purple { color: var(--neon-purple); text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple); }
 .neon-green { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green); }
+.neon-red { color: var(--neon-red); text-shadow: 0 0 8px var(--neon-red), 0 0 18px var(--neon-red), 0 0 35px rgba(255,26,26,0.6), 0 0 60px rgba(255,26,26,0.3); }
 
 .neon-border-blue { border-color: var(--neon-blue) !important; box-shadow: 0 0 8px var(--neon-blue), inset 0 0 8px rgba(0,212,255,0.05); }
 .neon-border-purple { border-color: var(--neon-purple) !important; box-shadow: 0 0 8px var(--neon-purple), inset 0 0 8px rgba(157,78,221,0.05); }
 .neon-border-green { border-color: var(--neon-green) !important; box-shadow: 0 0 8px var(--neon-green), inset 0 0 8px rgba(0,255,136,0.05); }
+.neon-border-red { border-color: var(--neon-red) !important; box-shadow: 0 0 10px var(--neon-red), 0 0 20px rgba(255,26,26,0.4), inset 0 0 8px rgba(255,26,26,0.05); }
 
 .cyber-card {
   background: oklch(0.11 0.025 260);
@@ -140,12 +143,12 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
-  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, var(--neon-red), transparent);
+  opacity: 0.8;
 }
 
 .cyber-grid-bg {
-  background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255,26,26,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,26,26,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -158,7 +161,7 @@
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: oklch(0.08 0.02 260); }
 ::-webkit-scrollbar-thumb { background: oklch(0.3 0.08 210); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-red); }
 
 @layer components {
   /**
