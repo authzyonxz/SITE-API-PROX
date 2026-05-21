@@ -2,9 +2,10 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
-import { Shield, User, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
+import { Shield, User, Lock, ArrowRight, Loader2, Eye, EyeOff, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-// Função para gerar um ID de dispositivo persistente e estável (Fingerprint simplificado)
+// Função para gerar um ID de dispositivo persistente
 const getDeviceId = () => {
   let deviceId = localStorage.getItem("auth_device_id");
   if (!deviceId) {
@@ -30,6 +31,7 @@ const getDeviceId = () => {
 
 export default function Login() {
   const [, navigate] = useLocation();
+  const { language, setLanguage, t } = useLanguage();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -37,15 +39,15 @@ export default function Login() {
   const utils = trpc.useUtils();
   const loginMutation = trpc.localAuth.login.useMutation({
     onSuccess: async () => {
-      toast.success("Welcome back!", {
-        description: "Login successful, redirecting to dashboard.",
+      toast.success(t("login.welcome"), {
+        description: t("login.success"),
       });
       await utils.localAuth.me.invalidate();
       navigate("/dashboard");
     },
     onError: (err) => {
-      toast.error("Authentication failed", {
-        description: err.message || "Invalid credentials, please try again.",
+      toast.error(t("login.failed"), {
+        description: err.message || t("login.invalid"),
       });
     },
   });
@@ -53,8 +55,8 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
-      toast.error("Required fields", {
-        description: "Please enter both username and password.",
+      toast.error(t("login.required"), {
+        description: t("login.required_desc"),
       });
       return;
     }
@@ -72,6 +74,27 @@ export default function Login() {
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
+      {/* Language Selector Top Right */}
+      <div className="absolute top-8 right-8 z-50 flex items-center gap-2">
+        <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
+          <Globe className="w-4 h-4 text-indigo-400" />
+          <div className="flex items-center gap-1">
+            <button 
+              onClick={() => setLanguage("pt")}
+              className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${language === "pt" ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-500 hover:text-slate-300"}`}
+            >
+              PT
+            </button>
+            <button 
+              onClick={() => setLanguage("en")}
+              className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${language === "en" ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20" : "text-slate-500 hover:text-slate-300"}`}
+            >
+              EN
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="w-full max-w-md px-6 relative z-10 animate-in fade-in zoom-in duration-700">
         {/* Brand Header */}
         <div className="flex flex-col items-center mb-10">
@@ -82,7 +105,7 @@ export default function Login() {
             AUTH<span className="text-indigo-400">PROXY</span>
           </h1>
           <p className="text-slate-400 font-medium text-center">
-            The next generation of secure authentication.
+            {t("login.subtitle")}
           </p>
         </div>
 
@@ -94,7 +117,7 @@ export default function Login() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">
-                  Username
+                  {t("login.username")}
                 </label>
                 <div className="relative group">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
@@ -102,7 +125,7 @@ export default function Login() {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username"
+                    placeholder={t("login.username_placeholder")}
                     className="w-full bg-white/[0.03] border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.05] transition-all"
                     disabled={loginMutation.isPending}
                   />
@@ -111,7 +134,7 @@ export default function Login() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">
-                  Password
+                  {t("login.password")}
                 </label>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
@@ -143,17 +166,22 @@ export default function Login() {
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
                 <>
-                  <span className="font-bold">Sign In to Dashboard</span>
+                  <span className="font-bold">{t("login.button")}</span>
                   <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                 </>
               )}
             </button>
           </form>
         </div>
-
-        <p className="mt-8 text-center text-slate-600 text-xs font-medium tracking-wide uppercase">
-          &copy; 2026 AUTHPROXY SYSTEMS &bull; SECURE ACCESS
-        </p>
+        
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <p className="text-slate-600 text-[10px] font-bold tracking-[0.2em] uppercase">
+            &copy; 2026 AUTHPROXY SYSTEMS &bull; {t("footer.secure")}
+          </p>
+          <p className="text-slate-700 text-[9px] font-bold tracking-[0.1em] uppercase">
+            {t("footer.rights")}
+          </p>
+        </div>
       </div>
     </div>
   );

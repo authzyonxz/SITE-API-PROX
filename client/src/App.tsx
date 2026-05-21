@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LocalAuthProvider } from "./contexts/LocalAuthContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import PanelLayout from "./components/PanelLayout";
 import Login from "./pages/Login";
@@ -113,20 +114,22 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <LocalAuthProvider>
-            <Toaster
-              theme="dark"
-              toastOptions={{
-                style: {
-                  background: "oklch(0.11 0.025 260)",
-                  border: "1px solid rgba(0,212,255,0.2)",
-                  color: "rgba(255,255,255,0.9)",
-                  fontFamily: "'Rajdhani', sans-serif",
-                },
-              }}
-            />
-            <Router />
-          </LocalAuthProvider>
+          <LanguageProvider>
+            <LocalAuthProvider>
+              <Toaster
+                theme="dark"
+                toastOptions={{
+                  style: {
+                    background: "oklch(0.11 0.025 260)",
+                    border: "1px solid rgba(0,212,255,0.2)",
+                    color: "rgba(255,255,255,0.9)",
+                    fontFamily: "'Rajdhani', sans-serif",
+                  },
+                }}
+              />
+              <Router />
+            </LocalAuthProvider>
+          </LanguageProvider>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
