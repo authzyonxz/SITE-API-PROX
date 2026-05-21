@@ -2,20 +2,29 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useLocalAuth } from "@/contexts/LocalAuthContext";
 import { toast } from "sonner";
-import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download, X } from "lucide-react";
+import { KeyRound, Copy, CheckCheck, Loader2, Zap, Plus, Minus, Download, X, Sparkles, CalendarClock, Layers3 } from "lucide-react";
 
-const DURATION_OPTIONS = [
-  { days: 0.0417, label: "1 Hora", credits: 2, color: "#ff0055" },
-  { days: 1, label: "1 Dia", credits: 10, color: "#00d4ff" },
-  { days: 3, label: "3 Dias", credits: 25, color: "#9d4edd" },
-  { days: 7, label: "7 Dias", credits: 35, color: "#10b981" },
-  { days: 30, label: "30 Dias", credits: 55, color: "#f59e0b" },
+type DurationDays = 1 | 3 | 7 | 30;
+
+const DURATION_OPTIONS: Array<{
+  days: DurationDays;
+  label: string;
+  subtitle: string;
+  credits: number;
+  gradient: string;
+  glow: string;
+  accent: string;
+}> = [
+  { days: 1, label: "1 Dia", subtitle: "acesso rápido", credits: 10, gradient: "from-cyan-500/20 via-blue-500/10 to-transparent", glow: "shadow-cyan-500/20", accent: "text-cyan-300" },
+  { days: 3, label: "3 Dias", subtitle: "teste estendido", credits: 25, gradient: "from-indigo-500/20 via-violet-500/10 to-transparent", glow: "shadow-indigo-500/20", accent: "text-indigo-300" },
+  { days: 7, label: "7 Dias", subtitle: "semana completa", credits: 35, gradient: "from-emerald-500/20 via-teal-500/10 to-transparent", glow: "shadow-emerald-500/20", accent: "text-emerald-300" },
+  { days: 30, label: "30 Dias", subtitle: "plano máximo", credits: 55, gradient: "from-amber-500/20 via-orange-500/10 to-transparent", glow: "shadow-amber-500/20", accent: "text-amber-300" },
 ];
 
 export default function CriarKey() {
   const { user, isAdmin } = useLocalAuth();
   const utils = trpc.useUtils();
-  const [selectedDays, setSelectedDays] = useState<0.0417 | 1 | 3 | 7 | 30>(1);
+  const [selectedDays, setSelectedDays] = useState<DurationDays>(1);
   const [quantity, setQuantity] = useState(1);
   const [generatedKeys, setGeneratedKeys] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
@@ -64,214 +73,227 @@ export default function CriarKey() {
   };
 
   return (
-    <div className="space-y-8 max-w-3xl">
-      {/* Header */}
-      <div>
-        <h2 className="text-3xl font-black tracking-wider text-white"
-          style={{ fontFamily: "'Orbitron', sans-serif" }}>
-          Criar Key
-        </h2>
-        <p className="text-sm mt-2 tracking-wide text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-          Gere novas keys de acesso ao proxy com duração e quantidade personalizadas
-        </p>
-      </div>
-
-      {/* Credits info (resellers) */}
-      {!isAdmin && (
-        <div className="flex items-center gap-4 px-6 py-4 rounded-xl backdrop-blur-xl bg-gradient-to-r from-green-500/10 to-green-500/5 border border-green-500/30">
-          <Zap className="w-5 h-5 flex-shrink-0 text-green-400" />
-          <div className="flex-1">
-            <span className="text-sm text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-              Créditos disponíveis
-            </span>
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/5 border border-indigo-500/10 text-indigo-300 text-[10px] font-black uppercase tracking-[0.2em]">
+            <Sparkles className="w-3.5 h-3.5" /> geração premium
           </div>
-          <span className="font-bold text-lg text-green-400" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-            {user?.credits ?? 0}
-          </span>
-        </div>
-      )}
-
-      {/* Duration selector */}
-      <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6">
-        <p className="text-xs tracking-widest uppercase mb-6 text-slate-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-          Selecione a Duração
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {DURATION_OPTIONS.map((option) => {
-            const isSelected = selectedDays === option.days;
-            return (
-              <button
-                key={option.days}
-                onClick={() => setSelectedDays(option.days as 0.0417 | 1 | 3 | 7 | 30)}
-                className="p-4 rounded-lg text-center transition-all group"
-                style={{
-                  background: isSelected ? `${option.color}20` : "rgba(255,255,255,0.05)",
-                  border: `2px solid ${isSelected ? option.color : "rgba(255,255,255,0.1)"}`,
-                  boxShadow: isSelected ? `0 0 20px ${option.color}40` : "none",
-                }}
-              >
-                <p className="font-black text-lg text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                  {option.label}
-                </p>
-                <p className="text-xs mt-2 tracking-wider text-slate-300" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                  {option.credits} crédito{option.credits > 1 ? "s" : ""}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Quantity selector */}
-      <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6">
-        <p className="text-xs tracking-widest uppercase mb-6 text-slate-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-          Quantidade de Keys
-        </p>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="w-12 h-12 rounded-lg flex items-center justify-center transition-all bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/10 text-cyan-400"
-          >
-            <Minus className="w-5 h-5" />
-          </button>
-          <input
-            type="number"
-            min={1}
-            max={50}
-            value={quantity}
-            onChange={(e) => setQuantity(Math.min(50, Math.max(1, parseInt(e.target.value) || 1)))}
-            className="w-24 text-center py-3 rounded-lg text-lg font-bold outline-none bg-white/5 border border-white/10 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 text-white"
-            style={{ fontFamily: "'Orbitron', sans-serif" }}
-          />
-          <button
-            onClick={() => setQuantity(Math.min(50, quantity + 1))}
-            className="w-12 h-12 rounded-lg flex items-center justify-center transition-all bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-400/10 text-cyan-400"
-          >
-            <Plus className="w-5 h-5" />
-          </button>
-          <div className="ml-auto text-sm text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-            máx. 50 por vez
+          <div>
+            <h2 className="text-4xl font-bold text-white tracking-tight">
+              Criar <span className="text-indigo-400">Key</span>
+            </h2>
+            <p className="text-slate-400 text-lg font-medium max-w-2xl mt-2">
+              Monte novas keys com duração e quantidade personalizadas em uma experiência mais limpa, rápida e moderna.
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Cost summary */}
-      <div className="flex items-center justify-between px-6 py-4 rounded-xl backdrop-blur-xl"
-        style={{ background: canAfford ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)", border: `2px solid ${canAfford ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)"}` }}>
-        <div className="text-sm text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-          Custo total: <span className="font-bold" style={{ color: canAfford ? "#10b981" : "#ef4444" }}>{totalCost} crédito{totalCost > 1 ? "s" : ""}</span>
-          {!isAdmin && <span className="ml-2 text-xs text-slate-500">({quantity} × {selectedDays === 0.0417 ? "1 hora" : `${selectedDays} dia${selectedDays > 1 ? "s" : ""}`})</span>}
-        </div>
-        {!isAdmin && !canAfford && (
-          <span className="text-xs text-red-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-            CRÉDITOS INSUFICIENTES
-          </span>
+        {!isAdmin && (
+          <div className="glass-card rounded-3xl p-5 min-w-[240px]">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.18em]">Créditos disponíveis</p>
+                <p className="text-3xl font-bold text-emerald-400 mt-1">{user?.credits ?? 0}</p>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <Zap className="w-6 h-6" />
+              </div>
+            </div>
+          </div>
         )}
       </div>
 
-      {/* Generate button */}
-      <button
-        onClick={handleGenerate}
-        disabled={generateMutation.isPending || (!isAdmin && !canAfford)}
-        className="w-full py-4 rounded-lg font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all"
-        style={{
-          fontFamily: "'Orbitron', sans-serif",
-          fontSize: "0.9rem",
-          background: (!isAdmin && !canAfford) ? "rgba(255,255,255,0.05)" : "linear-gradient(135deg, #00d4ff, #0099ff)",
-          border: `2px solid ${(!isAdmin && !canAfford) ? "rgba(255,255,255,0.1)" : "#00d4ff"}`,
-          color: (!isAdmin && !canAfford) ? "rgba(255,255,255,0.3)" : "white",
-          boxShadow: (!isAdmin && !canAfford) ? "none" : "0 0 30px rgba(0, 212, 255, 0.4)",
-          cursor: (!isAdmin && !canAfford) ? "not-allowed" : "pointer",
-        }}
-      >
-        {generateMutation.isPending ? (
-          <><Loader2 className="w-5 h-5 animate-spin" /> Gerando...</>
-        ) : (
-          <><KeyRound className="w-5 h-5" /> Gerar {quantity} Key{quantity > 1 ? "s" : ""}</>
-        )}
-      </button>
-
-      {/* Sidebar Overlay */}
-      {showSidebar && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Backdrop */}
-          <div 
-            className="flex-1 bg-black/50 backdrop-blur-sm"
-            onClick={() => setShowSidebar(false)}
-          />
-          
-          {/* Sidebar */}
-          <div className="w-full sm:w-96 bg-gradient-to-b from-slate-800 to-slate-900 border-l border-white/20 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-500/50">
-                  <KeyRound className="w-5 h-5 text-white" />
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8">
+        <div className="space-y-8">
+          <section className="glass-card p-8 rounded-3xl relative overflow-hidden">
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500/10 blur-3xl rounded-full pointer-events-none" />
+            <div className="relative z-10 flex flex-col gap-6">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-300">
+                    <CalendarClock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white tracking-tight">Escolha a duração</h3>
+                    <p className="text-sm text-slate-500">A opção de 1 hora foi removida.</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-semibold tracking-widest uppercase text-green-400"
-                    style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                    Keys Geradas
-                  </p>
-                  <p className="text-xs text-slate-400">{generatedKeys.length} chave{generatedKeys.length > 1 ? "s" : ""}</p>
+                <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                  4 planos ativos
                 </div>
               </div>
-              <button
-                onClick={() => setShowSidebar(false)}
-                className="p-2 rounded-lg hover:bg-white/10 transition-colors text-slate-400 hover:text-white"
-              >
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {DURATION_OPTIONS.map((option, index) => {
+                  const isSelected = selectedDays === option.days;
+                  return (
+                    <button
+                      key={option.days}
+                      onClick={() => setSelectedDays(option.days)}
+                      className={`group relative overflow-hidden text-left p-5 rounded-3xl border transition-all duration-500 ${
+                        isSelected
+                          ? `bg-gradient-to-br ${option.gradient} border-white/20 shadow-2xl ${option.glow}`
+                          : "bg-white/[0.02] border-white/5 hover:border-white/10 hover:bg-white/[0.04]"
+                      }`}
+                    >
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.10),transparent_45%)]" />
+                      <div className="relative z-10 flex items-start justify-between gap-4">
+                        <div className="space-y-4">
+                          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center border transition-all ${isSelected ? "bg-white/10 border-white/20 text-white" : "bg-white/[0.03] border-white/10 text-slate-400 group-hover:text-white"}`}>
+                            <span className="text-xs font-black">0{index + 1}</span>
+                          </div>
+                          <div>
+                            <p className="text-2xl font-bold text-white tracking-tight">{option.label}</p>
+                            <p className={`text-xs font-bold uppercase tracking-[0.16em] mt-1 ${isSelected ? option.accent : "text-slate-500"}`}>{option.subtitle}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-white">{option.credits}</p>
+                          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">créditos</p>
+                        </div>
+                      </div>
+                      {isSelected && <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 via-cyan-300 to-purple-400" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <section className="glass-card p-8 rounded-3xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-300">
+                  <Layers3 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white tracking-tight">Quantidade de keys</h3>
+                  <p className="text-sm text-slate-500">Gere até 50 keys por vez.</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all bg-white/[0.03] border border-white/10 hover:border-cyan-400/30 hover:bg-cyan-400/10 text-cyan-300"
+                >
+                  <Minus className="w-5 h-5" />
+                </button>
+                <input
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.min(50, Math.max(1, parseInt(e.target.value) || 1)))}
+                  className="w-28 text-center py-3.5 rounded-2xl text-xl font-bold outline-none bg-white/[0.03] border border-white/10 focus:border-cyan-400/40 focus:ring-4 focus:ring-cyan-400/10 text-white transition-all"
+                />
+                <button
+                  onClick={() => setQuantity(Math.min(50, quantity + 1))}
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all bg-white/[0.03] border border-white/10 hover:border-cyan-400/30 hover:bg-cyan-400/10 text-cyan-300"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside className="glass-card p-8 rounded-3xl h-fit xl:sticky xl:top-8 space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300">
+              <KeyRound className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white tracking-tight">Resumo</h3>
+              <p className="text-sm text-slate-500">Confirme antes de gerar.</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { label: "Duração", value: selectedOption.label },
+              { label: "Quantidade", value: `${quantity} key${quantity > 1 ? "s" : ""}` },
+              { label: "Custo total", value: `${totalCost} crédito${totalCost > 1 ? "s" : ""}` },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{item.label}</span>
+                <span className="text-sm font-bold text-white">{item.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {!isAdmin && !canAfford && (
+            <div className="p-4 rounded-2xl bg-rose-500/5 border border-rose-500/10 text-rose-300 text-xs font-bold uppercase tracking-widest">
+              Créditos insuficientes
+            </div>
+          )}
+
+          <button
+            onClick={handleGenerate}
+            disabled={generateMutation.isPending || (!isAdmin && !canAfford)}
+            className={`w-full py-4 rounded-2xl font-bold tracking-widest uppercase flex items-center justify-center gap-2 transition-all duration-300 ${
+              (!isAdmin && !canAfford)
+                ? "bg-white/[0.03] border border-white/5 text-slate-600 cursor-not-allowed"
+                : "bg-gradient-to-r from-indigo-500 via-cyan-500 to-purple-500 text-white shadow-2xl shadow-indigo-500/25 hover:shadow-cyan-500/25 hover:-translate-y-0.5"
+            }`}
+          >
+            {generateMutation.isPending ? (
+              <><Loader2 className="w-5 h-5 animate-spin" /> Gerando...</>
+            ) : (
+              <><KeyRound className="w-5 h-5" /> Criar {quantity} Key{quantity > 1 ? "s" : ""}</>
+            )}
+          </button>
+        </aside>
+      </div>
+
+      {showSidebar && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="flex-1 bg-black/60 backdrop-blur-md" onClick={() => setShowSidebar(false)} />
+          <div className="w-full sm:w-[420px] bg-[#080812]/95 border-l border-white/10 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center bg-emerald-500/10 border border-emerald-500/20 text-emerald-300">
+                  <KeyRound className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold tracking-tight text-white">Keys geradas</p>
+                  <p className="text-xs text-slate-500">{generatedKeys.length} chave{generatedKeys.length > 1 ? "s" : ""} prontas para copiar</p>
+                </div>
+              </div>
+              <button onClick={() => setShowSidebar(false)} className="p-2 rounded-xl hover:bg-white/10 transition-colors text-slate-400 hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Copy All Button */}
             <div className="px-6 py-4 border-b border-white/10">
               <button
                 onClick={handleCopyAll}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-bold tracking-widest uppercase transition-all bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white shadow-lg shadow-green-500/30"
-                style={{ fontFamily: "'Orbitron', sans-serif" }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm font-bold tracking-widest uppercase transition-all bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/15 text-emerald-300"
               >
-                {copied ? (
-                  <><CheckCheck className="w-4 h-4" /> Copiado!</>
-                ) : (
-                  <><Download className="w-4 h-4" /> Copiar Todas</>
-                )}
+                {copied ? <><CheckCheck className="w-4 h-4" /> Copiado!</> : <><Download className="w-4 h-4" /> Copiar Todas</>}
               </button>
             </div>
 
-            {/* Keys List */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
               {generatedKeys.map((key, i) => (
-                <div 
-                  key={i}
-                  className="group p-4 rounded-lg bg-white/5 border border-white/10 hover:border-green-500/50 hover:bg-green-500/10 transition-all"
-                >
+                <div key={i} className="group p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-emerald-500/20 hover:bg-emerald-500/[0.04] transition-all">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-                      KEY #{i + 1}
-                    </span>
-                    <button
-                      onClick={() => handleCopySingle(key, i)}
-                      className="p-1.5 rounded-lg bg-green-500/20 border border-green-500/30 text-green-400 hover:text-green-300 hover:bg-green-500/30 transition-all opacity-0 group-hover:opacity-100"
-                    >
-                      {copiedIndex === i ? (
-                        <CheckCheck className="w-4 h-4" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">KEY #{i + 1}</span>
+                    <button onClick={() => handleCopySingle(key, i)} className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 hover:bg-emerald-500/20 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100">
+                      {copiedIndex === i ? <CheckCheck className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
-                  <span className="text-xs font-mono break-all text-slate-300 bg-white/5 p-3 rounded-lg block border border-white/10" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
+                  <span className="text-xs font-mono break-all text-slate-300 bg-black/20 p-3 rounded-xl block border border-white/5">
                     {key}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Footer Info */}
-            <div className="px-6 py-4 border-t border-white/10 bg-white/5">
-              <p className="text-xs text-slate-400 text-center" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-                Duração: <span className="text-green-400 font-semibold">{selectedOption.label}</span>
+            <div className="px-6 py-4 border-t border-white/10 bg-white/[0.02]">
+              <p className="text-xs text-slate-500 text-center">
+                Duração selecionada: <span className="text-emerald-300 font-semibold">{selectedOption.label}</span>
               </p>
             </div>
           </div>

@@ -33,8 +33,6 @@ import ChukyXiterUpdateIp from "@/pages/ChukyXiterUpdateIp";
 import ProxyGranjeiro from "@/pages/ProxyGranjeiro";
 import GerarKeyPublic from "@/pages/GerarKeyPublic";
 import JzXiterUpdateIp from "@/pages/JzXiterUpdateIp";
-import Denuncias from "@/pages/Denuncias";
-import AdminDenuncias from "@/pages/AdminDenuncias";
 
 function Router() {
   return (
@@ -54,7 +52,6 @@ function Router() {
       <Route path="/proxy-granjeiro" component={ProxyGranjeiro} />
       <Route path="/gerar-key-public" component={GerarKeyPublic} />
       <Route path="/jz-xiter-update-ip" component={JzXiterUpdateIp} />
-      <Route path="/denuncias" component={Denuncias} />
       <Route path="/dashboard">
         <ProtectedRoute>
           <PanelLayout><Dashboard /></PanelLayout>
@@ -103,11 +100,6 @@ function Router() {
       <Route path="/historico-geracao">
         <ProtectedRoute adminOnly>
           <PanelLayout><GerarHistory /></PanelLayout>
-        </ProtectedRoute>
-      </Route>
-      <Route path="/admin-denuncias">
-        <ProtectedRoute adminOnly>
-          <PanelLayout><AdminDenuncias /></PanelLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/404" component={NotFound} />
