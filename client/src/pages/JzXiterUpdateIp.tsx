@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, Download, Menu, X, Shield, MessageCircle, Search } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, Download, Shield, MessageCircle, Search, Zap, Flame, Sparkles } from "lucide-react";
 
 export default function JzXiterUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [detectedIp, setDetectedIp] = useState<string | null>(null);
   const [isFetchingIp, setIsFetchingIp] = useState(false);
 
   const updateMutation = trpc.keys.publicUpdateIp.useMutation({
@@ -33,117 +31,116 @@ export default function JzXiterUpdateIp() {
 
   const handleFetchIp = async () => {
     setIsFetchingIp(true);
-    setDetectedIp(null);
     try {
       const res = await fetch("https://api.ipify.org?format=json");
       const data = await res.json();
-      setDetectedIp(data.ip);
       setNewIp(data.ip);
-      toast.success("IP detectado e preenchido automaticamente!");
+      toast.success("IP detectado!");
     } catch {
-      toast.error("Não foi possível detectar seu IP. Tente novamente.");
+      toast.error("Erro ao detectar IP.");
     } finally {
       setIsFetchingIp(false);
     }
   };
 
-  const proxyInfos = [
-    {
-      title: "🎯 PROXY HS PESCOÇO",
-      items: []
-    },
-    {
-      title: "🔥 PROXY HS PESCOÇO + ANTENA",
-      items: []
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-background cyber-grid-bg text-foreground font-sans selection:bg-red-500/30">
-      {/* Ambient red glow top */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-red-600/10 blur-[120px] pointer-events-none z-0" />
-      {/* Ambient red glow bottom */}
-      <div className="fixed bottom-0 right-0 w-[400px] h-[300px] bg-red-800/8 blur-[100px] pointer-events-none z-0" />
+    <div className="min-h-screen bg-[#0a0101] text-red-100 font-sans selection:bg-red-600/40 relative overflow-hidden">
+      {/* Red Smoke/Mist Effect */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-20%] w-[140%] h-[120%] bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.12)_0%,transparent_70%)] animate-pulse" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_center,rgba(153,27,27,0.15)_0%,transparent_60%)]" />
+        
+        {/* Spark Particles Simulation (CSS) */}
+        <div className="absolute inset-0 opacity-30">
+          {[...Array(20)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute bg-red-500 rounded-full animate-bounce"
+              style={{
+                width: Math.random() * 3 + 'px',
+                height: Math.random() * 3 + 'px',
+                left: Math.random() * 100 + '%',
+                top: Math.random() * 100 + '%',
+                animationDuration: (Math.random() * 3 + 2) + 's',
+                animationDelay: (Math.random() * 5) + 's',
+                boxShadow: '0 0 8px #ef4444'
+              }}
+            />
+          ))}
+        </div>
+      </div>
 
-      <nav className="sticky top-0 z-50 border-b border-red-500/30 bg-background/85 backdrop-blur-md shadow-[0_1px_20px_rgba(255,26,26,0.15)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-red-500/15 border border-red-500/50 shadow-[0_0_20px_rgba(255,26,26,0.35)]">
-                <Shield className="w-5 h-5 text-red-400 drop-shadow-[0_0_6px_rgba(255,26,26,0.8)]" />
-              </div>
-              <span className="text-xl font-black tracking-tighter neon-red font-orbitron neon-pulse">
-                JZ XITER
-              </span>
+      <nav className="sticky top-0 z-50 border-b border-red-900/50 bg-[#0a0101]/80 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-red-600 shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+              <Shield className="w-5 h-5 text-white" />
             </div>
-
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2 rounded-md text-red-400 hover:bg-red-500/15 transition-colors"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+            <span className="text-xl font-black tracking-tighter text-white font-orbitron">JZ <span className="text-red-600">XITER</span></span>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.1)]">System Status: Online</span>
           </div>
         </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-7 space-y-8">
-            <section>
-              <div className="mb-6">
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight neon-red font-orbitron mb-2 glitch-hover">
-                  ATUALIZAR IP
-                </h1>
-                <p className="text-muted-foreground font-rajdhani text-lg">
-                  Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.
-                </p>
+      <main className="max-w-7xl mx-auto px-6 py-12 lg:py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          <div className="lg:col-span-7 space-y-10 animate-in fade-in slide-in-from-left-4 duration-700">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600/10 border border-red-600/20 text-red-500 text-[10px] font-black uppercase tracking-[0.3em]">
+                <Flame className="w-3.5 h-3.5 fill-red-600/20" /> high performance access
               </div>
+              <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-white font-orbitron">
+                UPDATE <span className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">IP</span>
+              </h1>
+              <p className="text-red-200/50 text-lg max-w-xl leading-relaxed font-medium">
+                Sincronize sua conexão instantaneamente com o núcleo JZ. Segurança máxima e latência zero.
+              </p>
+            </div>
 
-              <div className="cyber-card neon-border-red p-6 md:p-8 space-y-6 bg-red-500/[0.03]">
-                <div className="space-y-4">
+            <div className="bg-gradient-to-br from-red-950/40 to-black/40 border border-red-900/30 p-8 md:p-12 rounded-[2rem] shadow-2xl backdrop-blur-sm relative overflow-hidden group">
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl rounded-full" />
+              <div className="absolute -top-1 -right-1 w-20 h-20 border-t-2 border-r-2 border-red-600/30 rounded-tr-3xl" />
+              <div className="absolute -bottom-1 -left-1 w-20 h-20 border-b-2 border-l-2 border-red-600/30 rounded-bl-3xl" />
+              
+              <div className="space-y-8 relative z-10">
+                <div className="space-y-6">
                   <div>
-                    <label className="block text-xs font-bold tracking-widest uppercase mb-2 text-red-400/80 font-mono">
-                      Sua Key de Acesso
-                    </label>
+                    <label className="block text-[10px] font-black tracking-[0.25em] uppercase mb-3 text-red-800">License Identity</label>
                     <div className="relative group">
-                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500/50 group-focus-within:text-red-400 transition-colors group-focus-within:drop-shadow-[0_0_4px_rgba(255,26,26,0.8)]" />
+                      <Key className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-red-900 group-focus-within:text-red-500 transition-colors" />
                       <input
                         type="text"
                         value={keyInput}
                         onChange={(e) => setKeyInput(e.target.value)}
-                        placeholder="Cole sua key aqui..."
-                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-background/80 border border-red-500/25 focus:border-red-400 focus:ring-1 focus:ring-red-400 focus:shadow-[0_0_12px_rgba(255,26,26,0.25)] outline-none transition-all font-mono text-sm text-red-100 placeholder:text-red-900/60"
+                        placeholder="JZ-XXXX-XXXX"
+                        className="w-full pl-14 pr-6 py-5 rounded-xl bg-black/40 border border-red-900/20 focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 outline-none transition-all font-mono text-red-100 placeholder:text-red-950"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="block text-xs font-bold tracking-widest uppercase text-red-400/80 font-mono">
-                        Novo Endereço de IP
-                      </label>
-                      <button
-                        onClick={handleFetchIp}
-                        disabled={isFetchingIp}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-500/15 border border-red-500/40 text-red-400 text-[10px] font-bold tracking-widest uppercase font-orbitron hover:bg-red-500/25 hover:shadow-[0_0_10px_rgba(255,26,26,0.3)] transition-all disabled:opacity-50"
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block text-[10px] font-black tracking-[0.25em] uppercase text-red-800">Network Address</label>
+                      <button 
+                        onClick={handleFetchIp} 
+                        disabled={isFetchingIp} 
+                        className="text-[10px] font-black uppercase tracking-widest text-red-600 hover:text-red-400 transition-colors flex items-center gap-2"
                       >
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                        Detectar meu IP
+                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />} Auto-detect
                       </button>
                     </div>
-
                     <div className="relative group">
-                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-red-500/50 group-focus-within:text-red-400 transition-colors group-focus-within:drop-shadow-[0_0_4px_rgba(255,26,26,0.8)]" />
+                      <Globe className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-red-900 group-focus-within:text-red-500 transition-colors" />
                       <input
                         type="text"
                         value={newIp}
                         onChange={(e) => setNewIp(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
-                        placeholder="Ex: 177.123.45.67"
-                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-background/80 border border-red-500/25 focus:border-red-400 focus:ring-1 focus:ring-red-400 focus:shadow-[0_0_12px_rgba(255,26,26,0.25)] outline-none transition-all font-mono text-sm text-red-100 placeholder:text-red-900/60"
+                        placeholder="0.0.0.0"
+                        className="w-full pl-14 pr-6 py-5 rounded-xl bg-black/40 border border-red-900/20 focus:border-red-600/50 focus:ring-4 focus:ring-red-600/5 outline-none transition-all font-mono text-red-100 placeholder:text-red-950"
                       />
                     </div>
                   </div>
@@ -152,83 +149,91 @@ export default function JzXiterUpdateIp() {
                 <button
                   onClick={handleUpdate}
                   disabled={updateMutation.isPending}
-                  className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all bg-red-500/15 border border-red-500/50 text-red-400 hover:bg-red-500/25 hover:border-red-400 hover:shadow-[0_0_25px_rgba(255,26,26,0.4),0_0_50px_rgba(255,26,26,0.15)] hover:text-red-300 disabled:opacity-50 font-orbitron neon-pulse"
+                  className="w-full py-5 rounded-xl font-black tracking-[0.3em] uppercase transition-all shadow-[0_0_30px_rgba(220,38,38,0.2)] flex items-center justify-center gap-3 disabled:opacity-50 bg-red-600 text-white hover:bg-red-500 hover:shadow-[0_0_40px_rgba(220,38,38,0.4)] active:scale-[0.98] font-orbitron"
                 >
-                  {updateMutation.isPending ? (
-                    <><Loader2 className="w-5 h-5 animate-spin" /> PROCESSANDO...</>
-                  ) : (
-                    <><Globe className="w-5 h-5 drop-shadow-[0_0_4px_rgba(255,26,26,0.8)]" /> ATUALIZAR AGORA</>
-                  )}
+                  {updateMutation.isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <><Zap className="w-5 h-5 fill-white" /> Synchronize IP</>}
                 </button>
 
                 {result && (
-                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${
-                    result.ok
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                      : "bg-rose-500/10 border-rose-500/30 text-rose-400"
-                  }`}>
+                  <div className={`p-6 rounded-2xl border animate-in fade-in zoom-in duration-300 ${result.ok ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" : "bg-red-600/5 border-red-600/20 text-red-400"}`}>
                     <div className="flex items-center gap-3 mb-2">
                       {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">
-                        {result.ok ? "Sucesso!" : "Erro na Operação"}
-                      </span>
+                      <span className="font-black uppercase tracking-widest text-xs font-orbitron">{result.ok ? "Access Granted" : "Sync Failed"}</span>
                     </div>
-                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+                    <p className="text-[10px] font-mono opacity-50 break-all leading-relaxed uppercase">{result.raw}</p>
                   </div>
                 )}
               </div>
-            </section>
+            </div>
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-24 space-y-6">
+          <div className="lg:col-span-5 space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 delay-200">
+            <div className="bg-gradient-to-br from-red-950/20 to-transparent border border-red-900/20 p-8 rounded-[2rem] space-y-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-red-600/10 border border-red-600/20 flex items-center justify-center text-red-600 shadow-[0_0_15px_rgba(220,38,38,0.1)]">
+                  <Download className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-black text-white tracking-tight font-orbitron uppercase">Assets</h3>
+              </div>
+              
               <div className="space-y-4">
-                <a
+                <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-700/80 to-blue-700/80 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30 hover:border-cyan-400/60"
+                  className="flex items-center justify-between p-6 rounded-2xl bg-black/40 border border-red-900/10 hover:border-red-600/40 hover:bg-red-600/5 transition-all group"
                 >
-                  <Download className="w-4 h-4" />
-                  CERTIFICADO (HS ANTENA)
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black text-red-900 uppercase tracking-widest mb-1">Security Core</span>
+                    <span className="text-sm font-black text-white group-hover:text-red-500 transition-colors font-orbitron">HS + ANTENA</span>
+                  </div>
+                  <Sparkles className="w-4 h-4 text-red-900 group-hover:text-red-600 group-hover:animate-spin" />
                 </a>
-                <a
+
+                <a 
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-700/80 to-indigo-700/80 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30 hover:border-purple-400/60"
+                  className="flex items-center justify-between p-6 rounded-2xl bg-black/40 border border-red-900/10 hover:border-red-600/40 hover:bg-red-600/5 transition-all group"
                 >
-                  <Download className="w-4 h-4" />
-                  CERTIFICADO (HS PESCOÇO)
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black text-red-900 uppercase tracking-widest mb-1">Security Core</span>
+                    <span className="text-sm font-black text-white group-hover:text-red-500 transition-colors font-orbitron">HS PESCOÇO</span>
+                  </div>
+                  <Sparkles className="w-4 h-4 text-red-900 group-hover:text-red-600 group-hover:animate-spin" />
                 </a>
-                <a
+
+                <a 
                   href="https://discord.gg/jzxiter"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-red-500/10 border border-red-500/40 neon-red font-bold font-orbitron tracking-widest uppercase hover:bg-red-500/20 hover:border-red-400 hover:shadow-[0_0_20px_rgba(255,26,26,0.35)] transition-all"
+                  className="flex items-center justify-center gap-3 py-5 rounded-2xl bg-red-600/5 border border-red-600/20 text-red-500 font-black text-xs uppercase tracking-[0.2em] hover:bg-red-600/10 transition-all font-orbitron"
                 >
-                  <MessageCircle className="w-5 h-5 drop-shadow-[0_0_4px_rgba(255,26,26,0.8)]" />
-                  ENTRAR NO DISCORD
+                  <MessageCircle className="w-4 h-4 fill-red-600/20" /> JZ Community
                 </a>
               </div>
+            </div>
 
-              {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="cyber-card neon-border-red p-5 bg-red-500/[0.03] space-y-4">
-                  <h3 className="text-sm font-black tracking-widest font-orbitron neon-red">{proxy.title}</h3>
-                  <div className="space-y-3">
-                    {proxy.items.map((item: { label: string; value: string }, i: number) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-red-200 font-mono px-2 py-1 rounded border bg-red-500/10 border-red-500/20">{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
+            <div className="bg-red-600 p-8 rounded-[2rem] relative overflow-hidden group shadow-2xl shadow-red-600/20">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl rounded-full transition-all group-hover:scale-150" />
+              <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-xl font-black text-white tracking-tight font-orbitron uppercase italic">Core Protocol</h3>
                 </div>
-              ))}
+                <p className="text-xs text-red-100/80 leading-relaxed font-bold uppercase tracking-wider">
+                  O sistema de sincronização JZ garante que sua licença esteja sempre vinculada ao seu ponto de acesso mais recente. Use o auto-detect para precisão absoluta.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </main>
+
+      <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-red-900/20 flex flex-col md:flex-row items-center justify-between gap-6 text-red-900 text-[9px] font-black uppercase tracking-[0.4em]">
+        <p>© 2026 JZ XITER PROTOCOLS. ALL RIGHTS RESERVED.</p>
+        <div className="flex items-center gap-8">
+          <span className="hover:text-red-600 cursor-pointer transition-colors">Auth</span>
+          <span className="hover:text-red-600 cursor-pointer transition-colors">Proxy</span>
+          <span className="hover:text-red-600 cursor-pointer transition-colors">Security</span>
+        </div>
+      </footer>
     </div>
   );
 }
