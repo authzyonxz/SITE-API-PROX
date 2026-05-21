@@ -1,28 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
-import { Loader2, Shield, Eye, EyeOff, Lock, User } from "lucide-react";
+import { Shield, User, Lock, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 
 // Função para gerar um ID de dispositivo persistente e estável (Fingerprint simplificado)
 const getDeviceId = () => {
   let deviceId = localStorage.getItem("auth_device_id");
   if (!deviceId) {
-    // Se não houver no localStorage, tentamos criar um baseado nas características do navegador
-    // para que seja o mesmo mesmo se o localStorage for limpo em alguns casos
     const screenInfo = `${window.screen.width}x${window.screen.height}x${window.screen.colorDepth}`;
     const navInfo = `${window.navigator.userAgent}${window.navigator.language}`;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const canvasInfo = ctx ? "canvas-id" : "no-canvas";
     
-    // Gerar um hash simples
     const rawId = `${screenInfo}-${navInfo}-${canvasInfo}`;
     let hash = 0;
     for (let i = 0; i < rawId.length; i++) {
       const char = rawId.charCodeAt(i);
       hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32bit integer
+      hash = hash & hash;
     }
     
     deviceId = `dev_${Math.abs(hash).toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
@@ -40,20 +37,25 @@ export default function Login() {
   const utils = trpc.useUtils();
   const loginMutation = trpc.localAuth.login.useMutation({
     onSuccess: async () => {
-      toast.success("Acesso autorizado");
-      // Forçar a atualização dos dados do usuário logado antes de mudar de página
+      toast.success("Welcome back!", {
+        description: "Login successful, redirecting to dashboard.",
+      });
       await utils.localAuth.me.invalidate();
       navigate("/dashboard");
     },
     onError: (err) => {
-      toast.error(err.message || "Credenciais inválidas");
+      toast.error("Authentication failed", {
+        description: err.message || "Invalid credentials, please try again.",
+      });
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
-      toast.error("Preencha todos os campos");
+      toast.error("Required fields", {
+        description: "Please enter both username and password.",
+      });
       return;
     }
     const deviceId = getDeviceId();
@@ -61,98 +63,96 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background simplificado para mobile */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(circle, #9d4edd, transparent)" }} />
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#050508] relative overflow-hidden font-sans">
+      {/* Background Aesthetic Elements */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-600/10 blur-[150px] rounded-full pointer-events-none" />
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
-      <div className="w-full max-w-md relative z-10">
-        {/* Logo */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/50">
-              <Shield className="w-7 h-7 text-white" />
-            </div>
+      <div className="w-full max-w-md px-6 relative z-10 animate-in fade-in zoom-in duration-700">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center mb-10">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.4)] mb-6 group transition-transform duration-500 hover:scale-110">
+            <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-5xl font-black tracking-tighter mb-2"
-            style={{ fontFamily: "'Orbitron', sans-serif", background: "linear-gradient(135deg, #00d4ff, #9d4edd)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            AUTH PROXY
+          <h1 className="text-3xl font-bold text-white tracking-tight mb-2">
+            AUTH<span className="text-indigo-400">PROXY</span>
           </h1>
-          <p className="text-sm tracking-widest uppercase text-slate-400" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-            Painel de Controle
+          <p className="text-slate-400 font-medium text-center">
+            The next generation of secure authentication.
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl">
-          <div className="mb-8">
-            <h2 className="text-xl font-bold tracking-wide text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-              Autenticação
-            </h2>
-            <div className="h-1 mt-3 rounded-full" style={{ background: "linear-gradient(90deg, #00d4ff, transparent)" }} />
-          </div>
-
+        <div className="glass-card p-8 rounded-[2.5rem] border border-white/10 shadow-2xl relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+          
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-3 text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-                Usuário
-              </label>
-              <div className="relative group">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Digite seu usuário"
-                  className="w-full pl-12 pr-4 py-3 rounded-lg text-sm outline-none transition-all bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:border-cyan-400/50 focus:bg-white/10 focus:ring-2 focus:ring-cyan-400/20"
-                  disabled={loginMutation.isPending}
-                />
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">
+                  Username
+                </label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your username"
+                    className="w-full bg-white/[0.03] border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.05] transition-all"
+                    disabled={loginMutation.isPending}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-3 text-slate-300" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-                Senha
-              </label>
-              <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Digite sua senha"
-                  className="w-full pl-12 pr-12 py-3 rounded-lg text-sm outline-none transition-all bg-white/5 border border-white/10 text-white placeholder-slate-400 focus:border-cyan-400/50 focus:bg-white/10 focus:ring-2 focus:ring-cyan-400/20"
-                  disabled={loginMutation.isPending}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] ml-1">
+                  Password
+                </label>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-white/[0.03] border border-white/5 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.05] transition-all"
+                    disabled={loginMutation.isPending}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-400 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full py-3 rounded-lg font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2 mt-8 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.85rem" }}
+              className="w-full py-4 rounded-2xl premium-button flex items-center justify-center gap-2 group"
             >
               {loginMutation.isPending ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Autenticando...</>
+                <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
-                <><Shield className="w-4 h-4" /> Acessar Sistema</>
+                <>
+                  <span className="font-bold">Sign In to Dashboard</span>
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </>
               )}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-xs mt-8 tracking-widest text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-          AUTH PROXY v2.0 // SISTEMA SEGURO
+        <p className="mt-8 text-center text-slate-600 text-xs font-medium tracking-wide uppercase">
+          &copy; 2026 AUTHPROXY SYSTEMS &bull; SECURE ACCESS
         </p>
       </div>
     </div>

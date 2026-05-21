@@ -95,6 +95,12 @@
   --neon-green: #00ff88;
   --neon-pink: #ff006e;
   --neon-red: #ff1a1a;
+
+  /* Premium Theme Variables */
+  --premium-bg: #050508;
+  --premium-card: rgba(15, 15, 25, 0.7);
+  --premium-accent: #6366f1; /* Indigo */
+  --premium-accent-secondary: #a855f7; /* Purple */
 }
 
 /* Dark mode inherits same cyberpunk theme */
@@ -150,6 +156,49 @@
 .cyber-grid-bg {
   background-image: linear-gradient(rgba(255,26,26,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,26,26,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
+}
+
+.premium-bg {
+  background-color: var(--premium-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+}
+
+.glass-card {
+  background: var(--premium-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.glass-card-hover:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-gradient-premium {
+  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.premium-button {
+  background: linear-gradient(135deg, var(--premium-accent) 0%, var(--premium-accent-secondary) 100%);
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.premium-button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 25px rgba(99, 102, 241, 0.6);
+  transform: scale(1.02);
 }
 
 @keyframes neon-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }

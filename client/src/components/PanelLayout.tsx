@@ -78,55 +78,53 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const visibleItems = navItems.filter(item => !item.adminOnly || isAdmin);
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
-      {/* Logo */}
-      <div className="p-6 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/30">
-            <Shield className="w-5 h-5 text-white" />
+    <div className="flex flex-col h-full bg-[#0a0a0f] border-r border-white/5">
+      {/* Logo Section */}
+      <div className="p-8">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-[0_0_20px_rgba(99,102,241,0.3)]">
+            <Shield className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-black tracking-widest leading-none text-white"
-              style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.9rem" }}>
-              AUTH PROXY
+            <h1 className="text-lg font-bold tracking-tight text-white font-sans">
+              AUTH<span className="text-indigo-400">PROXY</span>
             </h1>
-            <p className="text-xs tracking-wider mt-1 text-slate-400" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-              v2.0 SYSTEM
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <p className="text-[10px] font-medium tracking-widest text-slate-500 uppercase">System v2.0</p>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* User info */}
-      <div className="px-4 py-4 mx-3 mt-4 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 bg-gradient-to-br from-cyan-400 to-blue-500 text-white">
-            {user?.username?.[0]?.toUpperCase()}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold truncate text-white" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
-              {user?.username}
-            </p>
-            <p className="text-xs tracking-widest uppercase text-cyan-400" style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: "0.65rem" }}>
-              {isAdmin ? "ADMIN" : "REVENDEDOR"}
-            </p>
+      {/* User Profile Card */}
+      <div className="px-6 mb-6">
+        <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold bg-indigo-500/20 text-indigo-400 border border-indigo-500/20">
+              {user?.username?.[0]?.toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-white truncate">
+                {user?.username}
+              </p>
+              <p className="text-[10px] font-bold text-indigo-400/80 uppercase tracking-wider">
+                {isAdmin ? "Administrator" : "Reseller"}
+              </p>
+            </div>
           </div>
           {!isAdmin && (
-            <div className="ml-auto text-right flex-shrink-0">
-              <p className="text-xs text-slate-400">Créditos</p>
-              <p className="font-bold text-sm text-green-400" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                {user?.credits ?? 0}
-              </p>
+            <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Credits Available</span>
+              <span className="text-sm font-bold text-emerald-400">{user?.credits ?? 0}</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        <p className="text-xs tracking-widest uppercase px-3 mb-4 text-slate-500" style={{ fontFamily: "'Share Tech Mono', monospace" }}>
-          Menu Principal
-        </p>
+      <nav className="flex-1 px-4 space-y-1.5 overflow-y-auto custom-scrollbar">
+        <p className="px-4 mb-4 text-[10px] font-bold text-slate-600 uppercase tracking-[0.2em]">Navigation</p>
         {visibleItems.map((item) => {
           const isActive = location === item.path;
           return (
@@ -134,82 +132,82 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
               key={item.path}
               href={item.path}
               onClick={() => setSidebarOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all group relative font-medium text-sm ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${
                 isActive
-                  ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-300 shadow-lg shadow-cyan-500/10"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
+                  ? "bg-indigo-500/10 text-white"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.02]"
               }`}
-              style={{ fontFamily: "'Rajdhani', sans-serif" }}
             >
-              {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-gradient-to-b from-cyan-400 to-blue-500" />
-              )}
-              <span className={isActive ? "text-cyan-300" : "text-slate-500 group-hover:text-slate-300"}>
+              <div className={`transition-colors duration-300 ${isActive ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-400"}`}>
                 {item.icon}
-              </span>
-              <span className="flex-1">{item.label}</span>
-              {isActive && <ChevronRight className="w-4 h-4 text-cyan-400" />}
+              </div>
+              <span className="text-sm font-medium">{item.label}</span>
+              {isActive && (
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+              )}
             </Link>
           );
         })}
       </nav>
 
-      {/* Logout */}
-      <div className="p-3 border-t border-white/10">
+      {/* Logout Section */}
+      <div className="p-6">
         <button
           onClick={() => logoutMutation.mutate()}
           disabled={logoutMutation.isPending}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-medium text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-red-500/20 hover:border-red-500/40"
-          style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/5 border border-red-500/10 text-red-400 text-sm font-semibold hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300"
         >
           <LogOut className="w-4 h-4" />
-          <span>Sair do Sistema</span>
+          <span>Sign Out</span>
         </button>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen flex bg-[#050508] text-slate-200 font-sans selection:bg-indigo-500/30">
+      {/* Background Orbs */}
+      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/5 blur-[120px] rounded-full pointer-events-none" />
+
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-72 flex-shrink-0 border-r border-white/10">
+      <aside className="hidden lg:flex flex-col w-72 flex-shrink-0 sticky top-0 h-screen">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Sidebar */}
       {sidebarOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative w-72 flex flex-col z-10 border-r border-white/10">
+        <div className="lg:hidden fixed inset-0 z-[100] flex">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" onClick={() => setSidebarOpen(false)} />
+          <aside className="relative w-80 flex flex-col z-10 animate-in slide-in-from-left duration-300">
+            <SidebarContent />
             <button
               onClick={() => setSidebarOpen(false)}
-              className="absolute top-4 right-4 text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="absolute top-6 right-[-50px] w-10 h-10 rounded-xl bg-[#0a0a0f] border border-white/10 flex items-center justify-center text-white"
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5" />
             </button>
-            <SidebarContent />
           </aside>
         </div>
       )}
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile header */}
-        <header className="lg:hidden flex items-center gap-4 px-4 py-4 border-b border-white/10 bg-slate-900/50 backdrop-blur-sm">
-          <button onClick={() => setSidebarOpen(true)} className="text-cyan-400 hover:text-cyan-300">
-            <Menu className="w-5 h-5" />
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 relative">
+        {/* Mobile Header */}
+        <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5 sticky top-0 z-50">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors">
+            <Menu className="w-6 h-6" />
           </button>
-          <h1 className="font-black tracking-widest text-sm text-white"
-            style={{ fontFamily: "'Orbitron', sans-serif" }}>
-            AUTH PROXY
-          </h1>
-          <div className="ml-auto flex items-center gap-2 text-green-400">
-            <Cpu className="w-4 h-4" />
-            <span className="text-xs" style={{ fontFamily: "'Share Tech Mono', monospace" }}>ONLINE</span>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center">
+              <Shield className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-white tracking-tight">AUTHPROXY</span>
           </div>
+          <div className="w-8" /> {/* Spacer */}
         </header>
 
-        <main className="flex-1 overflow-auto p-6 md:p-8">
+        <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full">
           {children}
         </main>
       </div>
