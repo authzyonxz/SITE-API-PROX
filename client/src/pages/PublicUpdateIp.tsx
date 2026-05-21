@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Info, ExternalLink, MessageCircle, Search, MoreVertical, Bell } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, Shield, MessageCircle, Search, Bell, Sparkles, Smartphone, Zap, Download, ExternalLink } from "lucide-react";
 
 export default function PublicUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
   const [newIp, setNewIp] = useState("");
   const [result, setResult] = useState<{ ok: boolean; raw: string } | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [detectedIp, setDetectedIp] = useState<string | null>(null);
   const [isFetchingIp, setIsFetchingIp] = useState(false);
   const [showChannelWarning, setShowChannelWarning] = useState(false);
 
@@ -44,189 +41,228 @@ export default function PublicUpdateIp() {
 
   const handleFetchIp = async () => {
     setIsFetchingIp(true);
-    setDetectedIp(null);
     try {
       const res = await fetch("https://api.ipify.org?format=json");
       const data = await res.json();
-      setDetectedIp(data.ip);
       setNewIp(data.ip);
-      toast.success("IP detectado e preenchido automaticamente!");
+      toast.success("IP detectado e preenchido!");
     } catch {
-      toast.error("Não foi possível detectar seu IP. Tente novamente.");
+      toast.error("Não foi possível detectar seu IP.");
     } finally {
       setIsFetchingIp(false);
     }
   };
 
-  const proxyInfos = [
-    {
-      title: "🎯 PROXY HS PESCOÇO",
-      items: []
-    },
-    {
-      title: "🔥 PROXY HS PESCOÇO + ANTENA",
-      items: []
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-foreground font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-purple-500/30 relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-cyan-600/10 blur-[120px] rounded-full" />
+
+      {/* Modal de Aviso */}
       {showChannelWarning && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="w-full max-w-md bg-slate-900 border border-cyan-500/30 rounded-2xl p-8 shadow-2xl shadow-cyan-500/20 animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="w-full max-w-md glass-card p-8 rounded-3xl border-purple-500/20 shadow-2xl shadow-purple-500/10 animate-in zoom-in-95 duration-300">
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-cyan-500/10 border-2 border-cyan-500/30 flex items-center justify-center animate-pulse">
-                <Bell className="w-10 h-10 text-cyan-400" />
+              <div className="w-20 h-20 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                <Bell className="w-10 h-10 text-purple-400 animate-bounce" />
               </div>
             </div>
-            <h2 className="text-2xl font-black text-center text-white font-orbitron mb-4">AVISO IMPORTANTE!</h2>
-            <p className="text-slate-300 text-center font-rajdhani text-lg leading-relaxed mb-8">
-              Para atualizar o IP da sua key, você precisa entrar no nosso <span className="text-cyan-400 font-bold">Canal de Atualizações</span>. 
-              Fique por dentro de tudo! Após entrar no canal, você poderá atualizar seu IP normalmente.
+            <h2 className="text-2xl font-bold text-center text-white tracking-tight mb-4">Aviso Importante!</h2>
+            <p className="text-slate-400 text-center text-lg leading-relaxed mb-8">
+              Para atualizar o IP da sua key, você precisa estar no nosso <span className="text-purple-400 font-bold">Canal de Atualizações</span>. 
+              Fique por dentro de todas as novidades!
             </p>
             <div className="space-y-4">
-              <a href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-green-500 hover:bg-green-600 text-white font-black font-orbitron tracking-widest uppercase transition-all shadow-lg shadow-green-500/20">
+              <a 
+                href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center justify-center gap-3 w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold tracking-widest uppercase transition-all shadow-lg shadow-emerald-500/20 active:scale-95"
+              >
                 <MessageCircle className="w-5 h-5" /> Entrar no Canal
               </a>
-              <button onClick={confirmAndStore} className="w-full py-3 text-slate-500 hover:text-cyan-400 font-bold font-rajdhani tracking-widest uppercase transition-colors">
-                Já estou no canal, atualizar IP
+              <button 
+                onClick={confirmAndStore} 
+                className="w-full py-3 text-slate-500 hover:text-purple-300 font-bold tracking-widest uppercase transition-colors text-xs"
+              >
+                Já estou no canal, atualizar agora
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <nav className="sticky top-0 z-50 border-b border-cyan-500/20 bg-slate-900/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/50">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-black tracking-tighter text-cyan-400 font-orbitron">AUTH PROXY</span>
+      {/* Navbar */}
+      <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#020617]/80 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg shadow-purple-500/20">
+              <Shield className="w-5 h-5 text-white" />
             </div>
-            <div className="md:hidden">
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-cyan-400 hover:bg-cyan-500/10 transition-colors">
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+            <span className="text-xl font-black tracking-tighter text-white">AUTH <span className="text-purple-400">PROXY</span></span>
+          </div>
+          <div className="hidden md:flex items-center gap-6">
+            <a href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N" target="_blank" className="text-sm font-bold text-slate-400 hover:text-purple-400 transition-colors uppercase tracking-widest">Suporte</a>
+            <div className="h-4 w-px bg-white/10" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300">Status: Online</span>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-7 space-y-8">
-            <section>
-              <div className="mb-6">
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white font-orbitron mb-2">ATUALIZAR IP</h1>
-                <p className="text-slate-400 font-rajdhani text-lg">Vincule seu endereço de IP atual à sua licença para liberar o acesso ao proxy.</p>
+      <main className="max-w-7xl mx-auto px-6 py-12 lg:py-20 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Coluna Esquerda: Form de Update */}
+          <div className="lg:col-span-7 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/5 border border-purple-500/10 text-purple-300 text-[10px] font-black uppercase tracking-[0.2em]">
+                <Sparkles className="w-3.5 h-3.5" /> sistema de auto-atendimento
               </div>
-              <div className="backdrop-blur-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-6 md:p-8 space-y-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold tracking-widest uppercase mb-3 text-slate-400 font-mono">Sua Key de Acesso</label>
-                    <div className="relative group">
-                      <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
-                      <input
-                        type="text"
-                        value={keyInput}
-                        onChange={(e) => setKeyInput(e.target.value)}
-                        placeholder="Cole sua key aqui..."
-                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-white/5 border border-white/10 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 outline-none transition-all font-mono text-sm text-white placeholder-slate-500"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <label className="block text-xs font-bold tracking-widest uppercase text-slate-400 font-mono">Novo Endereço de IP</label>
-                      <button onClick={handleFetchIp} disabled={isFetchingIp} className="text-xs font-bold uppercase tracking-widest text-cyan-400/60 hover:text-cyan-400 transition-colors flex items-center gap-1">
-                        {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />} Detectar meu IP
-                      </button>
-                    </div>
-                    <div className="relative group">
-                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50 group-focus-within:text-cyan-400 transition-colors" />
-                      <input
-                        type="text"
-                        value={newIp}
-                        onChange={(e) => setNewIp(e.target.value)}
-                        placeholder="Ex: 177.123.45.67"
-                        className="w-full pl-12 pr-4 py-4 rounded-lg bg-white/5 border border-white/10 focus:border-cyan-400/50 focus:ring-2 focus:ring-cyan-400/20 outline-none transition-all font-mono text-sm text-white placeholder-slate-500"
-                      />
-                    </div>
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white">
+                Atualizar <span className="text-purple-400">IP</span>
+              </h1>
+              <p className="text-slate-400 text-lg max-w-xl leading-relaxed">
+                Vincule seu IP atual à sua licença em segundos. O sistema detecta e configura tudo automaticamente para você.
+              </p>
+            </div>
+
+            <div className="glass-card p-8 md:p-10 rounded-[2.5rem] border-white/5 space-y-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full" />
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[10px] font-bold tracking-[0.2em] uppercase mb-3 text-slate-500 ml-1">Sua Licença (Key)</label>
+                  <div className="relative group">
+                    <Key className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-purple-400 transition-colors" />
+                    <input
+                      type="text"
+                      value={keyInput}
+                      onChange={(e) => setKeyInput(e.target.value)}
+                      placeholder="AUTH-XXXX-XXXX-XXXX"
+                      className="w-full pl-14 pr-6 py-5 rounded-2xl bg-white/[0.03] border border-white/10 focus:border-purple-400/40 focus:ring-4 focus:ring-purple-400/10 outline-none transition-all font-mono text-white placeholder-slate-700"
+                    />
                   </div>
                 </div>
-                <button
-                  onClick={handleUpdate}
-                  disabled={updateMutation.isPending}
-                  className="w-full py-5 rounded-xl font-black font-orbitron tracking-[0.2em] uppercase transition-all shadow-xl flex items-center justify-center gap-3 disabled:opacity-50 group overflow-hidden relative"
-                  style={{ background: "linear-gradient(135deg, #06b6d4 0%, #2563eb 100%)", color: "#ffffff" }}
-                >
-                  {updateMutation.isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <><CheckCircle className="w-6 h-6" /> Atualizar Agora</>}
-                </button>
-                {result && (
-                  <div className={`p-5 rounded-xl border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
-                    <div className="flex items-center gap-3 mb-2">
-                      {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                      <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
-                    </div>
-                    <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
+
+                <div>
+                  <div className="flex items-center justify-between mb-3 ml-1">
+                    <label className="block text-[10px] font-bold tracking-[0.2em] uppercase text-slate-500">Endereço de IP</label>
+                    <button 
+                      onClick={handleFetchIp} 
+                      disabled={isFetchingIp} 
+                      className="text-[10px] font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5"
+                    >
+                      {isFetchingIp ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />} Detectar meu IP
+                    </button>
                   </div>
-                )}
+                  <div className="relative group">
+                    <Globe className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-600 group-focus-within:text-cyan-400 transition-colors" />
+                    <input
+                      type="text"
+                      value={newIp}
+                      onChange={(e) => setNewIp(e.target.value)}
+                      placeholder="Ex: 177.123.45.67"
+                      className="w-full pl-14 pr-6 py-5 rounded-2xl bg-white/[0.03] border border-white/10 focus:border-cyan-400/40 focus:ring-4 focus:ring-cyan-400/10 outline-none transition-all font-mono text-white placeholder-slate-700"
+                    />
+                  </div>
+                </div>
               </div>
-            </section>
+
+              <button
+                onClick={handleUpdate}
+                disabled={updateMutation.isPending}
+                className="w-full py-5 rounded-2xl font-bold tracking-[0.2em] uppercase transition-all shadow-2xl flex items-center justify-center gap-3 disabled:opacity-50 group relative overflow-hidden bg-gradient-to-r from-purple-500 via-indigo-500 to-cyan-500 text-white hover:-translate-y-1 active:scale-95"
+              >
+                {updateMutation.isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <><Zap className="w-5 h-5" /> Atualizar Conexão</>}
+              </button>
+
+              {result && (
+                <div className={`p-6 rounded-3xl border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/5 border-emerald-500/10 text-emerald-300" : "bg-rose-500/5 border-rose-500/10 text-rose-300"}`}>
+                  <div className="flex items-center gap-3 mb-2">
+                    {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
+                    <span className="font-bold uppercase tracking-widest text-xs">{result.ok ? "Sucesso" : "Erro"}</span>
+                  </div>
+                  <p className="text-xs font-mono opacity-60 break-all">{result.raw}</p>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
-            <div className="sticky top-24 space-y-6">
+          {/* Coluna Direita: Downloads e Info */}
+          <div className="lg:col-span-5 space-y-8 animate-in fade-in slide-in-from-right-4 duration-700 delay-200">
+            <div className="glass-card p-8 rounded-[2.5rem] border-white/5 space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                  <Download className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-bold text-white tracking-tight">Downloads</h3>
+              </div>
+              
               <div className="space-y-4">
                 <a 
                   href="https://www.mediafire.com/file/u7nn7vgu5m4piob/HS%252BANTENA.pem/file"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-cyan-500/20 hover:scale-[1.02] transition-all text-[10px] border border-cyan-400/30"
+                  className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-purple-500/30 hover:bg-purple-500/5 transition-all group"
                 >
-                  <Download className="w-4 h-4" />
-                  CERTIFICADO (HS ANTENA)
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Certificado SSL</span>
+                    <span className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">HS + ANTENA</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-600 group-hover:text-purple-400" />
                 </a>
+
                 <a 
                   href="https://www.mediafire.com/file/xqz0u0ontm4teel/HSPESCOC%25CC%25A7O.cer/file"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold font-orbitron tracking-widest uppercase shadow-lg shadow-purple-500/20 hover:scale-[1.02] transition-all text-[10px] border border-purple-400/30"
+                  className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-indigo-500/30 hover:bg-indigo-500/5 transition-all group"
                 >
-                  <Download className="w-4 h-4" />
-                  CERTIFICADO (HS PESCOÇO)
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Certificado SSL</span>
+                    <span className="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">HS PESCOÇO</span>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-600 group-hover:text-indigo-400" />
                 </a>
+
                 <a 
                   href="https://whatsapp.com/channel/0029VbCu4r23WHTYia22EO3N"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-3 py-4 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400 font-bold font-orbitron tracking-widest uppercase hover:bg-green-500/20 transition-all"
+                  className="flex items-center justify-center gap-3 py-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 font-bold text-xs uppercase tracking-widest hover:bg-emerald-500/10 transition-all"
                 >
-                  <MessageCircle className="w-5 h-5" /> Canal de Atualizações
+                  <MessageCircle className="w-4 h-4" /> Canal de Atualizações
                 </a>
               </div>
+            </div>
 
-              {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-md">
-                  <div className="px-6 py-4 border-b border-white/10 bg-white/5">
-                    <h3 className="text-sm font-black tracking-[0.2em] font-orbitron text-cyan-400 uppercase">{proxy.title}</h3>
+            <div className="glass-card p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden group">
+              <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-cyan-500/10 blur-3xl rounded-full transition-all group-hover:scale-150" />
+              <div className="relative z-10 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                    <Smartphone className="w-5 h-5" />
                   </div>
-                  <div className="p-6 space-y-4">
-                    {proxy.items.map((item, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-mono">{item.label}</span>
-                        <span className="text-sm font-bold text-white font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <h3 className="text-lg font-bold text-white tracking-tight">Como usar?</h3>
                 </div>
-              ))}
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  1. Cole sua key no campo indicado.<br/>
+                  2. Clique em "Detectar meu IP" para preencher automaticamente.<br/>
+                  3. Clique no botão de atualizar.<br/>
+                  4. Reinicie seu proxy no dispositivo.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Footer Simples */}
+      <footer className="max-w-7xl mx-auto px-6 py-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">
+        <p>© 2026 AUTH PROXY. TODOS OS DIREITOS RESERVADOS.</p>
+        <div className="flex items-center gap-6">
+          <span className="hover:text-white cursor-pointer transition-colors">Termos</span>
+          <span className="hover:text-white cursor-pointer transition-colors">Privacidade</span>
+        </div>
+      </footer>
     </div>
   );
 }
