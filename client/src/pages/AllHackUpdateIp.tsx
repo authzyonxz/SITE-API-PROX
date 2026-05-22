@@ -50,11 +50,17 @@ export default function AllHackUpdateIp() {
   const proxyInfos = [
     {
       title: "🎯 PROXY HS PESCOÇO",
-      items: []
+      items: [
+        { label: "SERVIDOR", value: "144.172.100.226" },
+        { label: "PORTA", value: "10099" }
+      ]
     },
     {
       title: "🔥 PROXY HS PESCOÇO + ANTENA",
-      items: []
+      items: [
+        { label: "SERVIDOR", value: "69.197.176.242" },
+        { label: "PORTA", value: "10065" }
+      ]
     }
   ];
 
