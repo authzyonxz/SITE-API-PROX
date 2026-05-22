@@ -238,10 +238,10 @@ export default function Dashboard() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    { days: "1 Day", credits: "1 Credit" },
-                    { days: "3 Days", credits: "2 Credits" },
-                    { days: "7 Days", credits: "4 Credits" },
-                    { days: "30 Days", credits: "12 Credits" },
+	                    { days: "1 Day", credits: "10 Credits" },
+	                    { days: "3 Days", credits: "25 Credits" },
+	                    { days: "7 Days", credits: "35 Credits" },
+	                    { days: "30 Days", credits: "55 Credits" },
                   ].map((item, idx) => (
                     <div key={idx} className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col gap-1">
                       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{item.days}</span>
