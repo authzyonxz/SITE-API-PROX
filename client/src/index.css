@@ -253,4 +253,25 @@
       max-width: 1280px; /* Standard content width */
     }
   }
+
+  /* Sonner Custom Styles */
+  .sonner-toast-custom [data-title] {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: #ffffff;
+  }
+
+  .sonner-toast-custom [data-description] {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .sonner-toast-custom [data-icon] {
+    margin-right: 12px;
+  }
 }
