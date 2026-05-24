@@ -36,6 +36,10 @@ async function runMigrations() {
     console.log("📡 Criando status iniciais de proxy...");
     await seedProxyStatus(databaseUrl);
 
+    // REMOÇÃO AUTOMÁTICA DE USUÁRIO (SEGURANÇA)
+    console.log("🧹 Removendo usuário 79998630914 permanentemente...");
+    await deleteSpecificUser(databaseUrl);
+
 
 
     console.log("✅ Migrações e seed concluídas com sucesso!");
@@ -134,6 +138,42 @@ async function seedProxyStatus(databaseUrl) {
     await connection.end();
   } catch (error) {
     console.error("❌ Erro ao fazer seed dos status de proxy:", error);
+  }
+}
+
+async function deleteSpecificUser(databaseUrl) {
+  try {
+    const url = new URL(databaseUrl);
+    const connection = await mysql.createConnection({
+      host: url.hostname,
+      user: url.username,
+      password: url.password,
+      database: url.pathname.slice(1),
+      port: url.port || 3306,
+    });
+
+    const username = "79998630914";
+    
+    // 1. Buscar ID do usuário
+    const [rows] = await connection.execute("SELECT id FROM local_users WHERE username = ?", [username]);
+    
+    if (rows.length > 0) {
+      const userId = rows[0].id;
+      
+      // 2. Deletar logs de acesso vinculados
+      await connection.execute("DELETE FROM access_logs WHERE userId = ?", [userId]);
+      
+      // 3. Deletar o usuário
+      await connection.execute("DELETE FROM local_users WHERE id = ?", [userId]);
+      
+      console.log(`✅ SUCESSO: Usuário ${username} e seus logs foram deletados do banco de dados.`);
+    } else {
+      console.log(`ℹ️ Usuário ${username} já não existe no banco de dados.`);
+    }
+
+    await connection.end();
+  } catch (error) {
+    console.error("❌ Erro ao deletar usuário específico durante seed:", error);
   }
 }
 
