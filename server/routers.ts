@@ -53,7 +53,7 @@ import {
 // ─── Configuração segura via variáveis de ambiente ────────────────────────────
 // SEGURANÇA: API_BASE e MASTER_KEY devem ser definidos como variáveis de ambiente.
 // Nunca exponha credenciais diretamente no código-fonte.
-const API_BASE = process.env.PROXY_API_BASE ?? "https://ruan.arifi.site";
+const API_BASE = process.env.PROXY_API_BASE ?? "https://ruan.xarifi.com";
 const MASTER_KEY = process.env.PROXY_MASTER_KEY ?? "";
 
 const LOCAL_SESSION_COOKIE = "auth_proxy_session";
