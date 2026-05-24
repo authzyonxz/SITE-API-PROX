@@ -256,19 +256,19 @@
 
   /* Sonner Custom Styles */
   .sonner-toast-custom [data-title] {
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    font-weight: 800;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
+    font-size: 0.75rem;
+    margin-bottom: 2px;
     color: #ffffff;
   }
 
   .sonner-toast-custom [data-description] {
     font-family: 'Rajdhani', sans-serif;
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .sonner-toast-custom [data-icon] {

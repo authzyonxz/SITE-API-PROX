@@ -118,17 +118,17 @@ function App() {
             <LocalAuthProvider>
               <Toaster
                 theme="dark"
-                position="bottom-right"
+                position="top-center"
                 toastOptions={{
                   style: {
-                    background: "rgba(5, 5, 8, 0.95)",
-                    backdropFilter: "blur(12px)",
-                    border: "1px solid rgba(0, 212, 255, 0.15)",
+                    background: "rgba(15, 15, 25, 0.8)",
+                    backdropFilter: "blur(16px)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
                     color: "#ffffff",
-                    fontFamily: "'Orbitron', 'Rajdhani', sans-serif",
-                    borderRadius: "8px",
-                    boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 212, 255, 0.1)",
-                    padding: "16px",
+                    fontFamily: "'Orbitron', sans-serif",
+                    borderRadius: "24px",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+                    padding: "16px 24px",
                   },
                   className: "sonner-toast-custom",
                 }}
