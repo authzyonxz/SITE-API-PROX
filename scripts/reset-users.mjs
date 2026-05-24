@@ -11,7 +11,7 @@ async function main() {
   }
 
   const db = drizzle(databaseUrl);
-  const usernames = ["79998630914", "GRANJEIRO"];
+  const usernames = ["GRANJEIRO"];
 
   console.log(`[Reset] Iniciando reset para os usuários: ${usernames.join(", ")}`);
 

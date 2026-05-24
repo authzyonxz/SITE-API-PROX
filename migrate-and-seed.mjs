@@ -36,9 +36,7 @@ async function runMigrations() {
     console.log("📡 Criando status iniciais de proxy...");
     await seedProxyStatus(databaseUrl);
 
-    // Atualizar senha do usuário específico
-    console.log("🔐 Atualizando senha do usuário 79998630914...");
-    await updateSpecificUserPassword(databaseUrl);
+
 
     console.log("✅ Migrações e seed concluídas com sucesso!");
   } catch (error) {
@@ -139,37 +137,7 @@ async function seedProxyStatus(databaseUrl) {
   }
 }
 
-async function updateSpecificUserPassword(databaseUrl) {
-  try {
-    const url = new URL(databaseUrl);
-    const connection = await mysql.createConnection({
-      host: url.hostname,
-      user: url.username,
-      password: url.password,
-      database: url.pathname.slice(1),
-      port: url.port || 3306,
-    });
 
-    const username = "79998630914";
-    const newPassword = "@ruanwq";
-    
-    // Importar bcrypt dinamicamente para evitar problemas de top-level await se necessário
-    const bcrypt = await import("bcryptjs");
-    const passwordHash = await bcrypt.default.hash(newPassword, 12);
-
-    const [rows] = await connection.execute("SELECT id FROM local_users WHERE username = ?", [username]);
-    if (rows.length > 0) {
-      await connection.execute("UPDATE local_users SET passwordHash = ? WHERE username = ?", [passwordHash, username]);
-      console.log(`✅ Senha do usuário ${username} atualizada com sucesso!`);
-    } else {
-      console.log(`ℹ️ Usuário ${username} não encontrado para atualização de senha.`);
-    }
-
-    await connection.end();
-  } catch (error) {
-    console.error("❌ Erro ao atualizar senha do usuário específico:", error);
-  }
-}
 
 // Executar se for chamado diretamente
 if (import.meta.url === `file://${process.argv[1]}`) {
