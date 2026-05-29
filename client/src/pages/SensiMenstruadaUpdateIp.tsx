@@ -50,7 +50,7 @@ export default function SensiMenstruadaUpdateIp() {
       title: "🎯 SENSI PROXY HS PESCOÇO",
       items: [
         { label: "Servidor", value: "144.172.100.226" },
-        { label: "Porta", value: "10099" }
+        { label: "Porta", value: "8888" }
       ]
     },
     {
