@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MessageCircle } from "lucide-react";
+import { Globe, Loader2, CheckCircle, XCircle, Key, ArrowRight, Download, Menu, X, Shield, Search, MessageCircle, Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function GranjeiroUpdateIp() {
   const [keyInput, setKeyInput] = useState("");
@@ -81,7 +82,10 @@ export default function GranjeiroUpdateIp() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: [0, -10, 10, -10, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 className="w-10 h-10 rounded-lg flex items-center justify-center border"
                 style={{
                   background: "rgba(255,0,0,0.2)",
@@ -90,7 +94,7 @@ export default function GranjeiroUpdateIp() {
                 }}
               >
                 <Shield className="w-5 h-5" style={{ color: "#ff0000" }} />
-              </div>
+              </motion.div>
               <span
                 className="text-xl font-black tracking-tighter font-orbitron"
                 style={{ color: "#ff0000", textShadow: "0 0 10px rgba(255,0,0,0.5)" }}
@@ -112,9 +116,14 @@ export default function GranjeiroUpdateIp() {
           <div className="lg:col-span-7 space-y-8">
             <section>
               <div className="mb-6 text-center">
-                <h1 className="text-3xl md:text-4xl font-black tracking-tight font-orbitron" style={{ color: "#ff0000", textShadow: "0 0 15px rgba(255,0,0,0.4)" }}>
+                <motion.h1 
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl md:text-4xl font-black tracking-tight font-orbitron" 
+                  style={{ color: "#ff0000", textShadow: "0 0 15px rgba(255,0,0,0.4)" }}
+                >
                   XIT PROXY WI-FI
-                </h1>
+                </motion.h1>
               </div>
 
               <div
@@ -161,39 +170,81 @@ export default function GranjeiroUpdateIp() {
                 </div>
 
                 <div className="space-y-3">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(255,0,0,0.6)" }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleUpdate}
                     disabled={updateMutation.isPending}
-                    className="w-full py-4 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron"
+                    className="relative w-full py-5 rounded-lg font-black tracking-widest uppercase flex items-center justify-center gap-3 transition-all border disabled:opacity-50 font-orbitron overflow-hidden group"
                     style={{
                       background: "linear-gradient(135deg, #cc0000 0%, #ff0000 100%)",
                       borderColor: "#ff0000",
                       color: "#ffffff",
-                      boxShadow: "0 4px 15px rgba(255,0,0,0.4)"
                     }}
                   >
-                    {updateMutation.isPending ? (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="flex items-center gap-3">
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span className="animate-pulse">ATIVANDO XIT...</span>
-                        </div>
-                        <span className="text-[10px] opacity-70 tracking-[0.2em] font-mono uppercase">Atualizando IP na Key</span>
-                      </div>
-                    ) : (
-                      <><Shield className="w-5 h-5" /> ATIVAR XIT</>
-                    )}
-                  </button>
+                    {/* Efeito de brilho correndo */}
+                    <motion.div 
+                      className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12"
+                      animate={{ left: ["-100%", "200%"] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                    />
+
+                    <AnimatePresence mode="wait">
+                      {updateMutation.isPending ? (
+                        <motion.div 
+                          key="loading"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="flex flex-col items-center gap-1"
+                        >
+                          <div className="flex items-center gap-3">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            >
+                              <Zap className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                            </motion.div>
+                            <span className="text-lg">INJETANDO XIT...</span>
+                          </div>
+                          <motion.div 
+                            className="w-48 h-1 bg-white/20 rounded-full mt-2 overflow-hidden"
+                          >
+                            <motion.div 
+                              className="h-full bg-white"
+                              animate={{ width: ["0%", "100%"] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          </motion.div>
+                        </motion.div>
+                      ) : (
+                        <motion.div 
+                          key="idle"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="flex items-center gap-3"
+                        >
+                          <Shield className="w-6 h-6 group-hover:scale-110 transition-transform" /> 
+                          <span className="text-lg">ATIVAR XIT</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
                 </div>
 
                 {result && (
-                  <div className={`p-4 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-rose-500/10 border-rose-500/30 text-rose-400"}`}>
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`p-4 rounded-lg border ${result.ok ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]" : "bg-rose-500/10 border-rose-500/30 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.2)]"}`}
+                  >
                     <div className="flex items-center gap-3 mb-2">
                       {result.ok ? <CheckCircle className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                       <span className="font-bold uppercase tracking-wider text-sm font-orbitron">{result.ok ? "Sucesso!" : "Erro na Operação"}</span>
                     </div>
                     <p className="text-xs font-mono opacity-80 break-all">{result.raw}</p>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </section>
@@ -201,7 +252,8 @@ export default function GranjeiroUpdateIp() {
 
           <div className="lg:col-span-5 space-y-6">
             <div className="sticky top-24 space-y-6">
-              <a
+              <motion.a
+                whileHover={{ scale: 1.02, x: 5 }}
                 href="https://whatsapp.com/channel/0029Vb75xyfEVccDUvm0752q"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -215,7 +267,7 @@ export default function GranjeiroUpdateIp() {
                 }}
               >
                 <MessageCircle className="w-5 h-5" /> KEYS GRATIS FREE
-              </a>
+              </motion.a>
 
               <div className="space-y-4">
                 <a 
@@ -239,7 +291,14 @@ export default function GranjeiroUpdateIp() {
               </div>
 
               {proxyInfos.map((proxy, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden border" style={{ borderColor: "rgba(255,0,0,0.3)", background: "rgba(255,0,0,0.02)" }}>
+                <motion.div 
+                  key={idx} 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="rounded-xl overflow-hidden border" 
+                  style={{ borderColor: "rgba(255,0,0,0.3)", background: "rgba(255,0,0,0.02)" }}
+                >
                   <div className="px-5 py-3 border-b bg-red-500/10 border-red-500/20">
                     <h3 className="text-sm font-black tracking-widest font-orbitron text-red-400">{proxy.title}</h3>
                   </div>
@@ -251,7 +310,7 @@ export default function GranjeiroUpdateIp() {
                       </div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
